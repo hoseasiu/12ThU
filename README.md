@@ -1,4 +1,4 @@
 12ThU
 =====
 
-Writing and code for EAPS undergraduate thesis.
+Writing, code, and project management documents for EAPS undergraduate thesis.

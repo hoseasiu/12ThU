@@ -1,8 +1,10 @@
-# read in and plot light curve data from MANOS files
+''' manosCurveFit.py - Hosea Siu 2014
+    Takes light curve data as input and fits it to a function
+'''
 
 from numpy import *
 from scipy.optimize import leastsq
-import matplotlib.pyplot as plt, random
+import matplotlib.pyplot as plt, os.path, sys
 
 # class used to store and manipulate MANOS light curve data
 class lightCurveData:
@@ -23,6 +25,11 @@ class lightCurveData:
         self.diffMag = data[:,6].astype(float)
         self.magErr = data[:,7].astype(float)
 
+        #da14
+##        self.jd = data[:,0].astype(float)
+##        self.diffMag = data[:,1].astype(float)
+##        self.magErr = data[:,2].astype(float)
+        
     def __init__(self, filename):
         self.imageNumber = []
         self.flag = []
@@ -84,16 +91,48 @@ def model(params,t):
 fitfunc = lambda params, t: model(params,t)             # target function from the model
 errfunc = lambda params, t, mag, err: (fitfunc(params,t)-mag)/err  # distance to the target function
 
+
+''' Takes the best fit output and the data and plots them
+'''
+def plotAndPrintResults(fit, data):
+    time = data.jd-data.jd[0]
+    mag = data.diffMag
+    err = data.magErr
+
+    modelTime = linspace(time.min(), time.max(),100)
+    plt.plot(modelTime, fitfunc(fit[2],modelTime), 'r-')
+    plt.errorbar(time, mag, err, fmt = 'rx')
+    plt.xlabel('Julian Date +' + str(int(min(data.jd)))) # the subtraction simplifies the display of the JD
+    plt.ylabel('Differential Magnitude')
+    ax = plt.gca()
+    ax.invert_yaxis()   # flip the y axis
+    plt.title(objectName + ' Light Curve, ' + ' T = ' + str(fit[2][0]*24.0) + 'h, m = ' + str(fit[0]))
+
+    print '\n' + 'FITTING RESULTS:'
+    print 'order = ' + str(fit[0])
+    print 'bias-corrected variance = ' + str(fit[1])
+    parameters = fit[2].tolist()
+    print 'period = ' + str(parameters.pop(0)*24.0) + ' hours'
+    A = parameters[0:len(parameters)/2]
+    B = parameters[len(parameters)/2:len(parameters)+1]
+    print 'A values: ' + str(A)
+    print 'B values: ' + str(B)
+    plt.show()
+
+
 ###### start of the run routine ######
 
 # the only two lines that should need editing from object to object
 objectName = 'Spartacus20090130'
+##objectName = 'da14.120301.568.mag'
+filename = 'Spartacus20090130_MANOS.txt'
 # initial guess at period
 T0 = 0.2
 
 # read in and format the light curve data from a text file
-filename = objectName + '_MANOS.txt'
-lcd = lightCurveData(filename)
+basepath = os.path.abspath(os.path.dirname(sys.argv[0]))
+filepath = os.path.abspath(os.path.join(basepath, "..", 'Data', filename))
+lcd = lightCurveData(filepath)
 
 # information from light curve for plotting
 time = lcd.jd-lcd.jd[0]
@@ -120,21 +159,4 @@ for m in range(2,7):        # try 2nd to 6th order fits
     else:
         print 'optimization failed for m = ' + str(m)
 
-T1 = params1[0]*24.0    # convert period to hours
-modelTime = linspace(time.min(), time.max(),100)
-plt.plot(modelTime, fitfunc(bestResult[2],modelTime), 'r-')
-plt.errorbar(time, mag, err, fmt = 'rx')
-plt.xlabel('Julian Date +' + str(int(min(lcd.jd)))) # the subtraction simplifies the display of the JD
-plt.ylabel('Differential Magnitude')
-plt.title(objectName + ' Light Curve, ' + ' T = ' + str(T1) + 'h, m = ' + str(bestResult[0]))
-
-print '\n' + 'RESULTS:'
-print 'order = ' + str(bestResult[0])
-print 'bias-corrected variance = ' + str(bestResult[1])
-parameters = bestResult[2].tolist()
-print 'period = ' + str(parameters.pop(0)*24.0) + ' hours'
-A = parameters[0:len(parameters)/2]
-B = parameters[len(parameters)/2:len(parameters)+1]
-print 'A values: ' + str(A)
-print 'B values: ' + str(B)
-plt.show()
+plotAndPrintResults(bestResult, lcd)    # plot and print the results
