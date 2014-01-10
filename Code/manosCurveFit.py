@@ -3,12 +3,14 @@
 '''
 
 from lmfit import minimize, Parameters, Parameter, report_fit
+from operator import itemgetter
 import matplotlib.pyplot as plt, os.path, sys, numpy as np
 
 ''' Class used to store and manipulate MANOS light curve data
 '''
 class lightCurveData:
-            
+    ''' Gets the txt data files and converts them into a lightCurveData object
+    '''
     def getData(self, filename, formatSpec, magOffset=0):
         basepath = os.path.abspath(os.path.dirname(sys.argv[0]))
         filepath = os.path.abspath(os.path.join(basepath, "..", 'Data', fileName))
@@ -23,8 +25,39 @@ class lightCurveData:
             else:
                 self.data[formatSpec[i][0]] = textFile[:,formatSpec[i][1]].astype(float)
 
-    # must pass this object a filename, and an n x 2 list of data types and associated columns
-    def __init__(self, objectName, fileName, formatSpec, magOffset = 0.0):
+    ''' Given a data type (i.e. 'jd', 'diffMag', etc), sorts the light curve data by that data type
+    '''
+    def sortByDataType(self, key):
+        if key is None:
+            return
+        
+        dict = self.data
+        keyIndex = dict.keys().index(key)
+        numKeys = len(dict.keys())
+        numEl = -1                  # checking to make sure that all dict entries have the same number of elements
+        for i in range(numKeys):
+            if numEl == -1:
+                numEl = len(dict[dict.keys()[i]])
+            else:
+                if numEl != len(dict[dict.keys()[i]]):
+                    print 'Error: invalid dictionary- nonrectangular'
+                    return
+
+        keyList = dict.keys()
+        dictArray = np.zeros((numKeys,numEl))          # form a np array to use the transpose function
+        for i in range(numKeys):
+            dictArray[i] = dict[dict.keys()[i]]
+
+        sortedList = sorted(dictArray.T.tolist(), key = itemgetter(keyIndex))
+
+        temp = np.array(sortedList).T   # temporary variable for transpose
+        for i in range(numKeys):
+            dict[keyList[i]] = temp[i]
+        self.data = dict
+
+    ''' must pass this object a filename, and an n x 2 list of data types and associated columns
+    '''
+    def __init__(self, objectName, fileName, formatSpec, magOffset = 0.0, sortby = 'jd'):
         # check for errors in the format specification
         if len(formatSpec) <= 0:
             print 'Error: formatSpec input incorrect'
@@ -44,6 +77,7 @@ class lightCurveData:
             print '       Right now, I have ' + str(self.data.keys())
         else:
             self.getData(fileName, formatSpec, magOffset)
+            self.sortByDataType(sortby)
 
 
 ''' Creates range lists of floats
