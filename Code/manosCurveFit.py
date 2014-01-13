@@ -4,14 +4,14 @@
 
 from lmfit import minimize, Parameters, Parameter, report_fit
 from operator import itemgetter
-import matplotlib.pyplot as plt, os.path, sys, numpy as np
+import matplotlib.pyplot as plt, numpy as np, os.path, sys
 
 ''' Class used to store and manipulate MANOS light curve data
 '''
 class lightCurveData:
     ''' Gets the txt data files and converts them into a lightCurveData object
     '''
-    def getData(self, filename, formatSpec):
+    def getData(self, fileName, formatSpec, offsetsList, passNumber):
         basepath = os.path.abspath(os.path.dirname(sys.argv[0]))
         filepath = os.path.abspath(os.path.join(basepath, "..", 'Data', fileName))
 
@@ -19,10 +19,20 @@ class lightCurveData:
 
         # separate data into appropriately-named arrays
         # TODO- currently assumes that everything is a float- generalize later (needed?)
-        for i in range(len(formatSpec)):
-            self.data[formatSpec[i][0]] = textFile[:,formatSpec[i][1]].astype(float)
+        tempData = {}
 
-        self.data['diffMag'] -= np.average(self.data['diffMag'], weights = 1.0/self.data['magErr'])        # center the data around zero with a weighted average
+        for i in range(len(formatSpec)):
+            tempData[formatSpec[i][0]] = textFile[:,formatSpec[i][1]].astype(float)
+
+        if offsetsList is not None:     # if offset values exist, then perform an offset
+            tempData = self.offsetMags(tempData, offsetsList[passNumber])
+            
+        for i in range(len(formatSpec)):
+            
+            if passNumber == 0:
+                self.data[formatSpec[i][0]] = tempData[formatSpec[i][0]]
+            else:
+                self.data[formatSpec[i][0]] = np.append(self.data[formatSpec[i][0]],tempData[formatSpec[i][0]])
 
     ''' Given a data type (i.e. 'jd', 'diffMag', etc), sorts the light curve data by that data type
     '''
@@ -55,46 +65,66 @@ class lightCurveData:
         self.data = dict
 
     ''' Given a dict of nights and corresponding magnitude offsets, offset the magnitude data by that much
+        Also center the data by a weighted average
+        "dataFile" refers to a data set from a specific file
     ''' # TODO - figure out a convention for offseting "night," since observatories getting data at the same night will still have offsets
-    def offsetMags(self, offsets = None):
+    def offsetMags(self, dataFile, offsets = None):
+        
         if offsets is None:
             return
-        if len(np.unique(self.data['night'])) == len(offsets):  # check if each night has an associated offset value
-            for i in range(len(self.data['diffMag'])):
+        if len(np.unique(dataFile['night'])) == len(offsets):  # check if each night has an associated offset value
+            for i in range(len(dataFile['diffMag'])):
                 finishedOffset = False
                 for j in range(len(offsets)):
                     if finishedOffset:
                         break
-                    elif self.data['night'][i] == offsets.keys()[j]:
-                        self.data['diffMag'][i] += offsets[offsets.keys()[j]]
+                    elif dataFile['night'][i] == offsets.keys()[j]:
+                        dataFile['diffMag'][i] += offsets[offsets.keys()[j]]
+            return dataFile
         else:
             print 'Error: number of nights does not match the number of offsets'
             return
             
-    ''' must pass this object a filename, and an n x 2 list of data types and associated columns
+    ''' lightCurveData initializer
+        requires an object name, file names; can optionally take offsets and sorting
+        (sorting should always be by jd for light curve plots)
     '''
-    def __init__(self, objectName, fileName, formatSpec, offsets = None, sortby = 'jd'):     # TODO - fix the naming of offsets here
-        # check for errors in the format specification
-        if len(formatSpec) <= 0:
-            print 'Error: formatSpec input incorrect'
+    def __init__(self, objectName, fileNamesAndFormat, offsetsList = None, sortby = 'jd'):
+        if fileNamesAndFormat is None:
+            print 'Error: file name(s) and format(s) not specified'
             return
-        for i in range(len(formatSpec)):
-            if len(formatSpec[i]) !=2:
+
+        # check for errors in the format specification
+        for i in range(len(fileNamesAndFormat)):
+            fileName = fileNamesAndFormat[i].keys()[0]
+            formatSpec = fileNamesAndFormat[i][fileName]
+
+            if len(formatSpec) <= 0:
                 print 'Error: formatSpec input incorrect'
                 return
+            for j in range(len(formatSpec)):
+                if len(formatSpec[j]) !=2:
+                    print 'Error: formatSpec input incorrect'
+                    return
         
         self.name = objectName
         self.data = {}      # initialize an empty dictionary with the keys in formatSpec
         for i in range(len(formatSpec)):
             self.data[formatSpec[i][0]] = {}
+
+        # check for missing (required)specifications
         if 'jd' not in self.data.keys() or 'diffMag' not in self.data.keys() or 'magErr' not in self.data.keys():
             print 'Error: Insufficient data for light curve'
             print '       Did you include \'jd\', \'diffMag\', and \'magErr\'?'
             print '       Right now, I have ' + str(self.data.keys())
         else:
-            self.getData(fileName, formatSpec)
+            for j in range(len(fileNamesAndFormat)):
+                # TODO - this structure is mess... find a better way to do it
+                fileName = fileNamesAndFormat[j].keys()[0]
+                formatSpec = fileNamesAndFormat[j][fileName]
+                self.getData(fileName, formatSpec, offsetsList, j)
             self.sortByDataType(sortby)
-            self.offsetMags(offsets)
+            self.data['diffMag'] -= np.average(self.data['diffMag'], weights = 1.0/self.data['magErr'])        # center the data around zero with a weighted average
 
 ''' Creates range lists of floats
     Has some error handling, but still has machine precision issues (shouldn't be an actual problem)
@@ -146,6 +176,7 @@ def makeModel(params, t, mag=None, err=None):
     Takes the dataset(a lightCurveData object), the range of orders to check (a two-element list), and an intial guess at the period.
     Minimum and maximum values for the period may also be inputs
 '''
+# TODO - change initPeriod to take in a specific number, a specific range, or a default range
 def fitData(lightCurveData, initPeriod, minPeriod = None, maxPeriod = None, orderRange = [2,6]):
     # information from light curve for plotting
     time = lightCurveData.data['jd']-lightCurveData.data['jd'][0]
@@ -203,7 +234,7 @@ def phaseFold(time, period):
     plotting error bars is optional (default is True)
     plotting the full phase is optional (default is True)
 '''
-def plotAndPrintResults(fit, m, lightCurveData, printReport = True, plotFullPeriod = True, plotErrors = True, phaseFoldData = True):
+def plotAndPrintResults(fit, m, lightCurveData, printReport = True, plotFullPeriod = True, plotErrors = True, phaseFoldData = True, plotResiduals = False):
     if printReport:
         report_fit(fit.params)
     time = lightCurveData.data['jd']-lightCurveData.data['jd'][0]
@@ -215,15 +246,20 @@ def plotAndPrintResults(fit, m, lightCurveData, printReport = True, plotFullPeri
     if phaseFoldData:
         time = phaseFold(time, fittedPeriod)
     
-    if plotFullPeriod:
+    if plotFullPeriod and time.min()+fittedPeriod < time.max():
+        modelTime = np.linspace(time.min(), time.max(),100)
+    elif plotFullPeriod:
         modelTime = np.linspace(time.min(), time.min()+fittedPeriod,100)
     else:
         modelTime = np.linspace(time.min(), time.max(),100)
 
+    plt.figure(1)
+    if plotResiduals:
+        plt.subplot(211)
     plt.plot(modelTime, makeModel(bestFit.params, modelTime), 'b-')    # plot the model fit
     if (plotErrors):                                        # plot the data with error bars (default)
         plt.errorbar(time, mag, err, fmt = 'rx')
-    else:
+    else:                                                   # plot the data without error plots
         plt.plot(time, mag, 'rx')
 
     if phaseFoldData:
@@ -235,32 +271,44 @@ def plotAndPrintResults(fit, m, lightCurveData, printReport = True, plotFullPeri
     ax.invert_yaxis()                                       # flip the y axis
     plt.title(objectName + ' Light Curve, ' + ' P = ' + str(fit.params['P'].value*24.0) + 'h, m = ' + str(m))
 
+    if plotResiduals:
+        plt.subplot(212)
+        plt.plot(time, fit.residual, 'rx')
+        plt.title('Residuals for ' + objectName + ' Fit')
+        plt.ylabel('Residual Magnitude')
+        if phaseFoldData:
+            plt.xlabel('\delta JD')
+        else:
+            plt.xlabel('JD + ' + str(int(min(lightCurveData.data['jd']))))
+
+    plt.subplots_adjust(hspace = 0.5)
+    print 'mean RMS of residuals = ' + str(np.mean(np.sqrt(fit.residual**2)))
     plt.show()
 
 ###### start of the run routine ######
 
-# the only lines that should need editing from object to object
 ##objectName = 'Spartacus20090130'
 ##fileName = 'Spartacus20090130_MANOS.txt'
 ##formatSpec = [['jd',3],['diffMag',6],['magErr',7]]
+##fileNamesAndFormat = [{fileName:formatSpec}]
 ##offsets = None
 ##T0 = 0.25                                # initial guess at period
 
-objectName = 'da14'
-fileName = 'da14.120301.568.mag.txt'
-formatSpec = [['jd',0],['diffMag',1],['magErr',2]]
-offsets = None
-T0 = 0.25
-
-##objectName = 'Elisa'
-##fileName = 'elisa_mine_mod.txt'
-##formatSpec = [['night',0], ['jd',2],['diffMag',5],['magErr',6]]
-##offsets = {1:0.0,2:-0.04,3:0.464}
+##objectName = 'da14'
+##fileName = 'da14.120301.568.mag.txt'
+##formatSpec = [['jd',0],['diffMag',1],['magErr',2]]
+##fileNamesAndFormat = [{fileName:formatSpec}]
+##offsets = None
 ##T0 = 0.25
 
+objectName = 'Elisa'
+mine = {'elisa_mine_mod.txt':[['night',0], ['jd',2],['diffMag',5],['magErr',6]]}
+his = {'elisa_his.txt':[['night',0], ['jd',2],['diffMag',4],['magErr',5]]}
+fileNamesAndFormat = [mine,his]
+offsets = [{1:0.0,2:-0.04,3:0.464},{1:-0.324,2:-0.257,3:-0.237,4:-0.194,5:-0.223,6:-0.321,7:-0.246,8:-0.246-0.372,9:-0.15}]
+T0 = 0.25
+
 # note that these functions are all overloaded (there are extra options you can set- see the function definitions for examples
-lcd = lightCurveData(objectName, fileName, formatSpec, offsets)         # read in data from the text file and create a lightCurveData object
+lcd = lightCurveData(objectName, fileNamesAndFormat, offsets)         # read in data from the text file and create a lightCurveData object
 (bestFit, m) = fitData(lcd, T0)                                         # fit the data to a model (can also add min and max periods in JD)
-plotAndPrintResults(bestFit, m, lcd)                                    # plot and print the results
-plt.plot(bestFit.residual, 'rx')
-plt.show()
+plotAndPrintResults(bestFit, m, lcd, plotResiduals = True)             # plot and print the results
