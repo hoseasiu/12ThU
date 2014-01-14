@@ -5,6 +5,7 @@
 from lmfit import minimize, Parameters, Parameter, report_fit
 from operator import itemgetter
 import matplotlib.pyplot as plt, numpy as np, os.path, sys
+from time import clock
 
 ''' Class used to store and manipulate MANOS light curve data
 '''
@@ -68,7 +69,7 @@ class lightCurveData:
     ''' Given a dict of nights and corresponding magnitude offsets, offset the magnitude data by that much
         Also center the data by a weighted average
         "dataFile" refers to a data set from a specific file
-    ''' # TODOLATER - figure out a convention for offseting "night," since observatories getting data at the same night will still have offsets
+    '''
     def offsetMags(self, dataFile, offsets = None):
         
         if offsets is None:
@@ -173,19 +174,31 @@ def makeModel(params, t, mag=None, err=None):
     else:                               # both magnitude and error are given- the reduced chi squared is returned
         return (H-mag)/err
 
+''' Find the maximum recoverable period given a particular data set
+    Uses Nyquist Criterion for the general non-uniform sampling case
+    # TODO - an outlier in sampling time seems like it would throw this off- any correction?
+'''
+def findRecoverablePeriod(time):
+    timeRange = np.max(time)-np.min(time)
+    sampleRate = len(time)/timeRange            # samples per JD
+    period = sampleRate/2.2                     # 2.2 used as a buffer, per Harris and Lupishko (Asteroids II)
+    return period                               # in JD
+
 ''' Fit the data to a model using scipy.optimize.leastsq.
     Takes the dataset(a lightCurveData object), the range of orders to check (a two-element list)
     Three period guess cases:
-        - no guess (Nyquist sampling criterion used)        # TODO - figure out step size
+        - no guess (Nyquist sampling criterion used with a 15 minute step size)
         - range of periods provided (three-element list of [minGuess, maxGuess, step])
         - single initial guess provided (three-element list of [min, max, guess]) where minPeriod and maxPeriod are hard limits
     The range of orders to check over may also be provided
 '''
-# TODO - change initPeriod to take in a specific number, a specific range, or a default range
-def fitData(lightCurveData, method = None, periodGuess = None, minPeriod = None, maxPeriod = None, orderRange = [2,6]):
-    if method is None:         # Nyquist sampling criterion is used
-         pass
-        # TODO - Nyquist sampling
+def fitData(lightCurveData, method = None, periodGuess = None, minPeriod = None, maxPeriod = None, orderRange = [2,6], timer = False):
+    if timer:
+        startTime = clock()
+    if method is None:         # Nyquist sampling criterion is used at an interval of 15 minutes
+         maxRecoverablePeriod = findRecoverablePeriod(lightCurveData.data['jd'])*24.0       # converted to hours
+         initPeriodList = floatRange(0.25, maxRecoverablePeriod, 0.25)
+         print 'Checking up to the maximum recoverable period (0.25 hours to ' + str(max(initPeriodList)) + ' hours)'
     if method == 'single':
         if type(periodGuess) is not float and type(periodGuess) is not int:
             print 'Error: \'single\' period guess method requires a guess input of type int or float'
@@ -201,7 +214,7 @@ def fitData(lightCurveData, method = None, periodGuess = None, minPeriod = None,
             return            
         else:
             initPeriodList = floatRange(periodGuess[0], periodGuess[1], periodGuess[2])
-    else:
+    elif method is not None:
         print 'Error: invalid period guess method'
         return
 
@@ -213,7 +226,7 @@ def fitData(lightCurveData, method = None, periodGuess = None, minPeriod = None,
     err = lightCurveData.data['magErr']
 
     # storing the best fitting result
-    [bestResult, bestParams, bestVar, bestOrder, bestPeriod] = [None, None, None, None, None]
+    [bestFit, bestParams, bestVar, bestOrder, bestPeriod] = [None, None, None, None, None]
 
     # store the periods and errors
     periodsTested = []
@@ -239,14 +252,15 @@ def fitData(lightCurveData, method = None, periodGuess = None, minPeriod = None,
                 k = float(2*m+1)           # total free parameters
                 var = 1/(n-k)*sum(makeModel(params, time, mag, err)**2)
                 
-                if bestResult is None:
-                    [bestResult, bestParams, bestVar, bestOrder, bestPeriod] = [fitResult, params, var, m, initPeriod]
+                if bestFit is None:
+                    [bestFit, bestParams, bestVar, bestOrder, bestPeriod] = [fitResult, params, var, m, initPeriod]
                 elif bestVar > var:
-                    [bestResult, bestParams, bestVar, bestOrder, bestPeriod] = [fitResult, params, var, m, initPeriod]
+                    [bestFit, bestParams, bestVar, bestOrder, bestPeriod] = [fitResult, params, var, m, initPeriod]
             else:
                 print 'optimization failed for P = ' + str(initPeriod) + ', m = ' + str(m)
-        
-    return (bestResult, bestOrder, periodsTested, periodErrors)
+    if timer:
+        print 'fitting runtime = ' + str(clock()) + ' s for ' + str(len(initPeriodList)) + ' initial period guesses'
+    return (bestFit, bestOrder, periodsTested, periodErrors)
 
 ''' Phase folds the magnitude data given a set that has the phase offset at the first data point
 '''
@@ -264,7 +278,7 @@ def phaseFold(time, period):
     plotting error bars is optional (default is True)
     plotting the full phase is optional (default is True)
 '''
-def plotAndPrintResults(fit, m, lightCurveData, printReport = True, plotFullPeriod = True, plotErrors = True, phaseFoldData = True, plotResiduals = False, periodErrors = None):
+def outputResults(fit, m, lightCurveData, printReport = True, plotFullPeriod = True, plotErrorbars = True, phaseFoldData = True, plotResiduals = False, periodErrors = None):
     if printReport:
         report_fit(fit.params)
     time = lightCurveData.data['jd']-lightCurveData.data['jd'][0]
@@ -290,7 +304,7 @@ def plotAndPrintResults(fit, m, lightCurveData, printReport = True, plotFullPeri
     plt.plot(modelTime, modelMags, 'b-')     # plot the model fit
     amp = np.ptp(modelMags)
     print 'amplitude = ' + str(amp)
-    if (plotErrors):                                                    # plot the data with error bars (default)
+    if (plotErrorbars):                                                    # plot the data with error bars (default)
         plt.errorbar(time, mag, err, fmt = 'rx')
     else:                                                               # plot the data without error plots
         plt.plot(time, mag, 'rx')
@@ -360,4 +374,4 @@ T0 = [14, 18, 0.25]
 # note that these functions are all overloaded (there are extra options you can set- see the function definitions for examples
 lcd = lightCurveData(objectName, fileNamesAndFormat, offsets)         # read in data from the text file and create a lightCurveData object
 (bestFit, m, periodsTested, periodErrors) = fitData(lcd, method = 'range', periodGuess = T0)       # fit the data to a model (can also add min and max periods in JD)
-plotAndPrintResults(bestFit, m, lcd, plotResiduals = True, periodErrors = [periodsTested, periodErrors])             # plot and print the results
+outputResults(bestFit, m, lcd, plotResiduals = True, periodErrors = [periodsTested, periodErrors])             # plot and print the results
