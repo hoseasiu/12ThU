@@ -110,6 +110,17 @@ lmfit, matplotlb, numpy
 System Overview
 \end_layout
 
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename flowchart.PNG
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 Data Inputs
 \end_layout
