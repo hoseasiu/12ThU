@@ -80,11 +80,14 @@ Introduction
 
 \begin_layout Standard
 This document is intended to be an introduction to the manosCurveFit.py program
- used for automatic light curve fitting, part of the automation software
- for Mission-Accessible Near-Earth Object Survey (MANOS).
+ used for automatic lightcurve fitting, part of the automation software
+ for the Mission-Accessible Near-Earth Object Survey (MANOS).
  The program is designed so that minimal user input is necessary to run,
  but additional inputs are available for customization of the processing
  procedures and output forms.
+ The backbone of the fitting method is a nonlinear least squares minimization
+ using the Fourier fitting method outlined in Harris et al.
+ 1989.
 \end_layout
 
 \begin_layout Subsection
@@ -95,7 +98,11 @@ System Dependencies
 This software was developed and tested on Python 2.7.1, and imports from the
  following typically pre-installed packages: 
 \shape italic
-operator, os, and sys
+operator, os, time, 
+\shape default
+and
+\shape italic
+ sys
 \shape default
 , and the following typically non-pre-installed packages: 
 \shape italic
@@ -121,8 +128,726 @@ System Overview
 
 \end_layout
 
+\begin_layout Standard
+The fitting routine may be generally divided into input, evaluation, and
+ output portions, each requiring one method call by the user.
+ The inputs in parentheses are not required for the fitting to work, but
+ a guess at the rotational period may significantly contrain the search
+ space, and if data is taken over multiple nights and/or by different instrument
+s, offsets will be required to normalize the magnitudes to some baseline.
+ A number of other inputs may also be supplied to constrain or expand the
+ search space.
+ The light curve data is then read in from a text file with user-defined
+ columns.
+ Two kinds of magnitude offsets are then applied: offsets by night/instrument,
+ if provided, and then a normalizing offset which subtracts the weighted
+ average magnitude of the set from the entire set.
+ The latter offset is necessary in order to center the data points on the
+ y-axis for fitting purposes, and may be used in this context because only
+ differential magnitudes are needed.
+ For each period to be checked, a least squares minimization is performed
+ for each order of Fourier coefficients from two to six, un
+\begin_inset Formula $k$
+\end_inset
+
+less specified otherwise in the inputs.
+ The parameters that generate the best fit to the data are kept and printed
+ at the end, along with the lightcurve and residual plots.
+\end_layout
+
+\begin_layout Subsection
+Fitting Rationale
+\end_layout
+
+\begin_layout Standard
+This fitting routine is based on equations 1, 2, and 3 from Harris et al.
+ 1989, where the model is based on the Fourier Series
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+H(\alpha,t)=\bar{H}(\alpha)+\sum_{L=1}^{m}A_{L}sin\frac{2\pi L}{P}(t-t_{0})+B_{L}cos\frac{2\pi L}{P}(t-t_{0}),\label{eq:Fourier}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $\bar{H}=0$
+\end_inset
+
+ because absolute magnitudes are not necessary for MANOS, and 
+\begin_inset Formula $m$
+\end_inset
+
+ (the series order), 
+\begin_inset Formula $P$
+\end_inset
+
+ (the period), and 
+\begin_inset Formula $A_{L}$
+\end_inset
+
+ and 
+\begin_inset Formula $B_{L}$
+\end_inset
+
+ (the Fourier coefficients) are free parameters.
+ The residual of a particular observation 
+\begin_inset Formula $i$
+\end_inset
+
+ may be obtained by
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{\delta_{i}}{\epsilon_{i}}=\frac{V_{i}(\alpha_{j})-H(\alpha_{j},t_{i})}{\epsilon_{i}},\label{eq:Residual}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where
+\begin_inset Formula $\alpha_{j}$
+\end_inset
+
+ is the reference phase angle on the 
+\begin_inset Formula $j^{th}$
+\end_inset
+
+ night, 
+\begin_inset Formula $t_{i}$
+\end_inset
+
+ is the time of the 
+\begin_inset Formula $i^{th}$
+\end_inset
+
+ observation, and 
+\begin_inset Formula $\epsilon_{i}$
+\end_inset
+
+ is the error of the measurement.
+ In the context of NEOs, the phase angle may very well change, particularly
+ as targets pass very close to Earth.
+ However, the majority of MANOS targets will be observed for a short enough
+ period of time that 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ will be assumed to be a constant.
+ As such, manosCurveFit does not take phase angles into account.
+ The least squares minimization is then performed on the bias-corrected
+ variance, given by
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+s^{2}=\frac{1}{n-k}\sum_{i=1}^{n}\left(\frac{\delta_{i}}{\epsilon_{i}}\right)^{2}={\textstyle minimum},\label{eq:biasCorrectedVar}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $n$
+\end_inset
+
+ is the total number of observations, 
+\begin_inset Formula $k=2m+1$
+\end_inset
+
+, where 
+\begin_inset Formula $m$
+\end_inset
+
+ is defined in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:Fourier"
+
+\end_inset
+
+.
+ The total number of nights of data is also added into 
+\begin_inset Formula $k$
+\end_inset
+
+ in the form that Harris et al.
+ uses, but here, this again needs not be considered because we are concerned
+ with differential photometry, and offsets for different nights will be
+ provided as necessary.
+\end_layout
+
+\begin_layout Standard
+By default, the program will run the fit from 
+\begin_inset Formula $m=2$
+\end_inset
+
+ to 
+\begin_inset Formula $m=6$
+\end_inset
+
+.
+ The minimum of order two is due to the fact that asteroid light curves
+ are expected to be double-peaked (except for some cases of unstable rotation
+ or degenerate cases of near-spherical bodies), and the maximum of order
+ six is used to prevent over-fitting (
+\series bold
+TODO- better explanation?
+\series default
+).
+\end_layout
+
 \begin_layout Section
-Data Inputs
+Input, Evaluation, and Output Methods
+\end_layout
+
+\begin_layout Standard
+The software handles data input by reading text files and storing user-defined
+ data columns as numpy arrays in a 
+\shape italic
+lightCurveData
+\shape default
+ object.
+ Evaluation is handled by the 
+\shape italic
+fitData 
+\shape default
+function, which utilizes 
+\shape italic
+lmfit
+\shape default
+'s minimization routine with free parameters given as Parameter object inputs.
+ Output is handled by the 
+\shape italic
+outputResults
+\shape default
+ function, which has options to display results in various ways.
+\end_layout
+
+\begin_layout Subsection
+The 
+\family typewriter
+lightCurveData
+\family default
+ Class
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+class 
+\family typewriter
+lightCurveData
+\family default
+\series default
+(objectName, fileNamesAndFormat[, offsetsList = None])
+\end_layout
+
+\begin_layout Standard
+Creates a lightCurveData object which is used to read in and manipulate
+ the dataset.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Parameters
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+objectName
+\series default
+ (string) - name of the object associated with the dataset 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Example: 'Spartacus20090130'
+\end_layout
+
+\begin_layout Itemize
+Stored in lightCurveData.name
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+fileNamesAndFormat 
+\series default
+(list of dictionaries) - names of text files to be read in, along with the
+ associated column definitions in the data (format specification)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Example: 
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+fileName = 'Spartacus20090130_MANOS.txt'
+\end_layout
+
+\begin_layout Plain Layout
+
+# list of lists specifying ['property',column] in the text file
+\end_layout
+
+\begin_layout Plain Layout
+
+formatSpec = [['night',0],['jd',3],['diffMag',6],['magErr',7]]
+\end_layout
+
+\begin_layout Plain Layout
+
+fileNamesAndFormat = [{fileName:formatSpec}]
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Multiple key/value pairs may be used when multiple text files are to be
+ used
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+'jd'
+\family default
+ (Julian date), 
+\family typewriter
+'diffMag'
+\family default
+ (differential magnitude), and 
+\family typewriter
+'magErr'
+\family default
+ (magnitude error) must be specified to run the program, additional properties
+ may also be stored in the 
+\family typewriter
+lightCurveData
+\family default
+ object
+\end_layout
+
+\begin_layout Itemize
+Remember that Python indexes from zero, so the left-most column in the text
+ file is column 0
+\end_layout
+
+\begin_layout Itemize
+Any white space in the text file is considered a delimiter (leading and
+ trailing white space is ignored)
+\end_layout
+
+\begin_layout Itemize
+Stored in lightCurveData.data
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+offsetsList
+\series default
+ (list of dictionaries, 
+\family typewriter
+None
+\family default
+ = no offsets) - offsets associated with nights in each text file
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Example: [{1:0.0,2:-0.04,3:0.464}]
+\end_layout
+
+\begin_layout Itemize
+Key/value pairs must be int/float pairs, where the key is the night number,
+ and the value is the offset
+\end_layout
+
+\begin_layout Itemize
+Multiple dictionaries may be used when multiple text files are to be used-
+ when this is done, the order of these dictionaries must correspond to the
+ order of the files names and specifications used in 
+\family typewriter
+fileNamesAndFormat
+\end_layout
+
+\begin_layout Itemize
+Keys may be repeated as long as they are in different dictionaries
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+'night'
+\family default
+ property must be specified in the format to use offsetsList
+\end_layout
+
+\end_deeper
+\begin_layout Subsection
+The 
+\family typewriter
+fitData()
+\family default
+ Function
+\end_layout
+
+\begin_layout Standard
+
+\family typewriter
+fitData
+\family default
+(lightCurveData[, method = None[, periodGuess = None[, minPeriod = None[,
+ maxPeriod = None[, orderRange = [2,6] ], timer = False ]]]]]])
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+lightCurveData
+\series default
+ (lightCurveData object)
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+method
+\series default
+ (string) - method to be used for traversing the search space of periods:
+ 
+\family typewriter
+None
+\family default
+,
+\family typewriter
+ 'single' 
+\family default
+or
+\family typewriter
+ 'range'
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+when method is 
+\family typewriter
+None
+\family default
+, a maximum recoverable period is calculated using the Nyquist Criterion
+ for non-uniform samples
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Harris1989Asteroids"
+
+\end_inset
+
+ and periods are checked at 15 minute (0.25 hour) intervals; periodGuess
+ is ignored in this case
+\end_layout
+
+\begin_layout Itemize
+when method is 
+\family typewriter
+single
+\family default
+, periodGuess must be provided as an int or a float, which serves as the
+ only inital period used in the minimization
+\end_layout
+
+\begin_layout Itemize
+when method is 
+\family typewriter
+range
+\family default
+, periodGuess must be provided as a three-element list of 
+\family typewriter
+[start, stop, step]
+\family default
+ integers or floats, which is then automatically converted into a list of
+ initial periods for minimization
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+periodGuess
+\series default
+ (int or float or three-element list of ints or floats) - the initial period
+ used for minimization, given in hours; this provides a starting point for
+ the the period parameter, which does not remain fixed during the minimization
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+minPeriod
+\series default
+ (int or float) - the hard lower limit for the period fitting, no period
+ below this value will be attempted in the evaulation
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+maxPeriod
+\series default
+ (int or float) - the hard upper limit for the period fitting, no period
+ above this value will be attempted in the evaluation
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+orderRange
+\series default
+ (two-element list of ints) - range of 
+\begin_inset Formula $m$
+\end_inset
+
+ values to be attempted in the Fourier model, as outlined in the Fitting
+ Rationale section
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+timer
+\series default
+ (boolean) - when 
+\family typewriter
+True
+\family default
+, the script will display the runtime of this function at the end of the
+ run
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Returns 
+\series default
+(bestFit, bestOrder, periodsTested, periodErrors), where bestFit is a Minimizer
+ object, bestOrder is an int, and periodsTested and periodErrors are correspondi
+ng lists of floats.
+\end_layout
+
+\begin_layout Subsection
+The 
+\family typewriter
+outputResults()
+\family default
+ Function
+\end_layout
+
+\begin_layout Standard
+
+\family typewriter
+outputResults
+\family default
+(fit, m, lightCurveData[, printReport = True[, plotFullPeriod = True[, plotError
+bars = True[, phaseFoldData = True[, plotResiduals = False[, periodErrors
+ = None ]]]]]])
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+fit
+\series default
+ (Minimizer object) - the bestFit object returned by 
+\family typewriter
+fitData()
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+m
+\series default
+ (int) - the bestOrder returned by 
+\family typewriter
+fitData()
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+lightCurveData
+\series default
+ (lightCurveData object) - the lightCurveData object used for this run
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+printReport
+\series default
+ (boolean) - when 
+\family typewriter
+True
+\family default
+, the resulting variables and correlations will be printed at the end of
+ the run
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+plotFullPeriod
+\series default
+ (boolean) - when 
+\family typewriter
+True
+\family default
+, the full period generated by the fit will be plotted, when 
+\family typewriter
+False
+\family default
+, the model will be plotted as far as the data points go
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+plotErrorbars
+\series default
+ (boolean) - when 
+\family typewriter
+True
+\family default
+, the error bars on the dataset will be plotted
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+phaseFoldData
+\series default
+ (boolean) - when 
+\family typewriter
+True
+\family default
+, a single period will be plotted, with the dataset phase folded and the
+ x-axis showing Julian days since the first data point, when 
+\family typewriter
+False
+\family default
+, the model will be plotted over the entire set of data, and the x-axis
+ will show actual Julian dates
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+plotResiduals
+\series default
+ (boolean) - when 
+\family typewriter
+True
+\family default
+, a subplot will be included showing the residuals for each data point
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+periodErrors
+\series default
+ (n by 2 list of lists) - when provided, a second figure will be plotted
+ showing the mean RMS of the residuals as a function of period
+\end_layout
+
+\begin_layout Section
+Future Improvements
+\end_layout
+
+\begin_layout Standard
+- phase angle considerations
+\end_layout
+
+\begin_layout Standard
+- polling from the Lowell ephermeris database
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "1"
+key "Harris1989"
+
+\end_inset
+
+Harris, A.
+ W., et al.
+ "Photoelectric observations of asteroids 3, 24, 60, 261, and 863." Icarus
+ 77.1 (1989): 171-186.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "2"
+key "Harris1989Asteroids"
+
+\end_inset
+
+Harris, A.
+ W.
+ & Lupishko, D.
+ F.
+ 1989, 
+\begin_inset Quotes eld
+\end_inset
+
+Photometric Lightcurve Observations and Reduction Techniques
+\begin_inset Quotes erd
+\end_inset
+
+ in 
+\begin_inset Quotes eld
+\end_inset
+
+Asteroids II,
+\begin_inset Quotes erd
+\end_inset
+
+ ed.
+ R.
+ P.
+ Binzel, T.
+ Gehrels, & M.
+ S.
+ Matthews.
 \end_layout
 
 \end_body
