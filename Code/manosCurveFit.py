@@ -2,11 +2,13 @@
     Takes light curve data as input and fits it to a function accoring to Harris et al. 1989
 '''
 
-from lmfit import minimize, Parameters, Parameter, report_fit
+from lmfit import minimize, Parameters, Parameter, report_fit, fit_report
 from operator import itemgetter
 from os import listdir
-import matplotlib.pyplot as plt, numpy as np, os.path, sys
+import matplotlib.pyplot as plt, numpy as np, os.path, sys, string
 from time import clock
+
+basepath = os.path.abspath(os.path.dirname(sys.argv[0]))        # current directory path
 
 ''' Class used to store and manipulate MANOS light curve data
 '''
@@ -14,24 +16,22 @@ class lightCurveData:
     ''' Gets the txt data files and converts them into a lightCurveData object
     '''
     def getData(self, fileName, formatSpec, offsetsList, passNumber):
-        basepath = os.path.abspath(os.path.dirname(sys.argv[0]))        # current directory path
+        global basepath
+        # TODO - have to change this for the MANOS file structure
         filepath = os.path.abspath(os.path.join(basepath, "..", 'Data', fileName))
 
         textFile = np.loadtxt(filepath,'a12')          # extract data from text file
             
-        # separate data into appropriately-named arrays
-        # TODO- currently assumes that everything is a float- generalize later (needed?)
+        # separate data into appropriately-named arrays - assumes that everything is a float (generalize?)
         tempData = {}
-        diff = []
 
         for i in range(len(formatSpec)):
             tempData[formatSpec[i][0]] = textFile[:,formatSpec[i][1]].astype(float)
 
-        if offsetsList is not None:     # if offset values exist, then perform an offset
+        if len(offsetsList) != 0:     # if offset values exist, then perform an offset
             tempData = self.offsetMags(tempData, offsetsList[passNumber])
             
         for i in range(len(formatSpec)):
-            
             if passNumber == 0:
                 self.data[formatSpec[i][0]] = tempData[formatSpec[i][0]]
             else:
@@ -100,8 +100,8 @@ class lightCurveData:
 
         # check for errors in the format specification
         for i in range(len(fileNamesAndFormat)):
-            fileName = fileNamesAndFormat[i].keys()[0]
-            formatSpec = fileNamesAndFormat[i][fileName]
+            fileName = fileNamesAndFormat.keys()[i]
+            formatSpec = fileNamesAndFormat[fileName]
 
             if len(formatSpec) <= 0:
                 print 'Error: formatSpec input incorrect'
@@ -124,11 +124,26 @@ class lightCurveData:
         else:
             for j in range(len(fileNamesAndFormat)):
                 # TODO - this structure is mess... find a better way to do it
-                fileName = fileNamesAndFormat[j].keys()[0]
-                formatSpec = fileNamesAndFormat[j][fileName]
+                fileName = fileNamesAndFormat.keys()[j]
+                formatSpec = fileNamesAndFormat[fileName]
                 self.getData(fileName, formatSpec, offsetsList, j)
             self.sortByDataType('jd')
             self.data['diffMag'] -= np.average(self.data['diffMag'], weights = 1.0/self.data['magErr'])        # center the data around zero with a weighted average
+
+''' Given a filepath to a directory, returns the filepath and list of all the files or subdirectories in that directory
+'''
+def lookInFolder(type, name = None):
+    global basepath
+    if type == 'file':
+        # TODO - have to change for MANOS file structure
+        filepath = os.path.abspath(os.path.join(basepath, "..", 'Data', name))
+        return filepath, [ f for f in listdir(filepath) if os.path.isfile(os.path.join(filepath,f)) ]
+    elif type == 'dir':
+        filepath = os.path.abspath(os.path.join(basepath, "..", 'Data'))
+        return filepath, [ f for f in listdir(filepath) if os.path.isdir(os.path.join(filepath,f)) ]
+    else:
+        print 'Error: invalid lookInFolder type'
+        return
 
 ''' Creates range lists of floats
     Has some error handling, but still has machine precision issues (shouldn't be an actual problem)
@@ -179,6 +194,7 @@ def makeModel(params, t, mag=None, err=None):
 ''' Find the maximum recoverable period given a particular data set
     Uses Nyquist Criterion for the general non-uniform sampling case
     # TODO - an outlier in sampling time seems like it would throw this off- any correction?
+    # TODO - maybe use a periodigram to figure out a better estimate for a max
 '''
 def findRecoverablePeriod(time):
     timeRange = np.max(time)-np.min(time)
@@ -191,10 +207,10 @@ def findRecoverablePeriod(time):
     Three period guess cases:
         - no guess (Nyquist sampling criterion used with a 15 minute step size)
         - range of periods provided (three-element list of [minGuess, maxGuess, step])
-        - single initial guess provided (three-element list of [min, max, guess]) where minPeriod and maxPeriod are hard limits
+        - single initial guess provided (three-element list of [min, max, guess]) where hardMinPeriod and hardMaxPeriod are hard limits
     The range of orders to check over may also be provided
 '''
-def fitData(lightCurveData, method = None, periodGuess = None, minPeriod = None, maxPeriod = None, orderRange = [2,6], timer = False):
+def fitData(lightCurveData, method = None, periodGuess = None, hardMinPeriod = None, hardMaxPeriod = None, orderRange = [2,6], timer = False):
     if timer:
         startTime = clock()
     if method is None:         # Nyquist sampling criterion is used at an interval of 15 minutes
@@ -222,10 +238,10 @@ def fitData(lightCurveData, method = None, periodGuess = None, minPeriod = None,
 
     # convert periods from hours to JD
     initPeriodList = np.array(initPeriodList)/24.0
-    if maxPeriod is not None and (type(maxPeriod) is float or type(maxPeriod) is int):
-        maxPeriod /= 24.0
-    if minPeriod is not None and (type(minPeriod) is float or type(minPeriod) is int):
-        minPeriod /= 24.0
+    if hardMaxPeriod is not None and (type(hardMaxPeriod) is float or type(hardMaxPeriod) is int):
+        hardMaxPeriod /= 24.0
+    if hardMinPeriod is not None and (type(hardMinPeriod) is float or type(hardMinPeriod) is int):
+        hardMinPeriod /= 24.0
     
     # information from light curve for plotting
     time = lightCurveData.data['jd']-lightCurveData.data['jd'][0]       # use the minimum JD as a reference point of 0
@@ -245,7 +261,7 @@ def fitData(lightCurveData, method = None, periodGuess = None, minPeriod = None,
         for m in range(orderRange[0],orderRange[1]+1):
 
             params = Parameters()   # create the Parameters object and add P, A, and B values to it
-            params.add('P', value = initPeriod, min = minPeriod, max = maxPeriod)
+            params.add('P', value = initPeriod, min = hardMinPeriod, max = hardMaxPeriod)
             for i in range(m):
                 params.add('A' + str(i+1), value = 0)
                 params.add('B' + str(i+1), value = 0)
@@ -292,11 +308,19 @@ def phaseFold(time, period):
     plotting error bars is optional (default is True)
     plotting the full phase is optional (default is True)
 '''
-def outputResults(fit, m, lightCurveData, printReport = True, plotFullPeriod = True, plotErrorbars = True, phaseFoldData = True, plotResiduals = False, periodErrors = None):
-    print '\n FIT RESULTS:'
+def outputResults(fit, m, lightCurveData, printReport = True, saveReport = True, plotFullPeriod = True, plotErrorbars = True, phaseFoldData = True, plotResiduals = True, periodErrors = None, show = False):
+    # used for saving figures
+    global basepath
+    # TODO - have to change this for the MANOS file structure
+    filepath = os.path.abspath(os.path.join(basepath, "..", 'Data', lightCurveData.name))
 
     if printReport:
-        report_fit(fit.params)
+        print '\nFIT RESULTS:'
+        report_fit(fit.params, show_correl = False)
+    if saveReport:
+        f = open(filepath + '\\' + lightCurveData.name + 'FitReport.txt', 'w')
+        f.write(fit_report(fit.params,show_correl=False))
+        
     time = lightCurveData.data['jd']-lightCurveData.data['jd'][0]
     mag = lightCurveData.data['diffMag']
     err = lightCurveData.data['magErr']
@@ -318,9 +342,7 @@ def outputResults(fit, m, lightCurveData, printReport = True, plotFullPeriod = T
     else:
         modelTime = np.linspace(time.min(), time.max(),100)
 
-    
-
-    plt.figure(1)
+    plt.figure()
     if plotResiduals:
         plt.subplot(211)
     modelMags = makeModel(bestFit.params, modelTime)
@@ -354,6 +376,7 @@ def outputResults(fit, m, lightCurveData, printReport = True, plotFullPeriod = T
             plt.xlabel('JD + ' + str(int(min(lightCurveData.data['jd']))))
 
     plt.subplots_adjust(hspace = 0.5)
+    plt.savefig(filepath + '\\' + lightCurveData.name + 'LightCurve')               # save the light curve plot
     print 'mean RMS of residuals = ' + str(np.mean(np.sqrt(fit.residual**2)))
 
     if periodErrors is not None:
@@ -363,48 +386,145 @@ def outputResults(fit, m, lightCurveData, printReport = True, plotFullPeriod = T
             if len(periodErrors) != 2:
                 print 'Error: invalid period errors format'
             else:
-                plt.figure(2)
+                plt.figure()
                 plt.plot(periodErrors[0], periodErrors[1], 'x')
                 plt.title('Mean RMS of Residuals')
                 plt.ylabel('mean RMS')
                 plt.xlabel('period (h)')
-        
-    plt.show()
+                plt.savefig(filepath + '\\' + lightCurveData.name + 'MeanResiduals')               # save the light curve plot
+
+    if show:
+        plt.show()
+
+''' Given an object name, this will look in the appropriate folder and get all the data files, as well as the fitInfo specifications file
+    The combined information is returned as the information necessary to create a lightCurveData object, fit the data, and print the results
+'''
+def extractRunOptions(objectName):
+    filePath, objectFiles = lookInFolder('file', objectName)
+    fileNamesAndFormat = {}
+    offsets, method, T0, hardMinPeriod, hardMaxPeriod = None, None, None, None, None
+    fitInfoFound = False    
+    expectedNumFiles = 0
+    readingOffsets = None
+    
+    for o in range(len(objectFiles)):
+        if 'standard' in objectFiles[o]:        # all standardized data files will have 'standard' in their names
+            with open(os.path.join(filePath,objectFiles[o])) as f:      # check if we're looking at a 3-col or 4-col file
+                content = f.readlines()
+                if len(string.split(content[0])) == 3:
+                    fileNamesAndFormat[objectName + '\\' + objectFiles[o]] = [['jd',0],['diffMag',1],['magErr',2]]
+                elif len(string.split(content[0])) == 4:
+                    fileNamesAndFormat[objectName + '\\' + objectFiles[o]] = [['jd',0],['diffMag',1],['magErr',2],['night',3]]
+        elif objectFiles[o] == objectName + '_fitInfo.txt':
+            if fitInfoFound == False:
+                fitInfoFound = True
+                with open(os.path.join(filePath,objectFiles[o])) as f:
+                    content = f.readlines()
+                    for i in range(len(content)):
+                        lineWords = string.split(content[i])
+
+                        # check for ignore cases
+                        if lineWords is None:           # ignore lines that are blank 
+                            continue
+                        elif len(lineWords) == 0:       # ignore lines that are blank
+                            continue
+                        elif lineWords[0] is '\n' or lineWords[0][0] is '#':        # ignore lines that are newlines or have a '#' at the beginning
+                            continue
+
+                        # cases with useful information
+                        else:
+                            if readingOffsets is not None:
+                                if 'ENDOFFSETS' in lineWords[0]:
+                                    readingOffsets = None
+                                else:
+                                    if len(lineWords) != 2:
+                                        print 'Error: invalid offset specification'
+                                    else:
+                                        offsets[readingOffsets][int(lineWords[0])] = float(lineWords[1])
+                                
+                            elif lineWords[0] == 'FILES':     # checking the number of files
+                                expectedNumFiles = int(lineWords[1])        # the fitInfo file has a specified number of files
+                            elif lineWords[0] == 'GUESS':     # reading in the period guess value(s)
+                                numWords = len(lineWords)   # check that the number of parameters is right (if the line exists, it should be of length 3, 5, or 7
+                                if numWords != 3 and numWords != 5 and numWords != 7:
+                                    print 'Error: invalid guess format'
+                                elif numWords == 3:         # the only case where there are three words on the 'guess' is if method == 'single'
+                                    if lineWords[1] != 'single':
+                                        print 'Error: invalid guess format'
+                                    else:
+                                        method = lineWords[1]
+                                        T0 = float(lineWords[2])
+                                elif numWords == 5:         # both the 'single' and 'range' cases can have 5 words, depending on whether hard mins and maxes are there
+                                    if lineWords[1] == 'single':
+                                        method = lineWords[1]
+                                        T0 = lineWords[2]
+                                        minPeriod = float(lineWords[3])
+                                        maxPeriod = float(lineWords[4])
+                                    elif lineWords[1] == 'range':
+                                        method = lineWords[1]
+                                        T0 = [float(lineWords[2]),float(lineWords[3]),float(lineWords[4])]
+                                    else:
+                                        print 'Error: invalid guess method'
+                                elif numWords == 7:         # only 'range' case can have 7 words in the 'guess' line
+                                    if lineWords[1] == 'range':
+                                        method = lineWords[1]
+                                        T0 = [float(lineWords[2]),float(lineWords[3]),float(lineWords[4])]
+                                        minPeriod = float(lineWords[5])
+                                        maxPeriod = float(lineWords[6])
+                                    else:
+                                        print 'Error: invalid guess format'
+                            elif lineWords[0] == 'HARDMINPERIOD':           # the hard minimum period (no guess will be attempted for values below this)
+                                if len(lineWords) != 2:
+                                    print 'Error: invalid specification of a hard minimum guess'
+                                else:
+                                    hardMinPeriod = float(lineWords[1])
+                            elif lineWords[0] == 'HARDMAXPERIOD':           # the hard maximum period (no guess will be attempted for values above this)
+                                if len(lineWords) != 2:
+                                    print 'Error: invalid specification of a hard maximum guess'
+                                else:
+                                    hardMaxPeriod = float(lineWords[1])
+                            elif lineWords[0] == 'OFFSET':
+                                if offsets is None:
+                                    offsets = {}
+                                offsets[lineWords[1]] = {}          # create a new sub-dictionary for a file's offset
+                                readingOffsets = lineWords[1]
+                                
+            else:       # duplicate fitInfo file
+                print 'Error: duplicate fitInfo file found'
+
+    # turn the offset dictionary into a list, because dictionaries are not guarenteed to order keys in the same order
+    offsetsList = []
+    if offsets is not None:
+        for i in range(len(fileNamesAndFormat.keys())):
+            if fileNamesAndFormat.keys()[i] in offsets.keys():
+                offsetsList.append(offsets[fileNamesAndFormat.keys()[i]])
+            else:
+                print 'Error: missing offset data for ' + fileNamesAndFormat.keys()[i]
+
+    # error checking
+    if len(fileNamesAndFormat) == 0:
+        print 'Error: no data files found'
+    if fitInfoFound == False:
+        print 'Error: fitInfo file not found'
+    else:
+        if expectedNumFiles != len(fileNamesAndFormat):
+            print 'Error: the expected and actual number of data files do not match'
+
+        offsets, method, T0, hardMinPeriod, hardMaxPeriod 
+    return fileNamesAndFormat, offsetsList, method, T0, hardMinPeriod, hardMaxPeriod
+    
 
 '''         start of the run routine        '''
+objects = lookInFolder('dir')[1]
+for i in range(len(objects)):
+    objectName = objects[i]
+    print '\nfitting ' + objectName
 
-objectName = 'Spartacus20090130'
-fileName = 'Spartacus20090130_MANOS.txt'
-formatSpec = [['jd',3],['diffMag',6],['magErr',7]]
-fileNamesAndFormat = [{fileName:formatSpec}]
-offsets = None
-T0 = [3, 4, 0.1]                                # initial guess at period, in hours
+    fileNamesAndFormat, offsets, guessMethod, T0, hardMinP, hardMaxP = extractRunOptions(objectName)
 
-##objectName = 'da14'
-##fileName = 'da14.120301.568.mag.txt'
-##formatSpec = [['jd',0],['diffMag',1],['magErr',2]]
-##fileNamesAndFormat = [{fileName:formatSpec}]
-##offsets = None
-##T0 = [4, 6, 0.25]
+    # note that these functions are all overloaded (there are extra options you can set- see the function definitions or documentation for examples)
+    lcd = lightCurveData(objectName, fileNamesAndFormat, offsetsList = offsets)         # read in data from the text file and create a lightCurveData object
+    (bestFit, m, periodsTested, periodErrors) = fitData(lcd, method = guessMethod, periodGuess = T0, hardMinPeriod = hardMinP, hardMaxPeriod = hardMaxP)       # fit the data to a model (can also add min and max periods in JD)
+    outputResults(bestFit, m, lcd, periodErrors = [periodsTested, periodErrors])             # plot and print the results
 
-##objectName = 'Elisa'
-##mine = {'elisa_mine_mod.txt':[['night',0], ['jd',2],['diffMag',5],['magErr',6]]}
-##his = {'elisa_his.txt':[['night',0], ['jd',2],['diffMag',4],['magErr',5]]}
-##fileNamesAndFormat = [mine,his]
-##offsets = [{1:0.0,2:-0.04,3:0.464},{1:-0.324,2:-0.257,3:-0.237,4:-0.194,5:-0.223,6:-0.321,7:-0.246,8:-0.372,9:-0.15}]
-##T0 = [14, 18, 0.25]
-
-##objectName = '2013BO76'
-##fileNamesAndFormat = [{'2013BO76_20130901_MANOS.txt':[['jd',3],['diffMag',6],['magErr',7]]}]
-##offsets = None
-##T0 = [1.5, 5, 0.25]
-
-##objectName = 'Martes'
-##fileNamesAndFormat = [{'Martes_MANOS.txt':[['jd',3],['diffMag',6],['magErr',7]]}]
-##offsets = None
-##T0 = [4, 5, 0.25]
-
-# note that these functions are all overloaded (there are extra options you can set- see the function definitions or documentation for examples)
-lcd = lightCurveData(objectName, fileNamesAndFormat, offsets)         # read in data from the text file and create a lightCurveData object
-(bestFit, m, periodsTested, periodErrors) = fitData(lcd, method = 'range', periodGuess = T0, maxPeriod = 5.2)       # fit the data to a model (can also add min and max periods in JD)
-outputResults(bestFit, m, lcd, plotResiduals = True, periodErrors = [periodsTested, periodErrors])             # plot and print the results
+print '\ndone'
