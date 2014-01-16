@@ -1,0 +1,5 @@
+# number of data files (used as a check against the actual number of data files being read in
+FILES	1
+
+#	method	min	max	step	(hardMin)	(hardMax)
+GUESS	range	3	4	0.1

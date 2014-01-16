@@ -1,0 +1,28 @@
+# number of data files (used as a check against the actual number of data files being read in
+FILES	2
+
+#	method	min	max	step
+GUESS	range	14	18	0.25
+
+# hard minimum to not search below
+
+# hard maximum to not search above
+
+OFFSET	Elisa\elisa_mine_standard.txt
+1	0.0
+2	-0.04
+3	0.464
+ENDOFFSETS
+
+# offsets- if an offset is not provided for a particular file or night, it is assumed to be zero
+OFFSET	Elisa\elisa_his_standard.txt
+1	-0.324
+2	-0.257
+3	-0.237
+4	-0.194
+5	-0.223
+6	-0.321
+7	-0.246
+8	-0.372
+9	-0.15
+ENDOFFSETS
