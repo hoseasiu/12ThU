@@ -186,9 +186,9 @@ def makeModel(params, t, mag=None, err=None):
         H = H + A*np.sin(trigTerm*offset)+B*np.cos(trigTerm*offset)
     if mag is None and err is None:     # no data given- the model values are returned
         return H
-    elif err is None:                   # magnitude data is given, but no errors- the chi squared is returned
+    elif err is None:                   # magnitude data is given, but no errors- the residuals are returned
         return H-mag
-    else:                               # both magnitude and error are given- the reduced chi squared is returned
+    else:                               # both magnitude and error are given- the normalized residuals are returned
         return (H-mag)/err
 
 ''' Find the maximum recoverable period given a particular data set
@@ -268,7 +268,8 @@ def fitData(lightCurveData, method = None, periodGuess = None, hardMinPeriod = N
             
             fitResult = minimize(makeModel, params, args = (time, mag, err))
             periodsTested.append(params['P'].value*24.0)       # add the period to a list for the error plot
-            periodErrors.append(np.mean(np.sqrt(fitResult.residual**2)))
+            residuals = makeModel(fitResult.params, time, mag)
+            periodErrors.append(np.mean(np.sqrt(residuals**2)))
 
             if fitResult.success:
                 # check amplitude
@@ -313,13 +314,6 @@ def outputResults(fit, m, lightCurveData, printReport = True, saveReport = True,
     global basepath
     # TODO - have to change this for the MANOS file structure
     filepath = os.path.abspath(os.path.join(basepath, "..", 'Data', lightCurveData.name))
-
-    if printReport:
-        print '\nFIT RESULTS:'
-        report_fit(fit.params, show_correl = False)
-    if saveReport:
-        f = open(filepath + '\\' + lightCurveData.name + 'FitReport.txt', 'w')
-        f.write(fit_report(fit.params,show_correl=False))
         
     time = lightCurveData.data['jd']-lightCurveData.data['jd'][0]
     mag = lightCurveData.data['diffMag']
@@ -366,7 +360,8 @@ def outputResults(fit, m, lightCurveData, printReport = True, saveReport = True,
     
     if plotResiduals:
         plt.subplot(212)
-        plt.plot(time, fit.residual, 'rx')
+        residuals = makeModel(bestFit.params, time, mag)
+        plt.plot(time, residuals, 'rx')
         plt.title('Residuals for ' + objectName + ' Fit')
         plt.ylabel('Residual Magnitude')
         plt.xlim(lightCurveAxis[0:2])
@@ -392,6 +387,15 @@ def outputResults(fit, m, lightCurveData, printReport = True, saveReport = True,
                 plt.ylabel('mean RMS')
                 plt.xlabel('period (h)')
                 plt.savefig(filepath + '\\' + lightCurveData.name + 'MeanResiduals')               # save the light curve plot
+
+    if printReport:
+        print '\nFIT RESULTS:'
+        report_fit(fit.params, show_correl = False)
+    if saveReport:
+        f = open(filepath + '\\' + lightCurveData.name + 'FitReport.txt', 'w')
+        f.write(fit_report(fit.params,show_correl=False))
+        f.write('\nmodel amplitude = ' + str(amp))
+        f.close()
 
     if show:
         plt.show()
