@@ -5,15 +5,96 @@
 from lmfit import minimize, Parameters, Parameter, report_fit, fit_report
 from operator import itemgetter
 from os import listdir
-import matplotlib.pyplot as plt, numpy as np, os.path, sys, string
+import matplotlib.pyplot as plt, numpy as np, os.path, sys, string, cmd
 from time import clock
 
 basepath = os.path.abspath(os.path.dirname(sys.argv[0]))        # current directory path
+objectName = ''
+
+class RunOptionsShell(cmd.Cmd):
+    intro = 'Welcome to manosCurveFit. Type help or ? to list commands.\n'
+    prompt = '(manosCurveFit) '
+
+    # default options, can be overridden
+    fitOptions = {'minOrder':2, 'maxOrder':6, 'timer':False}
+    outputOptions = {'printReport':True, 'saveReport':True, 'plotFullPeriod':True, 'plotErrorbars':True, \
+                    'phaseFoldData':True, 'plotResiduals':True, 'plotPeriodErrors':True, 'showPlots':False}
+
+    def do_setFitOptions(self, arg):       # sets options and returns other arguments as needed
+        'Set the fitting options: minOrder, maxOrder, timer'
+        args = arg.split()
+        for i in range(len(self.fitOptions.keys())):
+            key = self.fitOptions.keys()[i]
+            if key in arg:
+                if key == 'minOrder' or key == 'maxOrder':
+                    self.fitOptions[key] = int(args[args.index(key)+1])
+                elif args[args.index(key)+1] == 'True' or args[args.index(key)+1] == 'False':       # check that the argument is a boolean
+                    self.fitOptions[key] = args[args.index(key)+1] == 'True'
+                else:
+                    print 'Error: unrecognized argument for ' + key
+                print key + ' = ' + str(self.fitOptions[key])
+
+    def do_setOutputOptions(self, arg):       # sets options and returns other arguments as needed
+        'Set the output options: printReport, saveReport, plotFullPeriod, plotErrorbars, phaseFoldData, plotResiduals, plotPeriodErrors, showPlots'
+        args = arg.split()
+        for i in range(len(self.outputOptions.keys())):
+            key = self.outputOptions.keys()[i]
+            if key in arg:
+                if args[args.index(key)+1] == 'True' or args[args.index(key)+1] == 'False':       # check that the argument is a boolean
+                    self.outputOptions[key] = args[args.index(key)+1] == 'True'
+                else:
+                    print 'Error: unrecognized argument for ' + key
+                print key + ' = ' + str(self.outputOptions[key])
+
+
+    def do_showObjects(self, arg):
+        'Displays the list of all objects in \'Data\' folder'
+        objects = lookInFolder('dir')[1]
+        for i in range(len(objects)):
+            print objects[i]
+
+    def do_fitAll(self, arg):
+        'Scans and attempts to fit all objects in \'Data\' folder that do not already have a fit'
+        objects = lookInFolder('dir')[1]
+        self.runFitting(objects)
+
+    def do_fit(self, arg):      # will fit all objects specified, even if they have already been fit before
+        'Scans and attempts to fit all objects in \'Data\' folder that follow as arguments: OBJECTS object1_name object2_name...'
+        self.runFitting(arg.split(), ignore = False)
+        
+
+    def do_exit(self, arg):
+        'Exit program: EXIT'
+        return True
+
+    def runFitting(self, objects, ignore = True):      # ignore checks whether or not to attempt objects that have already been fit
+        plt.close('all')     # close any remaining plots
+        print '\nAttempting to fit ' + str(objects)
+        for i in range(len(objects)):
+            global objectName
+            objectName = objects[i]
+
+            # check if the object has already been fit if ignore == True
+            directory, objectFiles = lookInFolder('file', objectName)
+            if ignore and objectName + 'LightCurve.png' in objectFiles:
+                print objectName + ' already processed- skipping to next object'
+
+            # if it hasn't been fit, or is specified, run the fit routine
+            else:
+                print '\nfitting ' + objectName
+
+                fileNamesAndFormat, offsets, guessMethod, T0, hardMinP, hardMaxP = extractRunOptions(objectName)
+
+                # note that these functions are all overloaded (there are extra options you can set- see the function definitions or documentation for examples)
+                lcd = LightCurveData(objectName, fileNamesAndFormat, offsetsList = offsets)         # read in data from the text file and create a LightCurveData object
+                (bestFit, m, periodsTested, periodErrors) = fitData(lcd, self.fitOptions, method = guessMethod, periodGuess = T0, hardMinPeriod = hardMinP, hardMaxPeriod = hardMaxP)       # fit the data to a model (can also add min and max periods in JD)
+                outputResults(bestFit, m, lcd, self.outputOptions, periodErrors = [periodsTested, periodErrors])             # plot and print the results
+        print '\nDone\n'
 
 ''' Class used to store and manipulate MANOS light curve data
 '''
-class lightCurveData:
-    ''' Gets the txt data files and converts them into a lightCurveData object
+class LightCurveData:
+    ''' Gets the txt data files and converts them into a LightCurveData object
     '''
     def getData(self, fileName, formatSpec, offsetsList, passNumber):
         global basepath
@@ -89,7 +170,7 @@ class lightCurveData:
             print 'Error: number of nights does not match the number of offsets'
             return
             
-    ''' lightCurveData initializer
+    ''' LightCurveData initializer
         requires an object name, file names; can optionally take offsets and sorting
         (sorting should always be by jd for light curve plots)
     '''
@@ -178,12 +259,13 @@ def floatRange(start, stop, stepSize=0):
 def makeModel(params, t, mag=None, err=None):
     P = params['P'].value
     H = np.zeros(len(t))  
-    for L in range(1,len(params.keys())/2+1):
+    for L in range(1,len(params.keys())/2):         # CHANGED +1 HERE
         trigTerm = 2.0*np.pi*float(L)/float(P)
         offset = t-t[0]
         A = params['A'+str(L)].value
         B = params['B'+str(L)].value
-        H = H + A*np.sin(trigTerm*offset)+B*np.cos(trigTerm*offset)
+        H += A*np.sin(trigTerm*offset)+B*np.cos(trigTerm*offset)
+    H += params['y'].value              # add the y-shift offset
     if mag is None and err is None:     # no data given- the model values are returned
         return H
     elif err is None:                   # magnitude data is given, but no errors- the residuals are returned
@@ -203,18 +285,18 @@ def findRecoverablePeriod(time):
     return period                               # in JD
 
 ''' Fit the data to a model using scipy.optimize.leastsq.
-    Takes the dataset(a lightCurveData object), the range of orders to check (a two-element list)
+    Takes the dataset(a LightCurveData object), the range of orders to check (a two-element list)
     Three period guess cases:
         - no guess (Nyquist sampling criterion used with a 15 minute step size)
         - range of periods provided (three-element list of [minGuess, maxGuess, step])
         - single initial guess provided (three-element list of [min, max, guess]) where hardMinPeriod and hardMaxPeriod are hard limits
     The range of orders to check over may also be provided
 '''
-def fitData(lightCurveData, method = None, periodGuess = None, hardMinPeriod = None, hardMaxPeriod = None, orderRange = [2,6], timer = False):
-    if timer:
+def fitData(LightCurveData, fitOptions, method = None, periodGuess = None, hardMinPeriod = None, hardMaxPeriod = None):
+    if fitOptions['timer']:
         startTime = clock()
     if method is None:         # Nyquist sampling criterion is used at an interval of 15 minutes
-         maxRecoverablePeriod = findRecoverablePeriod(lightCurveData.data['jd'])*24.0       # converted to hours
+         maxRecoverablePeriod = findRecoverablePeriod(LightCurveData.data['jd'])*24.0       # converted to hours
          initPeriodList = floatRange(0.25, maxRecoverablePeriod, 0.25)
          print 'Checking up to the maximum recoverable period (0.25 hours to ' + str(max(initPeriodList)) + ' hours)'
     if method == 'single':
@@ -244,9 +326,9 @@ def fitData(lightCurveData, method = None, periodGuess = None, hardMinPeriod = N
         hardMinPeriod /= 24.0
     
     # information from light curve for plotting
-    time = lightCurveData.data['jd']-lightCurveData.data['jd'][0]       # use the minimum JD as a reference point of 0
-    mag = lightCurveData.data['diffMag']
-    err = lightCurveData.data['magErr']
+    time = LightCurveData.data['jd']-LightCurveData.data['jd'][0]       # use the minimum JD as a reference point of 0
+    mag = LightCurveData.data['diffMag']
+    err = LightCurveData.data['magErr']
 
     # storing the best fitting result
     [bestFit, bestParams, bestVar, bestOrder, bestPeriod] = [None, None, None, None, None]
@@ -258,10 +340,11 @@ def fitData(lightCurveData, method = None, periodGuess = None, hardMinPeriod = N
     for p in range(len(initPeriodList)):
         initPeriod = initPeriodList[p]
         print 'attempting P = ' + str(initPeriod*24.0) + ' hours'
-        for m in range(orderRange[0],orderRange[1]+1):
+        for m in range(fitOptions['minOrder'],fitOptions['maxOrder']+1):
 
             params = Parameters()   # create the Parameters object and add P, A, and B values to it
             params.add('P', value = initPeriod, min = hardMinPeriod, max = hardMaxPeriod)
+            params.add('y', value = 0)
             for i in range(m):
                 params.add('A' + str(i+1), value = 0)
                 params.add('B' + str(i+1), value = 0)
@@ -289,7 +372,7 @@ def fitData(lightCurveData, method = None, periodGuess = None, hardMinPeriod = N
                     print 'model rejected because amplitude > 2.0 (amplitude = ' + str(amp) + ')'
             else:
                 print 'optimization failed for P = ' + str(initPeriod) + ', m = ' + str(m)
-    if timer:
+    if fitOptions['timer']:
         print 'fitting runtime = ' + str(clock()) + ' s for ' + str(len(initPeriodList)) + ' initial period guesses'
     return (bestFit, bestOrder, periodsTested, periodErrors)
 
@@ -309,15 +392,15 @@ def phaseFold(time, period):
     plotting error bars is optional (default is True)
     plotting the full phase is optional (default is True)
 '''
-def outputResults(fit, m, lightCurveData, printReport = True, saveReport = True, plotFullPeriod = True, plotErrorbars = True, phaseFoldData = True, plotResiduals = True, periodErrors = None, show = False):
+def outputResults(fit, m, LightCurveData, outputOptions, periodErrors = None):
     # used for saving figures
-    global basepath
+    global basepath, objectName
     # TODO - have to change this for the MANOS file structure
-    filepath = os.path.abspath(os.path.join(basepath, "..", 'Data', lightCurveData.name))
+    filepath = os.path.abspath(os.path.join(basepath, "..", 'Data', LightCurveData.name))
         
-    time = lightCurveData.data['jd']-lightCurveData.data['jd'][0]
-    mag = lightCurveData.data['diffMag']
-    err = lightCurveData.data['magErr']
+    time = LightCurveData.data['jd']-LightCurveData.data['jd'][0]
+    mag = LightCurveData.data['diffMag']
+    err = LightCurveData.data['magErr']
 
     fittedPeriod = fit.params['P'].value
 
@@ -325,56 +408,56 @@ def outputResults(fit, m, lightCurveData, printReport = True, saveReport = True,
     timeRange = np.ptp(foldedTime)
     if fittedPeriod > timeRange*1.25:         # check if the fitted period is significantly longer than the data
         print 'Warning: fitted period is ' + str(int(((fittedPeriod/timeRange)-1)*100)) + '% longer than the range of the dataset'
-        
-    if phaseFoldData:                               # shift plot for phase folded time
+ 
+    if outputOptions['phaseFoldData']:                               # shift plot for phase folded time
         time = foldedTime
     
-    if plotFullPeriod and time.min()+fittedPeriod < time.max():
+    if outputOptions['plotFullPeriod'] and time.min()+fittedPeriod < time.max():
         modelTime = np.linspace(time.min(), time.max(),100)
-    elif plotFullPeriod:
+    elif outputOptions['plotFullPeriod']:
         modelTime = np.linspace(time.min(), time.min()+fittedPeriod,100)
     else:
         modelTime = np.linspace(time.min(), time.max(),100)
 
     plt.figure()
-    if plotResiduals:
+    if outputOptions['plotResiduals']:
         plt.subplot(211)
-    modelMags = makeModel(bestFit.params, modelTime)
+    modelMags = makeModel(fit.params, modelTime)
     plt.plot(modelTime, modelMags, 'b-')     # plot the model fit
     amp = np.ptp(modelMags)
     print 'amplitude = ' + str(amp)
-    if (plotErrorbars):                                                    # plot the data with error bars (default)
+    if (outputOptions['plotErrorbars']):                                                    # plot the data with error bars (default)
         plt.errorbar(time, mag, err, fmt = 'rx')
     else:                                                               # plot the data without error plots
         plt.plot(time, mag, 'rx')
 
-    if phaseFoldData:
+    if outputOptions['phaseFoldData']:
         plt.xlabel('delta JD')
     else:
-        plt.xlabel('JD + ' + str(int(min(lightCurveData.data['jd']))))    # the subtraction simplifies display of the JD
+        plt.xlabel('JD + ' + str(int(min(LightCurveData.data['jd']))))    # the subtraction simplifies display of the JD
     plt.ylabel('Differential Magnitude')
     plt.gca().invert_yaxis()        # flip the y axis
     plt.title(objectName + ' Light Curve, ' + ' P = ' + str(fit.params['P'].value*24.0) + 'h, ' + 'a = ' + str(amp) + ', m = ' + str(m))
 
     lightCurveAxis = plt.axis()     # used to make sure that the residuals plots the x limits the same way
     
-    if plotResiduals:
+    if outputOptions['plotResiduals']:
         plt.subplot(212)
-        residuals = makeModel(bestFit.params, time, mag)
+        residuals = makeModel(fit.params, time, mag)
         plt.plot(time, residuals, 'rx')
         plt.title('Residuals for ' + objectName + ' Fit')
         plt.ylabel('Residual Magnitude')
         plt.xlim(lightCurveAxis[0:2])
-        if phaseFoldData:
+        if outputOptions['phaseFoldData']:
             plt.xlabel('delta JD')
         else:
-            plt.xlabel('JD + ' + str(int(min(lightCurveData.data['jd']))))
+            plt.xlabel('JD + ' + str(int(min(LightCurveData.data['jd']))))
 
     plt.subplots_adjust(hspace = 0.5)
-    plt.savefig(filepath + '\\' + lightCurveData.name + 'LightCurve')               # save the light curve plot
+    plt.savefig(filepath + '\\' + LightCurveData.name + 'LightCurve')               # save the light curve plot
     print 'mean RMS of residuals = ' + str(np.mean(np.sqrt(fit.residual**2)))
 
-    if periodErrors is not None:
+    if periodErrors is not None and outputOptions['plotPeriodErrors']:
         if type(periodErrors) is not list:
             print 'Error: period errors must be given as a list'
         else:
@@ -386,22 +469,22 @@ def outputResults(fit, m, lightCurveData, printReport = True, saveReport = True,
                 plt.title('Mean RMS of Residuals')
                 plt.ylabel('mean RMS')
                 plt.xlabel('period (h)')
-                plt.savefig(filepath + '\\' + lightCurveData.name + 'MeanResiduals')               # save the light curve plot
+                plt.savefig(filepath + '\\' + LightCurveData.name + 'MeanResiduals')               # save the light curve plot
 
-    if printReport:
+    if outputOptions['printReport']:
         print '\nFIT RESULTS:'
         report_fit(fit.params, show_correl = False)
-    if saveReport:
-        f = open(filepath + '\\' + lightCurveData.name + 'FitReport.txt', 'w')
+    if outputOptions['saveReport']:
+        f = open(filepath + '\\' + LightCurveData.name + 'FitReport.txt', 'w')
         f.write(fit_report(fit.params,show_correl=False))
         f.write('\nmodel amplitude = ' + str(amp))
         f.close()
 
-    if show:
+    if outputOptions['showPlots']:
         plt.show()
 
 ''' Given an object name, this will look in the appropriate folder and get all the data files, as well as the fitInfo specifications file
-    The combined information is returned as the information necessary to create a lightCurveData object, fit the data, and print the results
+    The combined information is returned as the information necessary to create a LightCurveData object, fit the data, and print the results
 '''
 def extractRunOptions(objectName):
     filePath, objectFiles = lookInFolder('file', objectName)
@@ -514,21 +597,8 @@ def extractRunOptions(objectName):
         if expectedNumFiles != len(fileNamesAndFormat):
             print 'Error: the expected and actual number of data files do not match'
 
-        offsets, method, T0, hardMinPeriod, hardMaxPeriod 
     return fileNamesAndFormat, offsetsList, method, T0, hardMinPeriod, hardMaxPeriod
     
 
 '''         start of the run routine        '''
-objects = lookInFolder('dir')[1]
-for i in range(len(objects)):
-    objectName = objects[i]
-    print '\nfitting ' + objectName
-
-    fileNamesAndFormat, offsets, guessMethod, T0, hardMinP, hardMaxP = extractRunOptions(objectName)
-
-    # note that these functions are all overloaded (there are extra options you can set- see the function definitions or documentation for examples)
-    lcd = lightCurveData(objectName, fileNamesAndFormat, offsetsList = offsets)         # read in data from the text file and create a lightCurveData object
-    (bestFit, m, periodsTested, periodErrors) = fitData(lcd, method = guessMethod, periodGuess = T0, hardMinPeriod = hardMinP, hardMaxPeriod = hardMaxP)       # fit the data to a model (can also add min and max periods in JD)
-    outputResults(bestFit, m, lcd, periodErrors = [periodsTested, periodErrors])             # plot and print the results
-
-print '\ndone'
+RunOptionsShell().cmdloop()
