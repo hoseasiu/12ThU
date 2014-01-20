@@ -437,7 +437,16 @@ def outputResults(fit, m, LightCurveData, outputOptions, periodErrors = None):
         plt.xlabel('JD + ' + str(int(min(LightCurveData.data['jd']))))    # the subtraction simplifies display of the JD
     plt.ylabel('Differential Magnitude')
     plt.gca().invert_yaxis()        # flip the y axis
-    plt.title(objectName + ' Light Curve, ' + ' P = ' + str(fit.params['P'].value*24.0) + 'h, ' + 'a = ' + str(amp) + ', m = ' + str(m))
+
+    # find the first nonzero digit in the standard error
+    nonZero = []
+    for i in range(1,10):
+        nonZero.append(str(fit.params['P'].stderr).find(str(i)))
+    minPlace = min(el for el in nonZero if el > 0)
+
+    periodWithSigFigs = round(fit.params['P'].value*24.0,minPlace-1)        # in hours
+    
+    plt.title(objectName + ' Light Curve, ' + ' P = ' + str(periodWithSigFigs) + '+/-' + str(fit.params['P'].stderr) + ' h, ' + 'a = ' + str(amp) + ', m = ' + str(m))
 
     lightCurveAxis = plt.axis()     # used to make sure that the residuals plots the x limits the same way
     
@@ -600,5 +609,5 @@ def extractRunOptions(objectName):
     return fileNamesAndFormat, offsetsList, method, T0, hardMinPeriod, hardMaxPeriod
     
 
-'''         start of the run routine        '''
+'''         start the command line script        '''
 RunOptionsShell().cmdloop()
