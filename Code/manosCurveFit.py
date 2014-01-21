@@ -7,6 +7,8 @@ from operator import itemgetter
 from os import listdir
 import matplotlib.pyplot as plt, numpy as np, os.path, sys, string, cmd
 from time import clock
+from uncertainties import ufloat
+from uncertainties.umath import *
 
 basepath = os.path.abspath(os.path.dirname(sys.argv[0]))        # current directory path
 objectName = ''
@@ -19,17 +21,25 @@ class RunOptionsShell(cmd.Cmd):
     fitOptions = {'minOrder':2, 'maxOrder':6, 'timer':False}
     outputOptions = {'printReport':True, 'saveReport':True, 'plotFullPeriod':True, 'plotErrorbars':True, \
                     'phaseFoldData':True, 'plotResiduals':True, 'plotPeriodErrors':True, 'showPlots':False}
-
+   
     def do_setFitOptions(self, arg):       # sets options and returns other arguments as needed
         'Set the fitting options: minOrder, maxOrder, timer'
         args = arg.split()
         for i in range(len(self.fitOptions.keys())):
             key = self.fitOptions.keys()[i]
             if key in arg:
-                if key == 'minOrder' or key == 'maxOrder':
-                    self.fitOptions[key] = int(args[args.index(key)+1])
-                elif args[args.index(key)+1] == 'True' or args[args.index(key)+1] == 'False':       # check that the argument is a boolean
-                    self.fitOptions[key] = args[args.index(key)+1] == 'True'
+                if key == 'minOrder':
+                    if int(args[args.index(key)+1]) < 0 or int(args[args.index(key)+1]) > self.fitOptions['maxOrder']:
+                        print 'Error: order less than zero or greater than maximum'
+                    else: 
+                        self.fitOptions[key] = int(args[args.index(key)+1])                    
+                elif key == 'maxOrder':
+                    if int(args[args.index(key)+1]) < 0 or int(args[args.index(key)+1]) < self.fitOptions['minOrder']:
+                        print 'Error: order less than zero or less than minimum'
+                    else:
+                        self.fitOptions[key] = int(args[args.index(key)+1])
+                elif args[args.index(key)+1].lower() == 'true' or args[args.index(key)+1].lower() == 'false':       # check that the argument is a boolean
+                    self.fitOptions[key] = args[args.index(key)+1].lower() == 'true'
                 else:
                     print 'Error: unrecognized argument for ' + key
                 print key + ' = ' + str(self.fitOptions[key])
@@ -40,11 +50,11 @@ class RunOptionsShell(cmd.Cmd):
         for i in range(len(self.outputOptions.keys())):
             key = self.outputOptions.keys()[i]
             if key in arg:
-                if args[args.index(key)+1] == 'True' or args[args.index(key)+1] == 'False':       # check that the argument is a boolean
-                    self.outputOptions[key] = args[args.index(key)+1] == 'True'
+                if args[args.index(key)+1].lower() == 'true' or args[args.index(key)+1].lower() == 'false':       # check that the argument is a boolean
+                    self.fitOptions[key] = args[args.index(key)+1].lower() == 'true'
                 else:
                     print 'Error: unrecognized argument for ' + key
-                print key + ' = ' + str(self.outputOptions[key])
+                print key + ' = ' + str(self.fitOptions[key])
 
 
     def do_showObjects(self, arg):
@@ -59,12 +69,12 @@ class RunOptionsShell(cmd.Cmd):
         self.runFitting(objects)
 
     def do_fit(self, arg):      # will fit all objects specified, even if they have already been fit before
-        'Scans and attempts to fit all objects in \'Data\' folder that follow as arguments: OBJECTS object1_name object2_name...'
+        'Scans and attempts to fit all objects in \'Data\' folder that follow as arguments: fit object1_name object2_name...'
         self.runFitting(arg.split(), ignore = False)
         
 
     def do_exit(self, arg):
-        'Exit program: EXIT'
+        'Exit the program'
         return True
 
     def runFitting(self, objects, ignore = True):      # ignore checks whether or not to attempt objects that have already been fit
@@ -259,7 +269,7 @@ def floatRange(start, stop, stepSize=0):
 def makeModel(params, t, mag=None, err=None):
     P = params['P'].value
     H = np.zeros(len(t))  
-    for L in range(1,len(params.keys())/2):         # CHANGED +1 HERE
+    for L in range(1,len(params.keys())/2):
         trigTerm = 2.0*np.pi*float(L)/float(P)
         offset = t-t[0]
         A = params['A'+str(L)].value
@@ -272,6 +282,24 @@ def makeModel(params, t, mag=None, err=None):
         return H-mag
     else:                               # both magnitude and error are given- the normalized residuals are returned
         return (H-mag)/err
+
+''' Generate the light curve model using uncertain values (for error propagation)
+'''
+def makeModelUncertainties(params, t):
+    P = params['P']
+    H = []
+    for i in range(len(t)):
+        H.append(ufloat(0,0))
+    for L in range(1,len(params.keys())/2):
+        trigTerm = 2.0*np.pi*float(L)/P
+        offset = t-t[0]
+        A = params['A'+str(L)]
+        B = params['B'+str(L)]
+        for i in range(len(H)):
+            H[i] += A*sin(trigTerm*offset[i])+B*cos(trigTerm*offset[i])   # not np.math- using umath instead
+    for i in range(len(H)):
+        H[i] += params['y']                         # add the y-shift offset
+    return H
 
 ''' Find the maximum recoverable period given a particular data set
     Uses Nyquist Criterion for the general non-uniform sampling case
@@ -387,6 +415,23 @@ def phaseFold(time, period):
     print 'fitted period: ' + str(period*24.0) + ' h'
     return time
 
+''' Calculates amplitude with uncertainties using the uncertainties package
+'''
+def ampUncertainties(params, time):
+    uncParams = {}                          # convert parameters into uncertainty values
+    nominalValues = []
+    stdDev = []
+    for i in range(len(params.keys())):
+        key = params.keys()[i]
+        uncParams[key] = ufloat(params[key].value,params[key].stderr)
+    
+    H = makeModelUncertainties(uncParams, time)
+    for i in range(len(H)):
+        nominalValues.append(H[i].nominal_value)
+        stdDev.append(H[i].std_dev)
+    maxIndex = nominalValues.index(max(nominalValues))
+    minIndex = nominalValues.index(min(nominalValues))
+    return H[maxIndex]-H[minIndex]
 
 ''' Takes the best fit output and the data and plots them
     plotting error bars is optional (default is True)
@@ -424,7 +469,9 @@ def outputResults(fit, m, LightCurveData, outputOptions, periodErrors = None):
         plt.subplot(211)
     modelMags = makeModel(fit.params, modelTime)
     plt.plot(modelTime, modelMags, 'b-')     # plot the model fit
-    amp = np.ptp(modelMags)
+
+    amp = ampUncertainties(fit.params,modelTime)    # get the amplitude and amplitude uncertainty
+
     print 'amplitude = ' + str(amp)
     if (outputOptions['plotErrorbars']):                                                    # plot the data with error bars (default)
         plt.errorbar(time, mag, err, fmt = 'rx')
@@ -445,8 +492,9 @@ def outputResults(fit, m, LightCurveData, outputOptions, periodErrors = None):
     minPlace = min(el for el in nonZero if el > 0)
 
     periodWithSigFigs = round(fit.params['P'].value*24.0,minPlace-1)        # in hours
-    
-    plt.title(objectName + ' Light Curve, ' + ' P = ' + str(periodWithSigFigs) + '+/-' + str(fit.params['P'].stderr) + ' h, ' + 'a = ' + str(amp) + ', m = ' + str(m))
+
+    # shows up to 6 decimal places in the period uncertainty
+    plt.title(objectName + ' P = ' + str(periodWithSigFigs) + '+/-%.5f h, ' %fit.params['P'].stderr + 'a = ' + str(amp) + ', m = ' + str(m))
 
     lightCurveAxis = plt.axis()     # used to make sure that the residuals plots the x limits the same way
     
