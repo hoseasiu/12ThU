@@ -90,6 +90,91 @@ This document is intended to be an introduction to the manosCurveFit.py program
  1989.
 \end_layout
 
+\begin_layout Section
+Quick Start Guide
+\end_layout
+
+\begin_layout Standard
+In order to process the light curve data, the data files must be set up
+ appropriately.
+ After this initial setup, the command line options may then be used to
+ set fitting and plotting options and initiate data processing.
+\end_layout
+
+\begin_layout Subsection
+File Setup
+\end_layout
+
+\begin_layout Standard
+By default, manosCurveFit.py assumes that it is in a directory that is at
+ the same level as a directory called 'Data,' which contains subdirectories
+ named after each asteroid with data.
+ Raw light curve data must be placed in space-delimited .txt files in each
+ of these named directories, with the first column being Julian Date, the
+ second being magnitude, the third being magnitude error, and an optional
+ fourth column for the (numbered) night the data was collected.
+ The nights column must be included if more than one night's data is used.
+ These data do not need to be sorted, and multiple .txt files may be included,
+ though all such files must have the word 'standard' in the file name (i.e.
+ 'dataFileName_standard.txt').
+\end_layout
+
+\begin_layout Standard
+A fitInfo file may also be optionally included in the named directory, according
+ to the convention 'objectName_fitInfo.txt.' This file may use keywords to
+ specify the number of data files to be processed (as a check against the
+ actual number of data files in the directory), the period guess method
+ and guess parameters, and any magnitude offsets associated with a particular
+ night.
+ Comments may be included with lines that begin with a '#' symbol.
+ See the fitInfo specification section for the full list of keywords and
+ keyword arguments.
+\end_layout
+
+\begin_layout Subsection
+Command Line
+\end_layout
+
+\begin_layout Standard
+After starting manosCurveFit.py, the command line prompt will be displayed.
+ In the simplest (and likely most common) case, the only command that needs
+ to be used is 
+\family typewriter
+fitAll
+\family default
+ (without any arguments), which will automatically scan all subdirectories
+ in the Data directory and fit all objects that do not already have a light
+ curve plot in their folders.
+ If a only a specific object's data need to be fit, or if something that
+ was already processed needed to be redone for any reason, the 
+\family typewriter
+fit
+\family default
+ command can be used, with one or more object names as arguments.
+ Other commands for access to more detailed options and other functions.
+ Type 
+\family typewriter
+help
+\family default
+ or 
+\family typewriter
+?
+\family default
+ to get a list of commands, and 
+\family typewriter
+help <command>
+\family default
+ or 
+\family typewriter
+? <command>
+\family default
+ for a more detailed explanation of each command.
+\end_layout
+
+\begin_layout Section
+Software Details
+\end_layout
+
 \begin_layout Subsection
 System Dependencies
 \end_layout
@@ -98,18 +183,29 @@ System Dependencies
 This software was developed and tested on Python 2.7.1, and imports from the
  following typically pre-installed packages: 
 \shape italic
-operator, os, time, 
+operator, os, time, sys
 \shape default
-and
+, 
 \shape italic
- sys
+string
 \shape default
-, and the following typically non-pre-installed packages: 
+, and 
+\shape italic
+cmd
+\shape default
+ and the following typically non-pre-installed packages: 
 \shape italic
 lmfit, matplotlb, numpy
 \shape default
+ and 
+\shape italic
+uncertainties
+\shape default
 .
- The latter set of packages are commonly used for scientific applications
+\end_layout
+
+\begin_layout Standard
+The latter set of packages are commonly used for scientific applications
  and stable builds should be easily found.
 \end_layout
 
@@ -130,14 +226,15 @@ System Overview
 
 \begin_layout Standard
 The fitting routine may be generally divided into input, evaluation, and
- output portions, each requiring one method call by the user.
+ output portions.
  The inputs in parentheses are not required for the fitting to work, but
- a guess at the rotational period may significantly contrain the search
+ a guess at the rotational period may significantly constrain the search
  space, and if data is taken over multiple nights and/or by different instrument
 s, offsets will be required to normalize the magnitudes to some baseline.
  A number of other inputs may also be supplied to constrain or expand the
  search space.
- The light curve data is then read in from a text file with user-defined
+ These inputs may be supplied by the fitInfo file for each object.
+ The light curve data is then read in from a text file with standardized
  columns.
  Two kinds of magnitude offsets are then applied: offsets by night/instrument,
  if provided, and then a normalizing offset which subtracts the weighted
@@ -145,12 +242,12 @@ s, offsets will be required to normalize the magnitudes to some baseline.
  The latter offset is necessary in order to center the data points on the
  y-axis for fitting purposes, and may be used in this context because only
  differential magnitudes are needed.
+ This acts as a coarse adjustment for y-axis centering.
+ A finer adjustment is made by a y-axis offset for the model, which is taken
+ to be part of the least squares minimization.
  For each period to be checked, a least squares minimization is performed
- for each order of Fourier coefficients from two to six, un
-\begin_inset Formula $k$
-\end_inset
-
-less specified otherwise in the inputs.
+ for each order of Fourier coefficients from two to six, unless specified
+ otherwise in the fitInfo file.
  The parameters that generate the best fit to the data are kept and printed
  at the end, along with the lightcurve and residual plots.
 \end_layout
@@ -305,11 +402,24 @@ By default, the program will run the fit from
  The minimum of order two is due to the fact that asteroid light curves
  are expected to be double-peaked (except for some cases of unstable rotation
  or degenerate cases of near-spherical bodies), and the maximum of order
- six is used to prevent over-fitting (
-\series bold
-TODO- better explanation?
-\series default
-).
+ six is used to prevent over-fitting.
+ The curve is centered around zero magnitude by a weighed average of the
+ data, but since there is often still a slight magnitude offset due to the
+ nonuniform nature of the sampling, a magnitude offset parameter was added
+ to allow for a better fit.
+ The user does not normally interact with the optimization of this y-shift
+ parameter.
+\end_layout
+
+\begin_layout Standard
+Additionally, any models which produce amplitudes greater than 2 will be
+ rejected.
+ This is necessary to prevent the fit from assuming a model in which the
+ data are a small portion of a much longer period with one or more large
+ spikes where data is not present.
+ As an additional precaution, if the fitted period is more than 25% of the
+ range of the phase-folded data points, a warning is given to notify the
+ user of a potentially unsubstantiated model.
 \end_layout
 
 \begin_layout Section
@@ -340,6 +450,812 @@ outputResults
 \end_layout
 
 \begin_layout Subsection
+fitInfo Specification
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="7" columns="3">
+<features tabularvalignment="middle">
+<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="0">
+<row>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Keyword
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Arguments
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Meaning
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+FILES
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+integer
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+number of data files for this object (used as a check)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+GUESS
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+string, then 1 or 3 integers
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+see guess specifications section
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+HARDMAXPERIOD
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+float or int
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+hard maximum period to not search above
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+HARDMINPERIOD
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+float or int
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+hard minimum period to not search below
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+OFFSET
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+string
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+starts a series of night/offset pairs used by the string specifying the
+ dataset
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+ENDOFFSETS
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+N/A
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+ends the series of offsets (required if OFFSETS are used)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+fitInfo keywords (all keywords are optional)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="22" columns="1">
+<features tabularvalignment="middle">
+<column alignment="left" valignment="top" width="0">
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Example fitInfo File:
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\size footnotesize
+FILES 2
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\size footnotesize
+# method min max step
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\size footnotesize
+GUESS range 14 18 0.25
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\size footnotesize
+HARDMAXPERIOD 13
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\size footnotesize
+HARDMINPERIOD 20
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\size footnotesize
+OFFSET Elisa
+\backslash
+elisa_mine_standard.txt
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\size footnotesize
+1 0.0
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\size footnotesize
+2 -0.04
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\size footnotesize
+3 0.464
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\size footnotesize
+ENDOFFSETS
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\size footnotesize
+OFFSET Elisa
+\backslash
+elisa_his_standard.txt
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\size footnotesize
+1 -0.324
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\size footnotesize
+2 -0.257
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\size footnotesize
+3 -0.237 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\size footnotesize
+4 -0.194 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\size footnotesize
+5 -0.223 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\size footnotesize
+6 -0.321 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\size footnotesize
+7 -0.246 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\size footnotesize
+8 -0.372 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\size footnotesize
+9 -0.15 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\size footnotesize
+ENDOFFSETS
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Command Line Interface
+\end_layout
+
+\begin_layout Standard
+Descriptions of all 
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+exit 
+\family default
+(no arguments) - exits the program
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+fit
+\family default
+ (names of objects to be fit, separated by spaces- must match folder names
+ in the Data directory) - runs a fit on the objects specified, regardless
+ of whether or not they have already been processed
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Example: 
+\family typewriter
+fit Martes Elisa
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\family typewriter
+fitAll
+\family default
+ (no arguments) - runs fits on all objects in the Data directory that do
+ not have an existing lightcurve plot
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+setFitOptions
+\family default
+ (option and value arguments) - sets options used in the fitting routine;
+ multiple options may be set at once
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\family typewriter
+minOrder
+\family default
+ (non-negative integer argument) - sets the minimum order to be used in
+ the Fourier fit; default is 2
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+maxOrder
+\family default
+ (non-negative integer argument greater than minOrder) - sets the maximum
+ order to be used in the Fourier fit; default is 6
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+timer
+\family default
+ (boolean) - turns a fitting timer on or off, which measures the amount
+ of time required for each fit, generally for diagnostic purposes
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Example: 
+\family typewriter
+setFitOptions minOrder 3 maxOrder 5 timer true
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+
+\family typewriter
+setOutputOptions
+\family default
+ (option and boolean setting arguments) - sets options used in the the program
+ output; multiple options may be set at once; all options take booleans
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\family typewriter
+printReport 
+\family default
+- whether or not to print the fitting report on the console (default is
+ True)
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+saveReport 
+\family default
+- whether or not to save the fitting report to the object's directory (default
+ is True)
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+plotFullPeriod
+\family default
+ - whether or not to plot the full period as determined by the model; if
+ not, the model will only plot up to the available data (default is True)
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+plotErrorBars
+\family default
+ - whether or not to plot the error bars on the data (default is True)
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+phaseFoldData
+\family default
+ - whether or not to phase fold the data and model (default is True)
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+plotResiduals
+\family default
+ - whether or not to plot the residuals of the data as a subplot of the
+ light curve (default is True)
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+plotPeriodErrors
+\family default
+ - whether or not to plot the mean RMS values the errors as a function of
+ the period attempted (default is True)
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+showPlots
+\family default
+ - whether or not the show the plots (default is False); the plots will
+ always be saved to the object's directory
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\family typewriter
+showObjects
+\family default
+ (no arguments) - lists the object subdirectories found under Data
+\end_layout
+
+\begin_layout Subsection
+Class and Function Specifications
+\end_layout
+
+\begin_layout Subsubsection
 The 
 \family typewriter
 lightCurveData
@@ -392,8 +1308,8 @@ Stored in lightCurveData.name
 \series bold
 fileNamesAndFormat 
 \series default
-(list of dictionaries) - names of text files to be read in, along with the
- associated column definitions in the data (format specification)
+(dictionary of dictionaries) - names of text files to be read in, along
+ with the associated column definitions in the data (format specification)
 \end_layout
 
 \begin_deeper
@@ -420,7 +1336,7 @@ formatSpec = [['night',0],['jd',3],['diffMag',6],['magErr',7]]
 
 \begin_layout Plain Layout
 
-fileNamesAndFormat = [{fileName:formatSpec}]
+fileNamesAndFormat = {fileName:formatSpec}
 \end_layout
 
 \end_inset
@@ -511,6 +1427,19 @@ Keys may be repeated as long as they are in different dictionaries
  property must be specified in the format to use offsetsList
 \end_layout
 
+\begin_layout Itemize
+
+\series bold
+If more than one night is used for any target, all data must have associated
+ night and offset values
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+The only case where offsets are not necessary is if the entire dataset came
+ from a single night
+\end_layout
+
 \end_deeper
 \begin_layout Subsection
 The 
@@ -520,13 +1449,14 @@ fitData()
  Function
 \end_layout
 
+\end_deeper
 \begin_layout Standard
 
 \family typewriter
 fitData
 \family default
-(lightCurveData[, method = None[, periodGuess = None[, minPeriod = None[,
- maxPeriod = None[, orderRange = [2,6] ], timer = False ]]]]]])
+(lightCurveData, fitOptions, method = None[, periodGuess = None[, hardMinPeriod
+ = None[, hardMaxPeriod = None]]])
 \end_layout
 
 \begin_layout Itemize
@@ -537,6 +1467,56 @@ lightCurveData
  (lightCurveData object)
 \end_layout
 
+\begin_layout Itemize
+
+\series bold
+fitOptions 
+\series default
+(dictionary) - the options used in calculating the fit, as specified in
+ 
+\family typewriter
+setFitOptions
+\family default
+ (see Command Line Interface)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\family typewriter
+orderMin
+\family default
+ - minimum 
+\begin_inset Formula $m$
+\end_inset
+
+ value to be attempted in the Fourier model, as outlined in the Fitting
+ Rationale section (default is 2)
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+orderMax
+\family default
+ - maximum 
+\begin_inset Formula $m$
+\end_inset
+
+ value to be attempted in the Fourier model, as outlined in the Fitting
+ Rationale section (default is 6)
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+timer
+\family default
+ - whether or not to measure the amount of time it takes to fit the model
+ (default is False)
+\end_layout
+
+\end_deeper
 \begin_layout Itemize
 
 \series bold
@@ -553,7 +1533,9 @@ None
 \family default
 or
 \family typewriter
- 'range'
+ 'range
+\family default
+'; supplied by the fitInfo file, when available
 \end_layout
 
 \begin_deeper
@@ -580,7 +1562,7 @@ when method is
 single
 \family default
 , periodGuess must be provided as an int or a float, which serves as the
- only inital period used in the minimization
+ only initial period used in the minimization
 \end_layout
 
 \begin_layout Itemize
@@ -604,51 +1586,28 @@ periodGuess
 \series default
  (int or float or three-element list of ints or floats) - the initial period
  used for minimization, given in hours; this provides a starting point for
- the the period parameter, which does not remain fixed during the minimization
+ the the period parameter, which does not remain fixed during the minimization;
+ supplied by the fitInfo file, when available
 \end_layout
 
 \begin_layout Itemize
 
 \series bold
-minPeriod
+hardMinPeriod
 \series default
  (int or float) - the hard lower limit for the period fitting, no period
- below this value will be attempted in the evaulation
+ below this value will be attempted in the evaluation; supplied by the fitInfo
+ file, when available
 \end_layout
 
 \begin_layout Itemize
 
 \series bold
-maxPeriod
+hardMaxPeriod
 \series default
  (int or float) - the hard upper limit for the period fitting, no period
- above this value will be attempted in the evaluation
-\end_layout
-
-\begin_layout Itemize
-
-\series bold
-orderRange
-\series default
- (two-element list of ints) - range of 
-\begin_inset Formula $m$
-\end_inset
-
- values to be attempted in the Fourier model, as outlined in the Fitting
- Rationale section
-\end_layout
-
-\begin_layout Itemize
-
-\series bold
-timer
-\series default
- (boolean) - when 
-\family typewriter
-True
-\family default
-, the script will display the runtime of this function at the end of the
- run
+ above this value will be attempted in the evaluation; supplied by the fitInfo
+ file, when available
 \end_layout
 
 \begin_layout Standard
@@ -661,7 +1620,7 @@ Returns
 ng lists of floats.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 The 
 \family typewriter
 outputResults()
@@ -674,9 +1633,7 @@ outputResults()
 \family typewriter
 outputResults
 \family default
-(fit, m, lightCurveData[, printReport = True[, plotFullPeriod = True[, plotError
-bars = True[, phaseFoldData = True[, plotResiduals = False[, periodErrors
- = None ]]]]]])
+(fit, m, lightCurveData, outputOptions[, periodErrors = None])
 \end_layout
 
 \begin_layout Itemize
@@ -710,72 +1667,14 @@ lightCurveData
 \begin_layout Itemize
 
 \series bold
-printReport
+outputOptions
 \series default
- (boolean) - when 
+ (dictionary) - the options used in displaying and saving the results of
+ the run, as specified in 
 \family typewriter
-True
+setOutputOptions
 \family default
-, the resulting variables and correlations will be printed at the end of
- the run
-\end_layout
-
-\begin_layout Itemize
-
-\series bold
-plotFullPeriod
-\series default
- (boolean) - when 
-\family typewriter
-True
-\family default
-, the full period generated by the fit will be plotted, when 
-\family typewriter
-False
-\family default
-, the model will be plotted as far as the data points go
-\end_layout
-
-\begin_layout Itemize
-
-\series bold
-plotErrorbars
-\series default
- (boolean) - when 
-\family typewriter
-True
-\family default
-, the error bars on the dataset will be plotted
-\end_layout
-
-\begin_layout Itemize
-
-\series bold
-phaseFoldData
-\series default
- (boolean) - when 
-\family typewriter
-True
-\family default
-, a single period will be plotted, with the dataset phase folded and the
- x-axis showing Julian days since the first data point, when 
-\family typewriter
-False
-\family default
-, the model will be plotted over the entire set of data, and the x-axis
- will show actual Julian dates
-\end_layout
-
-\begin_layout Itemize
-
-\series bold
-plotResiduals
-\series default
- (boolean) - when 
-\family typewriter
-True
-\family default
-, a subplot will be included showing the residuals for each data point
+ (see Command Line Interface)
 \end_layout
 
 \begin_layout Itemize
@@ -791,12 +1690,26 @@ periodErrors
 Future Improvements
 \end_layout
 
-\begin_layout Standard
-- phase angle considerations
+\begin_layout Itemize
+phase angle considerations
 \end_layout
 
-\begin_layout Standard
-- polling from the Lowell ephermeris database
+\begin_layout Itemize
+polling from the Lowell ephemeris database to specify changes due to orbit
+\end_layout
+
+\begin_layout Itemize
+method to limit the Nyquist maximum recoverable period result, which may
+ be unreasonably large due to uneven sampling, possibly using a periodogram
+\end_layout
+
+\begin_layout Itemize
+generalize the inputs for
+\family typewriter
+ lightCurveData.getData()
+\family default
+, which  currently can only take in floats, so things such as filters (which
+ may be characters) can't be read in
 \end_layout
 
 \begin_layout Bibliography
