@@ -1,4 +1,4 @@
-# number of data files (used as a check against the actual number of data files being read in
+# number of data files (used as a check against the actual number of data files being read in)
 FILES	2
 
 #	method	min	max	step
