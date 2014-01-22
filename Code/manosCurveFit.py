@@ -64,9 +64,14 @@ class RunOptionsShell(cmd.Cmd):
             print objects[i]
 
     def do_fitAll(self, arg):
-        'Scans and attempts to fit all objects in \'Data\' folder that do not already have a fit'
+        'Scans and attempts to fit all objects in \'Data\' folder; ignores previously fitted data by default, \'fitAll redo\' fits all objects regardless of any existing fits'
         objects = lookInFolder('dir')[1]
-        self.runFitting(objects)
+        args = arg.split()
+        if args[0] == 'redo':
+            print 'found redo'
+            self.runFitting(objects, ignore = False)        # redo all objects regardless of whether or not they have a fit
+        else:
+            self.runFitting(objects)                        # only fit objects that haven't already been done
 
     def do_fit(self, arg):      # will fit all objects specified, even if they have already been fit before
         'Scans and attempts to fit all objects in \'Data\' folder that follow as arguments: fit object1_name object2_name...'
@@ -100,6 +105,7 @@ class RunOptionsShell(cmd.Cmd):
                 (bestFit, m, periodsTested, periodErrors) = fitData(lcd, self.fitOptions, method = guessMethod, periodGuess = T0, hardMinPeriod = hardMinP, hardMaxPeriod = hardMaxP)       # fit the data to a model (can also add min and max periods in JD)
                 outputResults(bestFit, m, lcd, self.outputOptions, periodErrors = [periodsTested, periodErrors])             # plot and print the results
         print '\nDone\n'
+
 
 ''' Class used to store and manipulate MANOS light curve data
 '''
@@ -214,12 +220,12 @@ class LightCurveData:
             print '       Right now, I have ' + str(self.data.keys())
         else:
             for j in range(len(fileNamesAndFormat)):
-                # TODO - this structure is mess... find a better way to do it
                 fileName = fileNamesAndFormat.keys()[j]
                 formatSpec = fileNamesAndFormat[fileName]
                 self.getData(fileName, formatSpec, offsetsList, j)
             self.sortByDataType('jd')
             self.data['diffMag'] -= np.average(self.data['diffMag'], weights = 1.0/self.data['magErr'])        # center the data around zero with a weighted average
+
 
 ''' Given a filepath to a directory, returns the filepath and list of all the files or subdirectories in that directory
 '''
@@ -235,6 +241,7 @@ def lookInFolder(type, name = None):
     else:
         print 'Error: invalid lookInFolder type'
         return
+
 
 ''' Creates range lists of floats
     Has some error handling, but still has machine precision issues (shouldn't be an actual problem)
@@ -264,6 +271,7 @@ def floatRange(start, stop, stepSize=0):
         print 'Error: floatRange input error'
         return []
 
+
 ''' Generate the light curve model using Parameters
 '''
 def makeModel(params, t, mag=None, err=None):
@@ -283,6 +291,7 @@ def makeModel(params, t, mag=None, err=None):
     else:                               # both magnitude and error are given- the normalized residuals are returned
         return (H-mag)/err
 
+
 ''' Generate the light curve model using uncertain values (for error propagation)
 '''
 def makeModelUncertainties(params, t):
@@ -301,6 +310,7 @@ def makeModelUncertainties(params, t):
         H[i] += params['y']                         # add the y-shift offset
     return H
 
+
 ''' Find the maximum recoverable period given a particular data set
     Uses Nyquist Criterion for the general non-uniform sampling case
     # TODO - an outlier in sampling time seems like it would throw this off- any correction?
@@ -311,6 +321,7 @@ def findRecoverablePeriod(time):
     sampleRate = len(time)/timeRange            # samples per JD
     period = sampleRate/2.2                     # 2.2 used as a buffer, per Harris and Lupishko (Asteroids II)
     return period                               # in JD
+
 
 ''' Fit the data to a model using scipy.optimize.leastsq.
     Takes the dataset(a LightCurveData object), the range of orders to check (a two-element list)
@@ -380,14 +391,14 @@ def fitData(LightCurveData, fitOptions, method = None, periodGuess = None, hardM
             fitResult = minimize(makeModel, params, args = (time, mag, err))
             periodsTested.append(params['P'].value*24.0)       # add the period to a list for the error plot
             residuals = makeModel(fitResult.params, time, mag)
-            periodErrors.append(np.mean(np.sqrt(residuals**2)))
+            periodErrors.append(np.sqrt(sum(residuals**2)/float(len(residuals))))
 
             if fitResult.success:
                 # check amplitude
                 modelTime = np.linspace(time.min(), time.min()+fitResult.params['P'].value,100)
                 modelMags = makeModel(fitResult.params, modelTime)
                 amp = max(modelMags)-min(modelMags)
-                if amp < 2.0:                          # TODO - current maximum amplitude set at 2.0, may need to change
+                if amp < 2.0:
                     n = float(len(time))       # number of observations
                     k = float(2*m+1)           # total free parameters
                     var = 1/(n-k)*sum(makeModel(params, time, mag, err)**2)
@@ -404,6 +415,7 @@ def fitData(LightCurveData, fitOptions, method = None, periodGuess = None, hardM
         print 'fitting runtime = ' + str(clock()) + ' s for ' + str(len(initPeriodList)) + ' initial period guesses'
     return (bestFit, bestOrder, periodsTested, periodErrors)
 
+
 ''' Phase folds the magnitude data given a set that has the phase offset at the first data point
 '''
 def phaseFold(time, period):
@@ -414,6 +426,7 @@ def phaseFold(time, period):
 
     print 'fitted period: ' + str(period*24.0) + ' h'
     return time
+
 
 ''' Calculates amplitude with uncertainties using the uncertainties package
 '''
@@ -432,6 +445,7 @@ def ampUncertainties(params, time):
     maxIndex = nominalValues.index(max(nominalValues))
     minIndex = nominalValues.index(min(nominalValues))
     return H[maxIndex]-H[minIndex]
+
 
 ''' Takes the best fit output and the data and plots them
     plotting error bars is optional (default is True)
@@ -485,17 +499,10 @@ def outputResults(fit, m, LightCurveData, outputOptions, periodErrors = None):
     plt.ylabel('Differential Magnitude')
     plt.gca().invert_yaxis()        # flip the y axis
 
-    # find the first nonzero digit in the standard error
-    nonZero = []
-    for i in range(1,10):
-        nonZero.append(str(fit.params['P'].stderr).find(str(i)))
-    minPlace = min(el for el in nonZero if el > 0)
-
-    periodWithSigFigs = round(fit.params['P'].value*24.0,minPlace-1)        # in hours
+    periodUnc = ufloat(fit.params['P'].value,fit.params['P'].stderr)*24.0
 
     # shows up to 6 decimal places in the period uncertainty
-    plt.title(objectName + ' P = ' + str(periodWithSigFigs) + '+/-%.5f h, ' %fit.params['P'].stderr + 'a = ' + str(amp) + ', m = ' + str(m))
-
+    plt.title(objectName + ', P = ' + str(periodUnc) + ' h, a = ' + str(amp) + ', m = ' + str(m))
     lightCurveAxis = plt.axis()     # used to make sure that the residuals plots the x limits the same way
     
     if outputOptions['plotResiduals']:
@@ -512,7 +519,7 @@ def outputResults(fit, m, LightCurveData, outputOptions, periodErrors = None):
 
     plt.subplots_adjust(hspace = 0.5)
     plt.savefig(filepath + '\\' + LightCurveData.name + 'LightCurve')               # save the light curve plot
-    print 'mean RMS of residuals = ' + str(np.mean(np.sqrt(fit.residual**2)))
+    print 'RMS of residuals = ' + str(np.sqrt(sum(residuals**2)/float(len(residuals))))
 
     if periodErrors is not None and outputOptions['plotPeriodErrors']:
         if type(periodErrors) is not list:
@@ -523,8 +530,8 @@ def outputResults(fit, m, LightCurveData, outputOptions, periodErrors = None):
             else:
                 plt.figure()
                 plt.plot(periodErrors[0], periodErrors[1], 'x')
-                plt.title('Mean RMS of Residuals')
-                plt.ylabel('mean RMS')
+                plt.title('RMS of Residuals for ' + objectName + ' Fit')
+                plt.ylabel('RMS (magnitude)')
                 plt.xlabel('period (h)')
                 plt.savefig(filepath + '\\' + LightCurveData.name + 'MeanResiduals')               # save the light curve plot
 
@@ -539,6 +546,7 @@ def outputResults(fit, m, LightCurveData, outputOptions, periodErrors = None):
 
     if outputOptions['showPlots']:
         plt.show()
+
 
 ''' Given an object name, this will look in the appropriate folder and get all the data files, as well as the fitInfo specifications file
     The combined information is returned as the information necessary to create a LightCurveData object, fit the data, and print the results
