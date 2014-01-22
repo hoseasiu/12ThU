@@ -97,8 +97,8 @@ Quick Start Guide
 \begin_layout Standard
 In order to process the light curve data, the data files must be set up
  appropriately.
- After this initial setup, the command line options may then be used to
- set fitting and plotting options and initiate data processing.
+ After this initial setup, the command line may then be used to set fitting
+ and plotting options and initiate data processing.
 \end_layout
 
 \begin_layout Subsection
@@ -151,7 +151,7 @@ fitAll
 fit
 \family default
  command can be used, with one or more object names as arguments.
- Other commands for access to more detailed options and other functions.
+ Other commands exist for access to more detailed options and other functions.
  Type 
 \family typewriter
 help
@@ -214,10 +214,34 @@ System Overview
 \end_layout
 
 \begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
 \align center
 \begin_inset Graphics
 	filename flowchart.PNG
 	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Flowchart showing the conversion from raw data to fitted plots.
+ The dashed boxes represent the three main parts of the software.
+\end_layout
+
+\end_inset
+
+
+\end_layout
 
 \end_inset
 
@@ -234,11 +258,11 @@ s, offsets will be required to normalize the magnitudes to some baseline.
  A number of other inputs may also be supplied to constrain or expand the
  search space.
  These inputs may be supplied by the fitInfo file for each object.
- The light curve data is then read in from a text file with standardized
- columns.
+ The light curve data is then read in from one or more text files with standardi
+zed columns.
  Two kinds of magnitude offsets are then applied: offsets by night/instrument,
- if provided, and then a normalizing offset which subtracts the weighted
- average magnitude of the set from the entire set.
+ if provided, and a normalizing offset which subtracts the weighted average
+ magnitude of the set from the entire set.
  The latter offset is necessary in order to center the data points on the
  y-axis for fitting purposes, and may be used in this context because only
  differential magnitudes are needed.
@@ -258,7 +282,28 @@ Fitting Rationale
 
 \begin_layout Standard
 This fitting routine is based on equations 1, 2, and 3 from Harris et al.
- 1989, where the model is based on the Fourier Series
+ 1989 (equations 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:Fourier"
+
+\end_inset
+
+, 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:Residual"
+
+\end_inset
+
+, and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:biasCorrectedVar"
+
+\end_inset
+
+, below), where the model is based on the Fourier Series
 \end_layout
 
 \begin_layout Standard
@@ -294,7 +339,28 @@ where
 \end_inset
 
  (the Fourier coefficients) are free parameters.
- The residual of a particular observation 
+ Since a fine-adjustment y-shift is also added, the actual fitting equation
+ becomes
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+H(\alpha,t)=y+\sum_{L=1}^{m}A_{L}sin\frac{2\pi L}{P}(t-t_{0})+B_{L}cos\frac{2\pi L}{P}(t-t_{0}),\label{eq:Fourier-actual}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $y$
+\end_inset
+
+ is an additional free parameter, which generally takes on a small value.The
+ residual of a particular observation 
 \begin_inset Formula $i$
 \end_inset
 
@@ -313,7 +379,7 @@ where
 \end_layout
 
 \begin_layout Standard
-where
+where 
 \begin_inset Formula $\alpha_{j}$
 \end_inset
 
@@ -560,7 +626,7 @@ string, then 1 or 3 integers
 \begin_layout Plain Layout
 
 \size footnotesize
-see guess specifications section
+see Guess Specifications section, below
 \end_layout
 
 \end_inset
@@ -1074,11 +1140,50 @@ ENDOFFSETS
 \end_layout
 
 \begin_layout Subsection
+Guess Specification
+\end_layout
+
+\begin_layout Standard
+Three different ways to specify initial guesses at the period value (in
+ hours) exist.
+\end_layout
+
+\begin_layout Itemize
+range (3 floats or ints) - a range of guesses will be used, following the
+ convention min, max, and step size
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Example: 
+\family typewriter
+GUESS RANGE 0.1 5.5 0.25
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+single (1 float or int) - one initial guess will be used
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Example: 
+\family typewriter
+GUESS SINGLE 2
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+None - if the GUESS line is excluded, Nyquist sampling will be used (see
+ section on fitData)
+\end_layout
+
+\begin_layout Subsection
 Command Line Interface
 \end_layout
 
 \begin_layout Standard
-Descriptions of all 
+Descriptions of all command line options
 \end_layout
 
 \begin_layout Itemize
@@ -1176,7 +1281,7 @@ setFitOptions minOrder 3 maxOrder 5 timer true
 \family typewriter
 setOutputOptions
 \family default
- (option and boolean setting arguments) - sets options used in the the program
+ (option and boolean setting arguments) - sets options used in the program
  output; multiple options may be set at once; all options take booleans
 \end_layout
 
