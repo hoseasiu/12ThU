@@ -71,7 +71,7 @@
 \begin_body
 
 \begin_layout Title
-Automatic Lightcurve Fitting for MANOS
+Automatic Light Curve Fitting for MANOS
 \end_layout
 
 \begin_layout Section
@@ -80,7 +80,7 @@ Introduction
 
 \begin_layout Standard
 This document is intended to be an introduction to the manosCurveFit.py program
- used for automatic lightcurve fitting, part of the automation software
+ used for automatic light curve fitting, part of the automation software
  for the Mission-Accessible Near-Earth Object Survey (MANOS).
  The program is designed so that minimal user input is necessary to run,
  but additional inputs are available for customization of the processing
@@ -249,7 +249,7 @@ s, offsets will be required to normalize the magnitudes to some baseline.
  for each order of Fourier coefficients from two to six, unless specified
  otherwise in the fitInfo file.
  The parameters that generate the best fit to the data are kept and printed
- at the end, along with the lightcurve and residual plots.
+ at the end, along with the light curve and residual plots.
 \end_layout
 
 \begin_layout Subsection
@@ -1112,8 +1112,17 @@ fit Martes Elisa
 \family typewriter
 fitAll
 \family default
- (no arguments) - runs fits on all objects in the Data directory that do
- not have an existing lightcurve plot
+ (no arguments, or 
+\family typewriter
+'redo'
+\family default
+) - runs fits on all objects in the Data directory that do not have an existing
+ light curve plot; if the 
+\family typewriter
+'redo'
+\family default
+ argument is provided, all plots are fitted, regardless of any existing
+ fits
 \end_layout
 
 \begin_layout Itemize
