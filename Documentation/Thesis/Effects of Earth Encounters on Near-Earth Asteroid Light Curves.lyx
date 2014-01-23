@@ -1,0 +1,420 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\begin_preamble
+\usepackage{fancyhdr}% http://ctan.org/pkg/fancyhdr
+\lfoot{\small{Hosea Siu}}
+%\rfoot{\small{February 22, 2013}}
+\renewcommand{\ps@plain}{\pagestyle{fancy}}
+\fancyhead{}% Clear all headers
+\date{}
+\end_preamble
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement H
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\topmargin 0.8in
+\bottommargin 0.8in
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle fancy
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Effects of Earth Encounters on Near-Earth Asteroid Light Curves
+\end_layout
+
+\begin_layout Abstract
+ABSTRACT GOES HERE
+\end_layout
+
+\begin_layout Part
+Introduction
+\end_layout
+
+\begin_layout Standard
+Earth encounters are known to affect the properties of near-Earth objects
+ (NEOs) through tidal effects.
+ Binzel et al.
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Binzel2010Nature"
+
+\end_inset
+
+ showed that weathered surfaces of asteroids are 'refreshed' upon an Earth
+ encounter, causing less reddening to be observed than would otherwise be
+ expected.
+ Richardson et al.
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Richardson1998Icarus"
+
+\end_inset
+
+ conducted numerical simulations which showed that the tidal forces encountered
+ by Earth-crossing asteroids may cause mass shifting and removal during
+ a flyby, resulting changes such as in distortions, fragment trains, and
+ orbiting ejecta.
+ Rotation in particular was studied by Takihashi et al.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Takahashi2013AJ"
+
+\end_inset
+
+, who showed that there was a significant shift in rotational angular momentum
+ during periodic flybys.
+\end_layout
+
+\begin_layout Standard
+Rotational period and asteroid shape are properties which may be extracted
+ from a photometric light curve after a period of observation.
+ The brightness of individual asteroids varies due to changes in heliocentric
+ and geocentric distance, rotation, and solar phase angle 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Harris1989AsteroidsII"
+
+\end_inset
+
+.
+ The changes due to distance are generally removed during data reduction
+ by using a 'reduced magnitude' value, but the periodic changes in brightness
+ due to rotation and phase angle yield important information regarding the
+ dynamics of the asteroid.
+ Along with other information, spin rates may tell us about the structure
+ and collision history of an asteroid.
+ Most smaller asteroids (0.15 km < D < 10 km) are thought to be 'rubble piles'
+ held together by self-gravity, since a rate barrier appears to exist, beyond
+ which small asteroids are not found to exceed 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Pravec2002AsteroidsIII"
+
+\end_inset
+
+.
+ As spin states asymtotically approach rotation around the principal axis
+ of maximum moment of inertia, asteroid light curves are expected to be
+ at least double-peaked, with the exception of near-spherical or other degenerat
+e cases.
+\end_layout
+
+\begin_layout Standard
+This thesis extends on the work done on asteroidal Earth encounters described
+ above by examining the effects of Earth encounters on asteroid rotational
+ periods and amplitudes.
+ To these effects, minimum orbit intersection distance (MOID) may be used
+ as a measure how close an Earth encounter was.
+ Instantaneous MOID may be determined from the present-day orbital parameters
+ of an object, and will be used as a first-pass look at the relationship
+ between encounters and period/amplitude.
+ A more in-depth look may involve conducting a MOID calculation by integrating
+ the orbit of a particular object back into the past to determine how gravitatio
+nal perturbations may have changed the MOID to its present-day value.
+ This thesis uses photometric and astrometric data from an ongoing asteroid
+ survey to extract rotational periods, rotational amplitudes, and MOID for
+ small (D < 1 km) NEOs.
+\end_layout
+
+\begin_layout Standard
+Part 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "part:Background"
+
+\end_inset
+
+ of this thesis presents the background of NEO observations, focusing on
+ the distributions of rotations, and also describes the survey from which
+ this thesis draws its data.
+ Part 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "part:Light-Curve-Fitting"
+
+\end_inset
+
+ details an automatic light curve fitting method developed for as part of
+ this thesis, particularly tailored for the ongoing nature and specific
+ targets of the new survey.
+ Finally, Part 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "part:MOID-and-Light"
+
+\end_inset
+
+ describes the results obtained from the Earth encounter analysis of this
+ population of asteroids.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+TODO - the following paragraph probably goes in part II
+\end_layout
+
+\begin_layout Standard
+Asteroid surveys in the past have been biased towards larger, brigher objects,
+ rarely being able to resolve asteroids dimmer than 22nd absolute magnitude
+ because of technological limitations
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Jedicke2002AsteroidsIII"
+
+\end_inset
+
+.
+ A new, multi-year program started in August of 2013 called the Mission
+ Accessible Near-Earth Object Survey (MANOS) seeks to leverage advances
+ in observing capabilities to characterize asteroid targets that would have
+ been previously impossible to do, with a focus on targets that would be
+ accessible by space missions utilizing conventional chemical propulsion.
+ 
+\end_layout
+
+\begin_layout Part
+\begin_inset CommandInset label
+LatexCommand label
+name "part:Background"
+
+\end_inset
+
+Background
+\end_layout
+
+\begin_layout Section
+NEOs and the NEO Population
+\end_layout
+
+\begin_layout Section
+Asteroid Light Curves and Rotation
+\end_layout
+
+\begin_layout Section
+Near-Earth Encounters
+\end_layout
+
+\begin_layout Section
+Previous Asteroid Surveys
+\end_layout
+
+\begin_layout Section
+Mission Accessible Near-Earth Object Survey
+\end_layout
+
+\begin_layout Part
+\begin_inset CommandInset label
+LatexCommand label
+name "part:Light-Curve-Fitting"
+
+\end_inset
+
+Light Curve Fitting
+\end_layout
+
+\begin_layout Part
+\begin_inset CommandInset label
+LatexCommand label
+name "part:MOID-and-Light"
+
+\end_inset
+
+MOID and Light Curve Comparisons
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "1"
+key "Harris1989AsteroidsII"
+
+\end_inset
+
+Harris, A.
+ W.
+ & Lupishko, D.
+ F.
+ 1989, “Photometric Lightcurve Observations and Reduction Techniques” in
+ “Asteroids II,” ed.
+ R.
+ P.
+ Binzel, T.
+ Gehrels, & M.
+ S.
+ Matthews.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "2"
+key "Pravec2002AsteroidsIII"
+
+\end_inset
+
+Pravec, P., Harris, A.
+ W.
+ & Michalowski, T.
+ 2002, 
+\begin_inset Quotes eld
+\end_inset
+
+Asteroid Rotations
+\begin_inset Quotes erd
+\end_inset
+
+ in 
+\begin_inset Quotes eld
+\end_inset
+
+Asteroids III,
+\begin_inset Quotes erd
+\end_inset
+
+ ed.
+ W.
+ F.
+ Bottke Jr., A.
+ Cellino, P.
+ Paolicchi, & R.
+ P.
+ Binzel.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "3"
+key "Jedicke2002AsteroidsIII"
+
+\end_inset
+
+Jedicke, R., Larsen, J., & Spahr, T.
+ 2002 
+\begin_inset Quotes eld
+\end_inset
+
+Observational Selection Effects in Asteroid Surveys and Estimates of Asteroid
+ Population Sizes
+\begin_inset Quotes erd
+\end_inset
+
+ in 
+\begin_inset Quotes eld
+\end_inset
+
+Asteroids III,
+\begin_inset Quotes erd
+\end_inset
+
+ ed.
+ W.
+ F.
+ Bottke Jr., A.
+ Cellino, P.
+ Paolicchi, & R.
+ P.
+ Binzel.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "4"
+key "Binzel2010Nature"
+
+\end_inset
+
+Binzel, Richard P., et al.
+ "Earth encounters as the origin of fresh surfaces on near-Earth Asteroids." Natu
+re 463.7279 (2010): 331-334.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "5"
+key "Richardson1998Icarus"
+
+\end_inset
+
+Richardson, Derek C., William F.
+ Bottke, and Stanley G.
+ Love.
+ "Tidal distortion and disruption of Earth-crossing asteroids." Icarus 134.1
+ (1998): 47-76.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "6"
+key "Takahashi2013AJ"
+
+\end_inset
+
+Takahashi, Yu, Michael W.
+ Busch, & D.
+ J.
+ Scheeres.
+ "Spin State and Moment of Inertia Characterization of 4179 Toutatis." The
+ Astronomical Journal 146:95 (2013).
+\end_layout
+
+\end_body
+\end_document
