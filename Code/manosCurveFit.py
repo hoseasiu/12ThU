@@ -85,22 +85,21 @@ class RunOptionsShell(cmd.Cmd):
         for i in range(len(objects)):
             global objectName
             objectName = objects[i]
-
-            # check if the object has already been fit if ignore == True
             directory, objectFiles = lookInFolder('file', objectName)
-            if ignore and objectName + 'LightCurve.png' in objectFiles:
-                print objectName + ' already processed- skipping to next object'
+            if objectFiles is not None:     #check that the folder exists
+                # check if the object has already been fit if ignore == True
+                if ignore and objectName + 'LightCurve.png' in objectFiles:
+                    print objectName + ' already processed- skipping to next object'
+                # if it hasn't been fit, or is specified, run the fit routine
+                else:
+                    print '\nfitting ' + objectName
 
-            # if it hasn't been fit, or is specified, run the fit routine
-            else:
-                print '\nfitting ' + objectName
+                    fileNamesAndFormat, offsets, guessMethod, T0, hardMinP, hardMaxP = extractRunOptions(objectName)
 
-                fileNamesAndFormat, offsets, guessMethod, T0, hardMinP, hardMaxP = extractRunOptions(objectName)
-
-                # note that these functions are all overloaded (there are extra options you can set- see the function definitions or documentation for examples)
-                lcd = LightCurveData(objectName, fileNamesAndFormat, offsetsList = offsets)         # read in data from the text file and create a LightCurveData object
-                (bestFit, m, periodsTested, periodErrors) = fitData(lcd, self.fitOptions, method = guessMethod, periodGuess = T0, hardMinPeriod = hardMinP, hardMaxPeriod = hardMaxP)       # fit the data to a model (can also add min and max periods in JD)
-                outputResults(bestFit, m, lcd, self.outputOptions, periodErrors = [periodsTested, periodErrors])             # plot and print the results
+                    # note that these functions are all overloaded (there are extra options you can set- see the function definitions or documentation for examples)
+                    lcd = LightCurveData(objectName, fileNamesAndFormat, offsetsList = offsets)         # read in data from the text file and create a LightCurveData object
+                    (bestFit, m, periodsTested, periodErrors) = fitData(lcd, self.fitOptions, method = guessMethod, periodGuess = T0, hardMinPeriod = hardMinP, hardMaxPeriod = hardMaxP)       # fit the data to a model (can also add min and max periods in JD)
+                    outputResults(bestFit, m, lcd, self.outputOptions, periodErrors = [periodsTested, periodErrors])             # plot and print the results
         print '\nDone\n'
 
 
@@ -210,7 +209,7 @@ class LightCurveData:
         for i in range(len(formatSpec)):
             self.data[formatSpec[i][0]] = {}
 
-        # check for missing (required)specifications
+        # check for missing (required) specifications
         if 'jd' not in self.data.keys() or 'diffMag' not in self.data.keys() or 'magErr' not in self.data.keys():
             print 'Error: Insufficient data for light curve'
             print '       Did you include \'jd\', \'diffMag\', and \'magErr\'?'
@@ -228,16 +227,21 @@ class LightCurveData:
 '''
 def lookInFolder(type, name = None):
     global basepath
+    # TODO - have to change for MANOS file structure
+    dirpath = os.path.abspath(os.path.join(basepath, "..", 'Data'))
     if type == 'file':
-        # TODO - have to change for MANOS file structure
-        filepath = os.path.abspath(os.path.join(basepath, "..", 'Data', name))
-        return filepath, [ f for f in listdir(filepath) if os.path.isfile(os.path.join(filepath,f)) ]
+        if name in listdir(dirpath):            
+            filepath = os.path.abspath(os.path.join(basepath, "..", 'Data', name))
+            return filepath, [ f for f in listdir(filepath) if os.path.isfile(os.path.join(filepath,f)) ]
+        else:
+            print name + ' does not exist in the directory'
+            return None, None
     elif type == 'dir':
-        filepath = os.path.abspath(os.path.join(basepath, "..", 'Data'))
-        return filepath, [ f for f in listdir(filepath) if os.path.isdir(os.path.join(filepath,f)) ]
+##        filepath = os.path.abspath(os.path.join(basepath, "..", 'Data'))
+        return dirpath, [ f for f in listdir(dirpath) if os.path.isdir(os.path.join(dirpath,f)) ]
     else:
         print 'Error: invalid lookInFolder type'
-        return
+        return None, None
 
 
 ''' Creates range lists of floats
