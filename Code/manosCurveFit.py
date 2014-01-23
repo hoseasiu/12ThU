@@ -51,11 +51,10 @@ class RunOptionsShell(cmd.Cmd):
             key = self.outputOptions.keys()[i]
             if key in arg:
                 if args[args.index(key)+1].lower() == 'true' or args[args.index(key)+1].lower() == 'false':       # check that the argument is a boolean
-                    self.fitOptions[key] = args[args.index(key)+1].lower() == 'true'
+                    self.outputOptions[key] = args[args.index(key)+1].lower() == 'true'
                 else:
                     print 'Error: unrecognized argument for ' + key
-                print key + ' = ' + str(self.fitOptions[key])
-
+                print key + ' = ' + str(self.outputOptions[key])
 
     def do_showObjects(self, arg):
         'Displays the list of all objects in \'Data\' folder'
@@ -68,7 +67,6 @@ class RunOptionsShell(cmd.Cmd):
         objects = lookInFolder('dir')[1]
         args = arg.split()
         if args[0] == 'redo':
-            print 'found redo'
             self.runFitting(objects, ignore = False)        # redo all objects regardless of whether or not they have a fit
         else:
             self.runFitting(objects)                        # only fit objects that haven't already been done
@@ -77,7 +75,6 @@ class RunOptionsShell(cmd.Cmd):
         'Scans and attempts to fit all objects in \'Data\' folder that follow as arguments: fit object1_name object2_name...'
         self.runFitting(arg.split(), ignore = False)
         
-
     def do_exit(self, arg):
         'Exit the program'
         return True
@@ -419,14 +416,16 @@ def fitData(LightCurveData, fitOptions, method = None, periodGuess = None, hardM
 ''' Phase folds the magnitude data given a set that has the phase offset at the first data point
 '''
 def phaseFold(time, period):
+    foldedTime = []
     for i in range(len(time)):
         periodOffset = int(time[i]/period)
         if periodOffset >= 1:
-            time[i] -= period*periodOffset
+            foldedTime.append(time[i]-period*periodOffset)
+        else:
+            foldedTime.append(time[i])
 
     print 'fitted period: ' + str(period*24.0) + ' h'
-    return time
-
+    return np.array(foldedTime)
 
 ''' Calculates amplitude with uncertainties using the uncertainties package
 '''
@@ -457,19 +456,19 @@ def outputResults(fit, m, LightCurveData, outputOptions, periodErrors = None):
     # TODO - have to change this for the MANOS file structure
     filepath = os.path.abspath(os.path.join(basepath, "..", 'Data', LightCurveData.name))
         
-    time = LightCurveData.data['jd']-LightCurveData.data['jd'][0]
+    time = LightCurveData.data['jd']-LightCurveData.data['jd'][0]    
     mag = LightCurveData.data['diffMag']
     err = LightCurveData.data['magErr']
 
-    fittedPeriod = fit.params['P'].value
-
+    fittedPeriod = fit.params['P'].value    
     foldedTime = phaseFold(time, fittedPeriod)      # phase folded time
+
     timeRange = np.ptp(foldedTime)
     if fittedPeriod > timeRange*1.25:         # check if the fitted period is significantly longer than the data
         print 'Warning: fitted period is ' + str(int(((fittedPeriod/timeRange)-1)*100)) + '% longer than the range of the dataset'
- 
+
     if outputOptions['phaseFoldData']:                               # shift plot for phase folded time
-        time = foldedTime
+        time = foldedTime    
     
     if outputOptions['plotFullPeriod'] and time.min()+fittedPeriod < time.max():
         modelTime = np.linspace(time.min(), time.max(),100)
