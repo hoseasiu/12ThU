@@ -1,5 +1,5 @@
 ''' manosCurveFit.py - Hosea Siu 2014
-    Takes light curve data as input and fits it to a function accoring to Harris et al. 1989
+    Takes light curve data as input and fits it to a function according to Harris et al. 1989
 '''
 
 from lmfit import minimize, Parameters, Parameter, report_fit, fit_report
@@ -237,7 +237,6 @@ def lookInFolder(type, name = None):
             print name + ' does not exist in the directory'
             return None, None
     elif type == 'dir':
-##        filepath = os.path.abspath(os.path.join(basepath, "..", 'Data'))
         return dirpath, [ f for f in listdir(dirpath) if os.path.isdir(os.path.join(dirpath,f)) ]
     else:
         print 'Error: invalid lookInFolder type'

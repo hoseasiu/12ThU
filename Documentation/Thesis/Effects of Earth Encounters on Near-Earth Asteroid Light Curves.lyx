@@ -76,6 +76,8 @@ Effects of Earth Encounters on Near-Earth Asteroid Light Curves
 \end_layout
 
 \begin_layout Abstract
+
+\series bold
 ABSTRACT GOES HERE
 \end_layout
 
@@ -137,7 +139,7 @@ key "Harris1989AsteroidsII"
  dynamics of the asteroid.
  Along with other information, spin rates may tell us about the structure
  and collision history of an asteroid.
- Most smaller asteroids (0.15 km < D < 10 km) are thought to be 'rubble piles'
+ Most larger asteroids (0.15 km < D < 10 km) are thought to be 'rubble piles'
  held together by self-gravity, since a rate barrier appears to exist, beyond
  which small asteroids are not found to exceed 
 \begin_inset CommandInset citation
@@ -203,9 +205,224 @@ reference "part:MOID-and-Light"
 \end_layout
 
 \begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+newpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Part
+\begin_inset CommandInset label
+LatexCommand label
+name "part:Background"
+
+\end_inset
+
+Background
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+setcounter{section}{0}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+The NEO Population
+\end_layout
+
+\begin_layout Standard
+Objects that have orbits that take them near the orbit of Earth are known
+ as near-Earth objects.
+ Typically, the NEOs of concern are Earth-crossing asteroids, which are
+ divided into three major categories based on their orbital elements: the
+ Aten, Apollo, and Amor groups, which are collectively known as the AAA
+ asteroids 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Shoemaker1979AsteroidsI"
+
+\end_inset
+
+.
+ Atens are defined as objects having a semimajor axis 
+\begin_inset Formula $a<1.0$
+\end_inset
+
+ and an aphelion distance 
+\begin_inset Formula $Q\geq0.983$
+\end_inset
+
+ (the perihelion distance of Earth).
+ This means that Aten objects only sometimes cross the orbit of Earth.
+ Apollos are defined to have a 
+\begin_inset Formula $a\geq1.0$
+\end_inset
+
+ and a perhelion distance 
+\begin_inset Formula $q\leq1.0167$
+\end_inset
+
+ (the aphelion distance of Earth).
+ Amors are defined just by their perhelion distance, such that 
+\begin_inset Formula $1.1067\leq q\leq1.3$
+\end_inset
+
+, meaning they are currently actually near-Earth-crossers, but do not actually
+ currently qualify as Earth-crossing asteroids.
+ Orbital perturbations may, naturally, change the classification of any
+ particular NEO between these groups.
+\end_layout
+
+\begin_layout Standard
+The orbits of NEOs generally mean that they stay as NEOs for at most a few
+ million years, eventually ending up crashing into the Sun, terrestrial
+ planets, or being flung out of the solar system.
+ The fact that the number of NEOs has remained steady over the last 3 billion
+ years suggests that there is a source of resupply 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Bottke2002AsteroidsIII"
+
+\end_inset
+
+.
+ It is believed that main belt asteroids (MBAs) provide the bulk of NEO
+ resupply, with Jupiter and Saturn resonances causing asteroids to move
+ from the main belt to an NEO orbit.
+ Smaller NEOs are likely collision fragments from MBAs, and exhibit younger
+ (less-weathered) surfaces due to the difficulty of surviving further collisions
+ or planetary ecounters 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Binzel2002AsteroidsIII"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The NEO population is of special interest because of its proximity to Earth.
+ NEOs with low-inclination and low-eccentricity in particular are some of
+ the easiest solar system targets for space missions, due to the relatively
+ low 
+\begin_inset Formula $\Delta V$
+\end_inset
+
+ and short time frame required to reach them.
+ Additionally, their inner solar system orbits and periodic proximity to
+ Earth mean that thermal and power considerations for rendezvous and flyby
+ missions can be significantly simplified, making them relatively low-cost
+ and within the reach of early private-sector space missions 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Perozzi2001PSS"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
 
 \series bold
-TODO - the following paragraph probably goes in part II
+TODO - something about the importance of asteroid investigations?
+\end_layout
+
+\begin_layout Section
+Asteroid Light Curves and Rotation
+\end_layout
+
+\begin_layout Section
+Planetary Encounters
+\end_layout
+
+\begin_layout Standard
+Tidal forces encountered near the terrestrial planets cause a number of
+ changes to asteroids.
+ Distortion and disruption have been found to occur with Earth-crossing
+ asteroids in numerical simulations, with results ranging from elongation
+ and mass stripping, to the formation of fragment trains and binary systems
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Richardson1998Icarus,Bottke1998PSS"
+
+\end_inset
+
+.
+ Chapman argues that large, monolithic MBAs may have been fragmented by
+ collisions to form rubble piles 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Chapman1978Asteriods"
+
+\end_inset
+
+.
+ The lack of observed fast-rotating asteroids with absolute magnitudes 
+\begin_inset Formula $H<22$
+\end_inset
+
+ suggests that larger NEOs are indeed such rubble piles and have minimal
+ tesile strength, where any additional spin-up would cause disruption.
+ Smaller NEOs, however, may remain monoliths due to the fact that they were
+ spun off from these rubble piles.
+ Fragment trains are generally formed from distortion processes that cause
+ elongation, resulting in a pattern similar to what happened to Comet D/Shoemake
+r-Levy 9 during its 1992 Jupiter encounter.
+ Binary systems, on the other hand, are often formed due to spin-up, which
+ causes rubble pile asteroids to fling mass off their equators, resulting
+ in an orbiting body.
+ The fact that about half of the observed fast-rotating (
+\begin_inset Formula $P<2.2\: h$
+\end_inset
+
+) NEOs are binary systems supports the idea that Earth encounters cause
+ strong enough disruptions to form binary systems 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Pravec2000Icarus,Pravec2002AsteroidsIII"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+TODO - freshening
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+TODO - rotation
+\end_layout
+
+\begin_layout Section
+Previous Asteroid Surveys
 \end_layout
 
 \begin_layout Standard
@@ -219,42 +436,54 @@ key "Jedicke2002AsteroidsIII"
 \end_inset
 
 .
- A new, multi-year program started in August of 2013 called the Mission
- Accessible Near-Earth Object Survey (MANOS) seeks to leverage advances
- in observing capabilities to characterize asteroid targets that would have
- been previously impossible to do, with a focus on targets that would be
- accessible by space missions utilizing conventional chemical propulsion.
  
+\series bold
+STUFF GOES HERE
 \end_layout
 
-\begin_layout Part
-\begin_inset CommandInset label
-LatexCommand label
-name "part:Background"
-
-\end_inset
-
-Background
-\end_layout
-
-\begin_layout Section
-NEOs and the NEO Population
-\end_layout
-
-\begin_layout Section
-Asteroid Light Curves and Rotation
-\end_layout
-
-\begin_layout Section
-Near-Earth Encounters
-\end_layout
-
-\begin_layout Section
-Previous Asteroid Surveys
+\begin_layout Standard
+The past decade has seen a rapid increase in the number of detected NEOs,
+ partly due to advances in observation and computing technologies, but also
+ because of a mandate by the American government to characterize 90% of
+ NEOs larger than 1 km that may present an impact hazard.
 \end_layout
 
 \begin_layout Section
 Mission Accessible Near-Earth Object Survey
+\end_layout
+
+\begin_layout Standard
+A new, multi-year program started in August of 2013 called the Mission Accessibl
+e Near-Earth Object Survey (MANOS) seeks to leverage advances in observing
+ capabilities to characterize asteroid targets that would have been previously
+ impossible to do, with a focus on targets that would be accessible by space
+ missions utilizing conventional chemical propulsion.
+ The focus of MANOS is on rough characterization of many mission-accessible
+ NEOs via astrometry, light curves, and spectra.
+ Mission-accessible is defined to be having a 
+\begin_inset Formula $\Delta V$
+\end_inset
+
+ < 7 km/s, which is the approximate limit of conventional chemical propulsion.
+ The goal is for the program to characterize approximately 100 NEOs per
+ year, meaning that there will be a large throughput of data during the
+ survey period, which is expected to last 3 to 5 years.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+newpage
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Part
@@ -267,6 +496,722 @@ name "part:Light-Curve-Fitting"
 Light Curve Fitting
 \end_layout
 
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+setcounter{section}{0}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+As part of this project, a fitting routine was developed to automatically
+ scan reduced MANOS photometry data and convert it to a light curve model
+ which provides the period and amplitude.
+ Before this work, curve fitting for MANOS was done using software built
+ on MATLAB, which contained some components that were relatively poorly
+ documented and required a proprietary platform.
+ Other fitting methods, such as Canopus, were similarly based on proprietary
+ software.
+ manosCurveFit was developed from scratch specifically for the MANOS data
+ pipeleine and, represents one of very few pieces of light curve fitting
+ software that is free and open source, and possibly the only such software
+ that is tailored for asteroid fits.
+\end_layout
+
+\begin_layout Section
+Software Details
+\end_layout
+
+\begin_layout Subsection
+System Overview
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename flowchart.PNG
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Flowchart showing the conversion from raw data to fitted plots.
+ The dashed boxes represent the three main parts of the software.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The fitting routine may be generally divided into input, evaluation, and
+ output portions.
+ The inputs in parentheses are not required for the fitting to work, but
+ a guess at the rotational period may significantly constrain the search
+ space, and if data is taken over multiple nights and/or by different instrument
+s, offsets will be required to normalize the magnitudes to some baseline.
+ A number of other inputs may also be supplied to constrain or expand the
+ search space.
+ These inputs may be supplied by the fitInfo file for each object.
+ The light curve data is then read in from one or more text files with standardi
+zed columns.
+ Two kinds of magnitude offsets are then applied: offsets by night/instrument,
+ if provided, and a normalizing offset which subtracts the weighted average
+ magnitude of the set from the entire set.
+ The latter offset is necessary in order to center the data points on the
+ y-axis for fitting purposes, and may be used in this context because only
+ differential magnitudes are needed.
+ This acts as a coarse adjustment for y-axis centering.
+ A finer adjustment is made by a y-axis offset for the model, which is taken
+ to be part of the least squares minimization.
+ For each period to be checked, a least squares minimization is performed
+ for each order of Fourier coefficients from two to six, unless specified
+ otherwise in the fitInfo file.
+ The parameters that generate the best fit to the data are kept and printed
+ at the end, along with the light curve and residual plots.
+\end_layout
+
+\begin_layout Standard
+See the Appendix for further software documentation.
+\end_layout
+
+\begin_layout Section
+Fitting Rationale
+\end_layout
+
+\begin_layout Standard
+This fitting routine is based on equations 1, 2, and 3 from Harris et al.
+ in 1989
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Harris1989Icarus"
+
+\end_inset
+
+ (equations 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:Fourier"
+
+\end_inset
+
+, 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:Residual"
+
+\end_inset
+
+, and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:biasCorrectedVar"
+
+\end_inset
+
+, below), where the model is based on the Fourier Series
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+H(\alpha,t)=\bar{H}(\alpha)+\sum_{L=1}^{m}A_{L}sin\frac{2\pi L}{P}(t-t_{0})+B_{L}cos\frac{2\pi L}{P}(t-t_{0}),\label{eq:Fourier}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $\bar{H}=0$
+\end_inset
+
+ because absolute magnitudes are not necessary for MANOS, and 
+\begin_inset Formula $m$
+\end_inset
+
+ (the series order), 
+\begin_inset Formula $P$
+\end_inset
+
+ (the period), and 
+\begin_inset Formula $A_{L}$
+\end_inset
+
+ and 
+\begin_inset Formula $B_{L}$
+\end_inset
+
+ (the Fourier coefficients) are free parameters.
+ Since a fine-adjustment y-shift is also added, the actual fitting equation
+ becomes
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+H(\alpha,t)=y+\sum_{L=1}^{m}A_{L}sin\frac{2\pi L}{P}(t-t_{0})+B_{L}cos\frac{2\pi L}{P}(t-t_{0}),\label{eq:Fourier-actual}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $y$
+\end_inset
+
+ is an additional free parameter, which generally takes on a small value.
+\end_layout
+
+\begin_layout Standard
+The residual of a particular observation 
+\begin_inset Formula $i$
+\end_inset
+
+ may be obtained by
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{\delta_{i}}{\epsilon_{i}}=\frac{V_{i}(\alpha_{j})-H(\alpha_{j},t_{i})}{\epsilon_{i}},\label{eq:Residual}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $\alpha_{j}$
+\end_inset
+
+ is the reference phase angle on the 
+\begin_inset Formula $j^{th}$
+\end_inset
+
+ night, 
+\begin_inset Formula $t_{i}$
+\end_inset
+
+ is the time of the 
+\begin_inset Formula $i^{th}$
+\end_inset
+
+ observation, and 
+\begin_inset Formula $\epsilon_{i}$
+\end_inset
+
+ is the error of the measurement.
+ In the context of NEOs, the phase angle may very well change, particularly
+ as targets pass very close to Earth.
+ However, the majority of MANOS targets will be observed for a short enough
+ period of time that 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ will be assumed to be a constant.
+ As such, manosCurveFit does not take phase angles into account.
+ The least squares minimization is then performed on the bias-corrected
+ variance, given by
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+s^{2}=\frac{1}{n-k}\sum_{i=1}^{n}\left(\frac{\delta_{i}}{\epsilon_{i}}\right)^{2}={\textstyle minimum},\label{eq:biasCorrectedVar}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $n$
+\end_inset
+
+ is the total number of observations, 
+\begin_inset Formula $k=2m+1$
+\end_inset
+
+, where 
+\begin_inset Formula $m$
+\end_inset
+
+ is defined in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:Fourier"
+
+\end_inset
+
+.
+ The total number of nights of data is also added into 
+\begin_inset Formula $k$
+\end_inset
+
+ in the form that Harris et al.
+ use, but here, this again needs not be considered because we are concerned
+ with differential photometry, and offsets for different nights will be
+ provided as necessary.
+\end_layout
+
+\begin_layout Standard
+By default, the program will run the fit from 
+\begin_inset Formula $m=2$
+\end_inset
+
+ to 
+\begin_inset Formula $m=6$
+\end_inset
+
+.
+ The minimum of order two is due to the fact that asteroid light curves
+ are expected to be double-peaked (except for some cases of unstable rotation
+ or degenerate cases of near-spherical bodies), and the maximum of order
+ six is used to prevent over-fitting.
+ The curve is centered around zero magnitude by a weighed average of the
+ data, but since there is often still a slight magnitude offset due to the
+ nonuniform nature of the sampling, a magnitude offset parameter was added
+ to allow for a better fit.
+ The user does not normally interact with the optimization of this y-shift
+ parameter.
+\end_layout
+
+\begin_layout Standard
+Additionally, any models which produce amplitudes greater than 2 will be
+ rejected.
+ This is necessary to prevent the fit from assuming a model in which the
+ data are a small portion of a much longer period with one or more large
+ spikes where data is not present.
+ As an additional precaution, if the fitted period is more than 25% of the
+ range of the phase-folded data points, a warning is given to notify the
+ user of a potentially unsubstantiated model.
+\end_layout
+
+\begin_layout Section
+Fitting Results and Data Products
+\end_layout
+
+\begin_layout Standard
+By default, the software will automatically produce two figures and a text
+ file report of the fit, which are then saved to the same folder as the
+ data.
+ Examples of these for plots for may be seen in Figures 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:fitPlot"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:residualsPlot"
+
+\end_inset
+
+.
+ The bottom sub-plot of Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:fitPlot"
+
+\end_inset
+
+ is an optional plot which shows the residuals of the generated fit.
+ This plot may be used as an additional manual check on the fit by seeing
+ if any structure or bias remains in the residuals, which may indicate that
+ a higher-order fit is required.
+ Additionally, any significant magnitude bias in the residuals plot may
+ indicative of an incorrect offset of a particular night, if multiple nights'
+ data are used (this effect should also be viable in the main fitted plot).
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:residualsPlot"
+
+\end_inset
+
+ shows the RMS values of different periods that were attempted during the
+ fitting process, with the fit that provided the minimum RMS value representing
+ the fit that was eventually accepted.
+ These figures represent a set of data that was composed of 12 nights, split
+ into two input text files, all of which was automatically merged and processed
+ by the program.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename elisaPlot1.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:fitPlot"
+
+\end_inset
+
+One of the figures produced by manosCurveFit, showing the data points on
+ top of the fitted model (top) along with the residuals of the fit (bottom).
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename elisaPlot2.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:residualsPlot"
+
+\end_inset
+
+The second figure produced by manosCurveFit, showing the mean RMS values
+ of the fit when different periods are attempted.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The fitting routine was tested against five objects with varying light curve
+ structures, three of which had previously-determined periods.
+ Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Period-comparisons-between"
+
+\end_inset
+
+ shows the comparison between the fitted and accepted periods of the latter
+ three objects, all of which showed very low error values (if any), even
+ though the data used for the fit is only a small subset of the entire set
+ of data used to generate the accepted period.
+ 2579 Spartacus had a different fitted period than accepted period likely
+ due to the fact that the accepted period is based on a much larger baseline
+ of data than what was used for the fit.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Period-comparisons-between"
+
+\end_inset
+
+Period comparisons between fit and accepted values.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Object
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Fitted Period (h)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Accepted Period (h)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Error
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2012 
+\begin_inset Formula $DA_{14}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $5.95\pm0.12$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $5.8\pm0.3$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+consistent
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+956 Elisa
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $16.4933\pm0.0004$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $16.494\pm0.001$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+consistent
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2579 Spartacus
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $3.812\pm0.019$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $3.63599\pm0.00004$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $4.84\%$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+newpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Part
 \begin_inset CommandInset label
 LatexCommand label
@@ -275,6 +1220,22 @@ name "part:MOID-and-Light"
 \end_inset
 
 MOID and Light Curve Comparisons
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+setcounter{section}{0}
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Bibliography
@@ -414,6 +1375,1589 @@ Takahashi, Yu, Michael W.
  Scheeres.
  "Spin State and Moment of Inertia Characterization of 4179 Toutatis." The
  Astronomical Journal 146:95 (2013).
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "7"
+key "Shoemaker1979AsteroidsI"
+
+\end_inset
+
+Shoemaker, Eugene M., et al.
+ 1979, "Earth-crossing asteroids: Orbital classes, collision rates with
+ Earth, and origin" in 
+\begin_inset Quotes eld
+\end_inset
+
+Asteroids
+\begin_inset Quotes erd
+\end_inset
+
+ ed.
+ T.
+ Gehrels.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "8"
+key "Bottke2002AsteroidsIII"
+
+\end_inset
+
+Bottke, W.
+ F.
+ Jr., Cellino, A., Paolicchi P., & Binzel, R.
+ P.
+ 2002 
+\begin_inset Quotes eld
+\end_inset
+
+An Overview of the Asteroids: The Asteroids III Perspective
+\begin_inset Quotes erd
+\end_inset
+
+ in 
+\begin_inset Quotes eld
+\end_inset
+
+Asteroids III,
+\begin_inset Quotes erd
+\end_inset
+
+ ed.
+ W.
+ F.
+ Bottke Jr., A.
+ Cellino, P.
+ Paolicchi, & R.
+ P.
+ Binzel.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "9"
+key "Binzel2002AsteroidsIII"
+
+\end_inset
+
+Binzel, R.
+ P., Lupishko, D.
+ F., Martino, M.
+ D., Whiteley, R.
+ J., & Hahn G.
+ J.
+ 2002 
+\begin_inset Quotes eld
+\end_inset
+
+Physical Properties of Near-Earth Objects
+\begin_inset Quotes erd
+\end_inset
+
+ in 
+\begin_inset Quotes eld
+\end_inset
+
+Asteroids III,
+\begin_inset Quotes erd
+\end_inset
+
+ ed.
+ W.
+ F.
+ Bottke Jr., A.
+ Cellino, P.
+ Paolicchi, & R.
+ P.
+ Binzel.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "10"
+key "Perozzi2001PSS"
+
+\end_inset
+
+Perozzi, Ettore, Alessandro Rossi, and Giovanni B.
+ Valsecchi.
+ "Basic targeting strategies for rendezvous and flyby missions to the near-Earth
+ asteroids." Planetary and Space Science 49.1 (2001): 3-22.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "11"
+key "Bottke1998PSS"
+
+\end_inset
+
+Bottke, William F., Derek C.
+ Richardson, and Stanley G.
+ Love.
+ "Production of Tunguska-sized bodies by Earth's tidal forces." Planetary
+ and space science 46.2 (1998): 311-322.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "12"
+key "Chapman1978Asteriods"
+
+\end_inset
+
+Chapman, C.
+ R.
+ 1978.
+ 
+\begin_inset Quotes eld
+\end_inset
+
+Asteroid collisions, craters, regolith, and lifetimes
+\begin_inset Quotes erd
+\end_inset
+
+ in 
+\begin_inset Quotes eld
+\end_inset
+
+Asteroids: An Exploration Assessment
+\begin_inset Quotes erd
+\end_inset
+
+ ed.
+ D.
+ Morrison and W.
+ C.
+ Wells, Eds.), NASA Conf.
+ Publ.
+ 2053, pp.
+ 145–160.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "13"
+key "Pravec2000Icarus"
+
+\end_inset
+
+Pravec, Petr, and Alan W.
+ Harris.
+ "Fast and slow rotation of asteroids." Icarus 148.1 (2000): 12-20.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "key-1"
+
+\end_inset
+
+Walsh
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+newpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Part*
+\start_of_appendix
+Appendix
+\end_layout
+
+\begin_layout Section
+manosCurveFit System Dependencies
+\end_layout
+
+\begin_layout Standard
+This software was developed and tested on Python 2.7.1, and imports from the
+ following typically pre-installed packages: 
+\shape italic
+operator, os, time, sys
+\shape default
+, 
+\shape italic
+string
+\shape default
+, and 
+\shape italic
+cmd
+\shape default
+ and the following typically non-pre-installed packages: 
+\shape italic
+lmfit, matplotlb, numpy
+\shape default
+ and 
+\shape italic
+uncertainties
+\shape default
+.
+\end_layout
+
+\begin_layout Standard
+The latter set of packages are commonly used for scientific applications
+ and stable builds should be easily found.
+\end_layout
+
+\begin_layout Section
+manosCurveFit Input, Evaluation, and Output Methods
+\end_layout
+
+\begin_layout Standard
+The software handles data input by reading text files and storing user-defined
+ data columns as numpy arrays in a 
+\shape italic
+lightCurveData
+\shape default
+ object.
+ Evaluation is handled by the 
+\shape italic
+fitData 
+\shape default
+function, which utilizes 
+\shape italic
+lmfit
+\shape default
+'s minimization routine with free parameters given as Parameter object inputs.
+ Output is handled by the 
+\shape italic
+outputResults
+\shape default
+ function, which has options to display results in various ways.
+\end_layout
+
+\begin_layout Subsection
+fitInfo Specification
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="7" columns="3">
+<features tabularvalignment="middle">
+<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="0">
+<row>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Keyword
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Arguments
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Meaning
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+FILES
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+integer
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+number of data files for this object (used as a check)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+GUESS
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+string, then 1 or 3 integers
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+see Guess Specifications section, below
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+HARDMAXPERIOD
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+float or int
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+hard maximum period to not search above
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+HARDMINPERIOD
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+float or int
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+hard minimum period to not search below
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+OFFSET
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+string
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+starts a series of night/offset pairs used by the string specifying the
+ dataset
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+ENDOFFSETS
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+N/A
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+ends the series of offsets (required if OFFSETS are used)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+fitInfo keywords (all keywords are optional)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="22" columns="1">
+<features tabularvalignment="middle">
+<column alignment="left" valignment="top" width="0">
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Example fitInfo File:
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\size footnotesize
+FILES 2
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\size footnotesize
+# method min max step
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\size footnotesize
+GUESS range 14 18 0.25
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\size footnotesize
+HARDMAXPERIOD 13
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\size footnotesize
+HARDMINPERIOD 20
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\size footnotesize
+OFFSET Elisa
+\backslash
+elisa_mine_standard.txt
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\size footnotesize
+1 0.0
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\size footnotesize
+2 -0.04
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\size footnotesize
+3 0.464
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\size footnotesize
+ENDOFFSETS
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\size footnotesize
+OFFSET Elisa
+\backslash
+elisa_his_standard.txt
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\size footnotesize
+1 -0.324
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\size footnotesize
+2 -0.257
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\size footnotesize
+3 -0.237 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\size footnotesize
+4 -0.194 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\size footnotesize
+5 -0.223 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\size footnotesize
+6 -0.321 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\size footnotesize
+7 -0.246 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\size footnotesize
+8 -0.372 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\size footnotesize
+9 -0.15 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+\size footnotesize
+ENDOFFSETS
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Guess Specification
+\end_layout
+
+\begin_layout Standard
+Three different ways to specify initial guesses at the period value (in
+ hours) exist.
+\end_layout
+
+\begin_layout Itemize
+range (3 floats or ints) - a range of guesses will be used, following the
+ convention min, max, and step size
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Example: 
+\family typewriter
+GUESS RANGE 0.1 5.5 0.25
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+single (1 float or int) - one initial guess will be used
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Example: 
+\family typewriter
+GUESS SINGLE 2
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+None - if the GUESS line is excluded, Nyquist sampling will be used (see
+ section on fitData)
+\end_layout
+
+\begin_layout Subsection
+Command Line Interface
+\end_layout
+
+\begin_layout Standard
+Descriptions of all command line options
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+exit 
+\family default
+(no arguments) - exits the program
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+fit
+\family default
+ (names of objects to be fit, separated by spaces- must match folder names
+ in the Data directory) - runs a fit on the objects specified, regardless
+ of whether or not they have already been processed
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Example: 
+\family typewriter
+fit Martes Elisa
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\family typewriter
+fitAll
+\family default
+ (no arguments, or 
+\family typewriter
+'redo'
+\family default
+) - runs fits on all objects in the Data directory that do not have an existing
+ light curve plot; if the 
+\family typewriter
+'redo'
+\family default
+ argument is provided, all plots are fitted, regardless of any existing
+ fits
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+setFitOptions
+\family default
+ (option and value arguments) - sets options used in the fitting routine;
+ multiple options may be set at once
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\family typewriter
+minOrder
+\family default
+ (non-negative integer argument) - sets the minimum order to be used in
+ the Fourier fit; default is 2
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+maxOrder
+\family default
+ (non-negative integer argument greater than minOrder) - sets the maximum
+ order to be used in the Fourier fit; default is 6
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+timer
+\family default
+ (boolean) - turns a fitting timer on or off, which measures the amount
+ of time required for each fit, generally for diagnostic purposes
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Example: 
+\family typewriter
+setFitOptions minOrder 3 maxOrder 5 timer true
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+
+\family typewriter
+setOutputOptions
+\family default
+ (option and boolean setting arguments) - sets options used in the program
+ output; multiple options may be set at once; all options take booleans
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\family typewriter
+printReport 
+\family default
+- whether or not to print the fitting report on the console (default is
+ True)
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+saveReport 
+\family default
+- whether or not to save the fitting report to the object's directory (default
+ is True)
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+plotFullPeriod
+\family default
+ - whether or not to plot the full period as determined by the model; if
+ not, the model will only plot up to the available data (default is True)
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+plotErrorBars
+\family default
+ - whether or not to plot the error bars on the data (default is True)
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+phaseFoldData
+\family default
+ - whether or not to phase fold the data and model (default is True)
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+plotResiduals
+\family default
+ - whether or not to plot the residuals of the data as a subplot of the
+ light curve (default is True)
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+plotPeriodErrors
+\family default
+ - whether or not to plot the mean RMS values the errors as a function of
+ the period attempted (default is True)
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+showPlots
+\family default
+ - whether or not the show the plots (default is False); the plots will
+ always be saved to the object's directory
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\family typewriter
+showObjects
+\family default
+ (no arguments) - lists the object subdirectories found under Data
+\end_layout
+
+\begin_layout Section
+manosCurveFit Class and Function Specifications
+\end_layout
+
+\begin_layout Subsection
+The 
+\family typewriter
+lightCurveData
+\family default
+ Class
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+class 
+\family typewriter
+lightCurveData
+\family default
+\series default
+(objectName, fileNamesAndFormat[, offsetsList = None])
+\end_layout
+
+\begin_layout Standard
+Creates a lightCurveData object which is used to read in and manipulate
+ the dataset.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Parameters
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+objectName
+\series default
+ (string) - name of the object associated with the dataset 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Example: 'Spartacus20090130'
+\end_layout
+
+\begin_layout Itemize
+Stored in lightCurveData.name
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+fileNamesAndFormat 
+\series default
+(dictionary of dictionaries) - names of text files to be read in, along
+ with the associated column definitions in the data (format specification)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Example: 
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+fileName = 'Spartacus20090130_MANOS.txt'
+\end_layout
+
+\begin_layout Plain Layout
+
+# list of lists specifying ['property',column] in the text file
+\end_layout
+
+\begin_layout Plain Layout
+
+formatSpec = [['night',0],['jd',3],['diffMag',6],['magErr',7]]
+\end_layout
+
+\begin_layout Plain Layout
+
+fileNamesAndFormat = {fileName:formatSpec}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Multiple key/value pairs may be used when multiple text files are to be
+ used
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+'jd'
+\family default
+ (Julian date), 
+\family typewriter
+'diffMag'
+\family default
+ (differential magnitude), and 
+\family typewriter
+'magErr'
+\family default
+ (magnitude error) must be specified to run the program, additional properties
+ may also be stored in the 
+\family typewriter
+lightCurveData
+\family default
+ object
+\end_layout
+
+\begin_layout Itemize
+Remember that Python indexes from zero, so the left-most column in the text
+ file is column 0
+\end_layout
+
+\begin_layout Itemize
+Any white space in the text file is considered a delimiter (leading and
+ trailing white space is ignored)
+\end_layout
+
+\begin_layout Itemize
+Stored in lightCurveData.data
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+offsetsList
+\series default
+ (list of dictionaries, 
+\family typewriter
+None
+\family default
+ = no offsets) - offsets associated with nights in each text file
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Example: [{1:0.0,2:-0.04,3:0.464}]
+\end_layout
+
+\begin_layout Itemize
+Key/value pairs must be int/float pairs, where the key is the night number,
+ and the value is the offset
+\end_layout
+
+\begin_layout Itemize
+Multiple dictionaries may be used when multiple text files are to be used-
+ when this is done, the order of these dictionaries must correspond to the
+ order of the files names and specifications used in 
+\family typewriter
+fileNamesAndFormat
+\end_layout
+
+\begin_layout Itemize
+Keys may be repeated as long as they are in different dictionaries
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+'night'
+\family default
+ property must be specified in the format to use offsetsList
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+If more than one night is used for any target, all data must have associated
+ night and offset values
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+The only case where offsets are not necessary is if the entire dataset came
+ from a single night
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Subsection
+The 
+\family typewriter
+fitData()
+\family default
+ Function
+\end_layout
+
+\begin_layout Standard
+
+\family typewriter
+fitData
+\family default
+(lightCurveData, fitOptions, method = None[, periodGuess = None[, hardMinPeriod
+ = None[, hardMaxPeriod = None]]])
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+lightCurveData
+\series default
+ (lightCurveData object)
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+fitOptions 
+\series default
+(dictionary) - the options used in calculating the fit, as specified in
+ 
+\family typewriter
+setFitOptions
+\family default
+ (see Command Line Interface)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\family typewriter
+orderMin
+\family default
+ - minimum 
+\begin_inset Formula $m$
+\end_inset
+
+ value to be attempted in the Fourier model, as outlined in the Fitting
+ Rationale section (default is 2)
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+orderMax
+\family default
+ - maximum 
+\begin_inset Formula $m$
+\end_inset
+
+ value to be attempted in the Fourier model, as outlined in the Fitting
+ Rationale section (default is 6)
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+timer
+\family default
+ - whether or not to measure the amount of time it takes to fit the model
+ (default is False)
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+method
+\series default
+ (string) - method to be used for traversing the search space of periods:
+ 
+\family typewriter
+None
+\family default
+,
+\family typewriter
+ 'single' 
+\family default
+or
+\family typewriter
+ 'range
+\family default
+'; supplied by the fitInfo file, when available
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+when method is 
+\family typewriter
+None
+\family default
+, a maximum recoverable period is calculated using the Nyquist Criterion
+ for non-uniform samples
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Harris1989Asteroids"
+
+\end_inset
+
+ and periods are checked at 15 minute (0.25 hour) intervals; periodGuess
+ is ignored in this case
+\end_layout
+
+\begin_layout Itemize
+when method is 
+\family typewriter
+single
+\family default
+, periodGuess must be provided as an int or a float, which serves as the
+ only initial period used in the minimization
+\end_layout
+
+\begin_layout Itemize
+when method is 
+\family typewriter
+range
+\family default
+, periodGuess must be provided as a three-element list of 
+\family typewriter
+[start, stop, step]
+\family default
+ integers or floats, which is then automatically converted into a list of
+ initial periods for minimization
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+periodGuess
+\series default
+ (int or float or three-element list of ints or floats) - the initial period
+ used for minimization, given in hours; this provides a starting point for
+ the the period parameter, which does not remain fixed during the minimization;
+ supplied by the fitInfo file, when available
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+hardMinPeriod
+\series default
+ (int or float) - the hard lower limit for the period fitting, no period
+ below this value will be attempted in the evaluation; supplied by the fitInfo
+ file, when available
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+hardMaxPeriod
+\series default
+ (int or float) - the hard upper limit for the period fitting, no period
+ above this value will be attempted in the evaluation; supplied by the fitInfo
+ file, when available
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Returns 
+\series default
+(bestFit, bestOrder, periodsTested, periodErrors), where bestFit is a Minimizer
+ object, bestOrder is an int, and periodsTested and periodErrors are correspondi
+ng lists of floats.
+\end_layout
+
+\begin_layout Subsection
+The 
+\family typewriter
+outputResults()
+\family default
+ Function
+\end_layout
+
+\begin_layout Standard
+
+\family typewriter
+outputResults
+\family default
+(fit, m, lightCurveData, outputOptions[, periodErrors = None])
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+fit
+\series default
+ (Minimizer object) - the bestFit object returned by 
+\family typewriter
+fitData()
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+m
+\series default
+ (int) - the bestOrder returned by 
+\family typewriter
+fitData()
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+lightCurveData
+\series default
+ (lightCurveData object) - the lightCurveData object used for this run
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+outputOptions
+\series default
+ (dictionary) - the options used in displaying and saving the results of
+ the run, as specified in 
+\family typewriter
+setOutputOptions
+\family default
+ (see Command Line Interface)
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+periodErrors
+\series default
+ (n by 2 list of lists) - when provided, a second figure will be plotted
+ showing the mean RMS of the residuals as a function of period
+\end_layout
+
+\begin_layout Section
+manosCurveFit Future Improvements
+\end_layout
+
+\begin_layout Itemize
+phase angle considerations
+\end_layout
+
+\begin_layout Itemize
+polling from the Lowell ephemeris database to specify changes due to orbit
+\end_layout
+
+\begin_layout Itemize
+method to limit the Nyquist maximum recoverable period result, which may
+ be unreasonably large due to uneven sampling, possibly using a periodogram
+\end_layout
+
+\begin_layout Itemize
+generalize the inputs for
+\family typewriter
+ lightCurveData.getData()
+\family default
+, which  currently can only take in floats, so things such as filters (which
+ may be characters) can't be read in
 \end_layout
 
 \end_body

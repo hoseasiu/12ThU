@@ -109,7 +109,45 @@ File Setup
 By default, manosCurveFit.py assumes that it is in a directory that is at
  the same level as a directory called 'Data,' which contains subdirectories
  named after each asteroid with data.
- Raw light curve data must be placed in space-delimited .txt files in each
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename fileStructure.PNG
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Default assumed file structure for manosCurveFit.py.
+ Outputs will be saved in the objects' folders (Object1 and Object2 here).
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Raw light curve data must be placed in space-delimited .txt files in each
  of these named directories, with the first column being Julian Date, the
  second being magnitude, the third being magnitude error, and an optional
  fourth column for the (numbered) night the data was collected.
@@ -1365,11 +1403,11 @@ showObjects
  (no arguments) - lists the object subdirectories found under Data
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Section
 Class and Function Specifications
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsection
 The 
 \family typewriter
 lightCurveData
@@ -1555,6 +1593,11 @@ The only case where offsets are not necessary is if the entire dataset came
 \end_layout
 
 \end_deeper
+\end_deeper
+\begin_layout Standard
+
+\end_layout
+
 \begin_layout Subsection
 The 
 \family typewriter
@@ -1563,7 +1606,6 @@ fitData()
  Function
 \end_layout
 
-\end_deeper
 \begin_layout Standard
 
 \family typewriter
@@ -1734,7 +1776,7 @@ Returns
 ng lists of floats.
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsection
 The 
 \family typewriter
 outputResults()
@@ -1805,7 +1847,7 @@ Future Improvements
 \end_layout
 
 \begin_layout Itemize
-phase angle considerations
+phase angle considerations, pending upgrades to the Lowell orbital databases
 \end_layout
 
 \begin_layout Itemize
