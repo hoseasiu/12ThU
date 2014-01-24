@@ -159,17 +159,33 @@ e cases.
 This thesis extends on the work done on asteroidal Earth encounters described
  above by examining the effects of Earth encounters on asteroid rotational
  periods and amplitudes.
- To these effects, minimum orbit intersection distance (MOID) may be used
- as a measure how close an Earth encounter was.
+ To approximate the probability of Earth encounters, the minimum orbit intersect
+ion distance (MOID) parameter was used.
+ MOID is defined as the distance between the closest points of two bodies'
+ osculating orbits.
+ Here, MOID is a better parameter to use than the direct geometric distance
+ between the Earth and the objects because the integration of an object's
+ position in its orbit loses precision much after than information about
+ the orbit itself, lending greater value to using MOID in timescales on
+ the order of centuries or more.
+ It is important to note though, that MOID provides an estimate of the lower
+ bound of the distance of an encounter, it does not guarentee that an encounter
+ occurs, but simply suggests in increased likelihood with a lower value
  Instantaneous MOID may be determined from the present-day orbital parameters
- of an object, and will be used as a first-pass look at the relationship
- between encounters and period/amplitude.
- A more in-depth look may involve conducting a MOID calculation by integrating
+ of an object, and was used as a first-pass look at the relationship between
+ encounters and period/amplitude.
+ A more in-depth look involved conducting a MOID calculation by integrating
  the orbit of a particular object back into the past to determine how gravitatio
 nal perturbations may have changed the MOID to its present-day value.
  This thesis uses photometric and astrometric data from an ongoing asteroid
- survey to extract rotational periods, rotational amplitudes, and MOID for
- small (D < 1 km) NEOs.
+ survey (MANOS, decribed later) to extract rotational periods, rotational
+ amplitudes, and MOID for small (D < 1 km) NEOs.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+TODO - rewrite this paragraph as things change
 \end_layout
 
 \begin_layout Standard
@@ -180,9 +196,9 @@ reference "part:Background"
 
 \end_inset
 
- of this thesis presents the background of NEO observations, focusing on
- the distributions of rotations, and also describes the survey from which
- this thesis draws its data.
+ of this thesis presents the background of NEO populations, the effects
+ of planetary encounters on NEO rotational dynamics, and describes the survey
+ from which this thesis draws much of its data.
  Part 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -350,10 +366,6 @@ TODO - something about the importance of asteroid investigations?
 \end_layout
 
 \begin_layout Section
-Asteroid Light Curves and Rotation
-\end_layout
-
-\begin_layout Section
 Planetary Encounters
 \end_layout
 
@@ -363,6 +375,11 @@ Tidal forces encountered near the terrestrial planets cause a number of
  Distortion and disruption have been found to occur with Earth-crossing
  asteroids in numerical simulations, with results ranging from elongation
  and mass stripping, to the formation of fragment trains and binary systems
+ , with low-inclination, low 
+\begin_inset Formula $V_{\infty}$
+\end_inset
+
+, and long-rotational-period asteroids experiencing the most severe effects
  
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -371,8 +388,8 @@ key "Richardson1998Icarus,Bottke1998PSS"
 \end_inset
 
 .
- Chapman argues that large, monolithic MBAs may have been fragmented by
- collisions to form rubble piles 
+ Chapman (1978) argues that large, monolithic MBAs may have been fragmented
+ by collisions to form rubble piles 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Chapman1978Asteriods"
@@ -402,7 +419,7 @@ r-Levy 9 during its 1992 Jupiter encounter.
  strong enough disruptions to form binary systems 
 \begin_inset CommandInset citation
 LatexCommand cite
-key "Pravec2000Icarus,Pravec2002AsteroidsIII"
+key "Pravec2000Icarus,Pravec2002AsteroidsIII,Walsh2006Icarus"
 
 \end_inset
 
@@ -410,64 +427,113 @@ key "Pravec2000Icarus,Pravec2002AsteroidsIII"
 \end_layout
 
 \begin_layout Standard
+Planetary encounters have also been shown to cause 'freshening' of the surface
+ of asteroids.
+ This process runs counter to the usual 'space weathering' process whereby
+ asteroids become increasingly reddened, instead making them appear less
+ weathered.
+ Binzel et al.
+ (2010) showed that Mars- and Earth-crossing asteroids that have closer
+ encounters with the terrestrial planets tend to appear less weathered.
+ This investigation involved using the Minimum Orbit Intersection Distance
+ parameter as a measure of the possibility of an Earth encounter, showing
+ that for an integrated MOID, objects that likely had planetary encounters
+ over the past 500,000 years showed less signs of weathering than objects
+ that were kept away from a planetary encounter 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Binzel2010Nature"
 
-\series bold
-TODO - freshening
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
+Numerical simulations across a distribution of asteroid spin states showed
+ that while planetary encounters may cause either spin-up or spin-down in
+ individual asteroids, there is an overall trend towards spin-ups, one that
+ is particularly prevalent for bodies with a slow initial rotation 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Scheeres2004NeoRotations"
 
-\series bold
-TODO - rotation
+\end_inset
+
+.
+ Recently, radar imaging of 4179 Toutatis- an asteroid that makes periodic
+ near-Earth flybys- gave a series observation that showed terrestrial tidal
+ torques altering the rotational dynamics of the asteroid.
+ These torques mostly caused changes in orientation as the asteroid passed
+ close to the Earth, but a particularly close encounter in 2004 demonstrated
+ a significant perturbation in the angular momentum of the asteroid that
+ persists to the present 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Takahashi2013AJ"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Section
-Previous Asteroid Surveys
+Asteroid Surveys
 \end_layout
 
 \begin_layout Standard
-Asteroid surveys in the past have been biased towards larger, brigher objects,
- rarely being able to resolve asteroids dimmer than 22nd absolute magnitude
- because of technological limitations
+Asteroid surveys in the past have been able to find and characterize thousands
+ of main-belt and near-Earth asteroids.
+ Many past surveys focused on discovery, with examples including LONEOS,
+ LINEAR, Catalina, and Pan-STARRS.
+ Some studies were specifically for characterization of known objects, such
+ as the albedo characterization done by IRAS, WISE and Akari, and the spectral
+ characterization done by SMASS.
+ These surveys were able to extensively sample the population of asteroids
+ that is larger than the rubble pile limit, however technological limitations
+ meant that they were biased towards being able to observe larger, brigher
+ objects, rarely being able to resolve asteroids dimmer than 22nd absolute
+ magnitude 
 \begin_inset CommandInset citation
 LatexCommand cite
-key "Jedicke2002AsteroidsIII"
+key "Binzel1989AsteroidsIIRotation,Jedicke2002AsteroidsIII"
 
 \end_inset
 
 .
- 
-\series bold
-STUFF GOES HERE
 \end_layout
 
 \begin_layout Standard
 The past decade has seen a rapid increase in the number of detected NEOs,
  partly due to advances in observation and computing technologies, but also
  because of a mandate by the American government to characterize 90% of
- NEOs larger than 1 km that may present an impact hazard.
-\end_layout
+ NEOs larger than 1 km that may present an impact hazard 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Binzel2002AsteroidsIII"
 
-\begin_layout Section
-Mission Accessible Near-Earth Object Survey
-\end_layout
+\end_inset
 
-\begin_layout Standard
-A new, multi-year program started in August of 2013 called the Mission Accessibl
-e Near-Earth Object Survey (MANOS) seeks to leverage advances in observing
- capabilities to characterize asteroid targets that would have been previously
- impossible to do, with a focus on targets that would be accessible by space
- missions utilizing conventional chemical propulsion.
- The focus of MANOS is on rough characterization of many mission-accessible
- NEOs via astrometry, light curves, and spectra.
+.
+ A new, multi-year program started in August of 2013 called the Mission
+ Accessible Near-Earth Object Survey (MANOS) seeks to leverage advances
+ in observing capabilities to characterize asteroid targets that are more
+ than an order of magnitude smaller than those covered by previous studies.
+ It is specifically focusing on sub-kilometer-sized targets that would be
+ accessible by space missions utilizing conventional chemical propulsion
+ to support target selection efforts for future missions, providing rough
+ characterization of targeted NEOs via astrometry, light curves, and spectra.
  Mission-accessible is defined to be having a 
 \begin_inset Formula $\Delta V$
 \end_inset
 
  < 7 km/s, which is the approximate limit of conventional chemical propulsion.
- The goal is for the program to characterize approximately 100 NEOs per
- year, meaning that there will be a large throughput of data during the
- survey period, which is expected to last 3 to 5 years.
+ The program aims to characterize approximately 100 NEOs per year, meaning
+ that there will be a large throughput of data during the survey period,
+ which is expected to last 3 to 5 years.
+ This thesis draws its data primarily from the MANOS dataset, and a part
+ of the work done for the thesis was automated data processing for the MANOS
+ pipeline.
 \end_layout
 
 \begin_layout Standard
@@ -514,15 +580,15 @@ setcounter{section}{0}
 
 \begin_layout Standard
 As part of this project, a fitting routine was developed to automatically
- scan reduced MANOS photometry data and convert it to a light curve model
+ scan reduced MANOS photometry data and convert it into a light curve model
  which provides the period and amplitude.
  Before this work, curve fitting for MANOS was done using software built
  on MATLAB, which contained some components that were relatively poorly
  documented and required a proprietary platform.
- Other fitting methods, such as Canopus, were similarly based on proprietary
- software.
+ Other common fitting methods, such as Canopus, were similarly based on
+ proprietary software.
  manosCurveFit was developed from scratch specifically for the MANOS data
- pipeleine and, represents one of very few pieces of light curve fitting
+ pipeleine and represents one of very few pieces of light curve fitting
  software that is free and open source, and possibly the only such software
  that is tailored for asteroid fits.
 \end_layout
@@ -1238,6 +1304,12 @@ setcounter{section}{0}
 
 \end_layout
 
+\begin_layout Standard
+
+\series bold
+TODO - fix reference numbering
+\end_layout
+
 \begin_layout Bibliography
 \begin_inset CommandInset bibitem
 LatexCommand bibitem
@@ -1560,11 +1632,58 @@ Pravec, Petr, and Alan W.
 \begin_layout Bibliography
 \begin_inset CommandInset bibitem
 LatexCommand bibitem
-key "key-1"
+label "14"
+key "Walsh2006Icarus"
 
 \end_inset
 
-Walsh
+Walsh, Kevin J., and Derek C.
+ Richardson.
+ "Binary near-Earth asteroid formation: Rubble pile model of tidal disruptions."
+ Icarus 180.1 (2006): 201-216.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "15"
+key "Binzel1989AsteroidsIIRotation"
+
+\end_inset
+
+Binzel, R.
+ P., Farinella, P., Zappala, V., & Cellino, A.
+ 1989.
+ 
+\begin_inset Quotes eld
+\end_inset
+
+Asteroid rotation rates-Distributions and statistics
+\begin_inset Quotes erd
+\end_inset
+
+ in “Asteroids II,” ed.
+ R.
+ P.
+ Binzel, T.
+ Gehrels, & M.
+ S.
+ Matthews.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "16"
+key "Scheeres2004NeoRotations"
+
+\end_inset
+
+Scheeres, Daniel J., F.
+ Marzari, and A.
+ Rossi.
+ "Evolution of NEO rotation rates due to close encounters with Earth and
+ Venus." Icarus 170.2 (2004): 312-323.
 \end_layout
 
 \begin_layout Standard
@@ -2939,7 +3058,8 @@ manosCurveFit Future Improvements
 \end_layout
 
 \begin_layout Itemize
-phase angle considerations
+phase angle considerations, pending improvements to the Lowell Observatory
+ orbital parameters database
 \end_layout
 
 \begin_layout Itemize
