@@ -81,6 +81,14 @@ Effects of Earth Encounters on Near-Earth Asteroid Light Curves
 ABSTRACT GOES HERE
 \end_layout
 
+\begin_layout Standard
+TODO
+\end_layout
+
+\begin_layout Itemize
+fix citation numbering
+\end_layout
+
 \begin_layout Part
 Introduction
 \end_layout
@@ -107,7 +115,7 @@ key "Richardson1998Icarus"
 
  conducted numerical simulations which showed that the tidal forces encountered
  by Earth-crossing asteroids may cause mass shifting and removal during
- a flyby, resulting changes such as in distortions, fragment trains, and
+ a flyby, resulting in changes such as distortions, fragment trains, and
  orbiting ejecta.
  Rotation in particular was studied by Takihashi et al.
  
@@ -137,8 +145,8 @@ key "Harris1989AsteroidsII"
  by using a 'reduced magnitude' value, but the periodic changes in brightness
  due to rotation and phase angle yield important information regarding the
  dynamics of the asteroid.
- Along with other information, spin rates may tell us about the structure
- and collision history of an asteroid.
+ Along with other information, rotational periods, or spin rates, may tell
+ us about the structure and collision history of an asteroid.
  Most larger asteroids (0.15 km < D < 10 km) are thought to be 'rubble piles'
  held together by self-gravity, since a rate barrier appears to exist, beyond
  which small asteroids are not found to exceed 
@@ -165,12 +173,13 @@ ion distance (MOID) parameter was used.
  osculating orbits.
  Here, MOID is a better parameter to use than the direct geometric distance
  between the Earth and the objects because the integration of an object's
- position in its orbit loses precision much after than information about
- the orbit itself, lending greater value to using MOID in timescales on
- the order of centuries or more.
+ position in its orbit loses precision much faster than information about
+ the orbit itself.
+ This lends greater value to using MOID for timescales on the order of centuries
+ or more.
  It is important to note though, that MOID provides an estimate of the lower
  bound of the distance of an encounter, it does not guarentee that an encounter
- occurs, but simply suggests in increased likelihood with a lower value
+ occurs, but simply suggests an increased likelihood with a lower value.
  Instantaneous MOID may be determined from the present-day orbital parameters
  of an object, and was used as a first-pass look at the relationship between
  encounters and period/amplitude.
@@ -196,9 +205,9 @@ reference "part:Background"
 
 \end_inset
 
- of this thesis presents the background of NEO populations, the effects
- of planetary encounters on NEO rotational dynamics, and describes the survey
- from which this thesis draws much of its data.
+ presents the background of NEO populations, the effects of planetary encounters
+ on NEO rotational dynamics, and describes the survey from which this thesis
+ draws much of its data.
  Part 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -207,7 +216,7 @@ reference "part:Light-Curve-Fitting"
 \end_inset
 
  details an automatic light curve fitting method developed for as part of
- this thesis, particularly tailored for the ongoing nature and specific
+ this project, particularly tailored for the ongoing nature and specific
  targets of the new survey.
  Finally, Part 
 \begin_inset CommandInset ref
@@ -1307,7 +1316,32 @@ setcounter{section}{0}
 \begin_layout Standard
 
 \series bold
-TODO - fix reference numbering
+FIGURE: scatterplot of AAA asteroids with MOID values (figure out appropriate
+ axes for these- maybe a vs MOID with different colors?)
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+FIGURE: scatterplot of previous NEOs with MOID vs instantaneous MOID
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+FIGURE: change in MOID before and after evolution
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+FIGURE: MOID vs amplitude
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+FIGURE: MOID vs period
 \end_layout
 
 \begin_layout Bibliography
@@ -3058,7 +3092,7 @@ manosCurveFit Future Improvements
 \end_layout
 
 \begin_layout Itemize
-phase angle considerations, pending improvements to the Lowell Observatory
+add phase angle considerations, pending improvements to the Lowell Observatory
  orbital parameters database
 \end_layout
 
@@ -3067,8 +3101,9 @@ polling from the Lowell ephemeris database to specify changes due to orbit
 \end_layout
 
 \begin_layout Itemize
-method to limit the Nyquist maximum recoverable period result, which may
- be unreasonably large due to uneven sampling, possibly using a periodogram
+implement a method to limit the Nyquist maximum recoverable period result,
+ possibly using a periodogram, since it currently may be unreasonably large
+ due to uneven sampling
 \end_layout
 
 \begin_layout Itemize
