@@ -66,8 +66,9 @@ class RunOptionsShell(cmd.Cmd):
         'Scans and attempts to fit all objects in \'Data\' folder; ignores previously fitted data by default, \'fitAll redo\' fits all objects regardless of any existing fits'
         objects = lookInFolder('dir')[1]
         args = arg.split()
-        if args[0] == 'redo':
-            self.runFitting(objects, ignore = False)        # redo all objects regardless of whether or not they have a fit
+        if len(args) != 0:
+            if args[0] == 'redo':
+                self.runFitting(objects, ignore = False)        # redo all objects regardless of whether or not they have a fit
         else:
             self.runFitting(objects)                        # only fit objects that haven't already been done
 
@@ -112,7 +113,6 @@ class LightCurveData:
         global basepath
         # TODO - have to change this for the MANOS file structure
         filepath = os.path.abspath(os.path.join(basepath, "..", 'Data', fileName))
-
         textFile = np.loadtxt(filepath,'a12')          # extract data from text file
             
         # separate data into appropriately-named arrays - assumes that everything is a float (generalize?)
@@ -520,7 +520,7 @@ def outputResults(fit, m, LightCurveData, outputOptions, periodErrors = None):
             plt.xlabel('JD + ' + str(int(min(LightCurveData.data['jd']))))
 
     plt.subplots_adjust(hspace = 0.5)
-    plt.savefig(filepath + '\\' + LightCurveData.name + 'LightCurve')               # save the light curve plot
+    plt.savefig(os.path.join(filepath,(LightCurveData.name + 'LightCurve')))               # save the light curve plot
     print 'RMS of residuals = ' + str(np.sqrt(sum(residuals**2)/float(len(residuals))))
 
     if periodErrors is not None and outputOptions['plotPeriodErrors']:
@@ -535,13 +535,13 @@ def outputResults(fit, m, LightCurveData, outputOptions, periodErrors = None):
                 plt.title('RMS of Residuals for ' + objectName + ' Fit')
                 plt.ylabel('RMS (magnitude)')
                 plt.xlabel('period (h)')
-                plt.savefig(filepath + '\\' + LightCurveData.name + 'MeanResiduals')               # save the light curve plot
+                plt.savefig(os.path.join(filepath, (LightCurveData.name + 'MeanResiduals')))               # save the light curve plot
 
     if outputOptions['printReport']:
         print '\nFIT RESULTS:'
         report_fit(fit.params, show_correl = False)
     if outputOptions['saveReport']:
-        f = open(filepath + '\\' + LightCurveData.name + 'FitReport.txt', 'w')
+        f = open(os.path.join(filepath, (LightCurveData.name + 'FitReport.txt')), 'w')
         f.write(fit_report(fit.params,show_correl=False))
         f.write('\nmodel amplitude = ' + str(amp))
         f.close()
@@ -566,9 +566,9 @@ def extractRunOptions(objectName):
             with open(os.path.join(filePath,objectFiles[o])) as f:      # check if we're looking at a 3-col or 4-col file
                 content = f.readlines()
                 if len(string.split(content[0])) == 3:
-                    fileNamesAndFormat[objectName + '\\' + objectFiles[o]] = [['jd',0],['diffMag',1],['magErr',2]]
+                    fileNamesAndFormat[os.path.join(objectName,objectFiles[o])] = [['jd',0],['diffMag',1],['magErr',2]]
                 elif len(string.split(content[0])) == 4:
-                    fileNamesAndFormat[objectName + '\\' + objectFiles[o]] = [['jd',0],['diffMag',1],['magErr',2],['night',3]]
+                    fileNamesAndFormat[os.path.join(objectName,objectFiles[o])] = [['jd',0],['diffMag',1],['magErr',2],['night',3]]
         elif objectFiles[o] == objectName + '_fitInfo.txt':
             if fitInfoFound == False:
                 fitInfoFound = True
