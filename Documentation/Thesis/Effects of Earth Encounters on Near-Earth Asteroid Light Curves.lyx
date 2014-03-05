@@ -646,23 +646,27 @@ Flowchart showing the conversion from raw data to fitted plots.
 \end_layout
 
 \begin_layout Standard
-The fitting routine may be generally divided into input, evaluation, and
+The fitting routine fits a mathematical model to light curve data.
+ The fitting process may be generally divided into input, evaluation, and
  output portions.
  The inputs in parentheses are not required for the fitting to work, but
  a guess at the rotational period may significantly constrain the search
  space, and if data is taken over multiple nights and/or by different instrument
-s, offsets will be required to normalize the magnitudes to some baseline.
+s, offsets are required to normalize the magnitudes to some baseline.
  A number of other inputs may also be supplied to constrain or expand the
  search space.
  These inputs may be supplied by the fitInfo file for each object.
  The light curve data is then read in from one or more text files with standardi
 zed columns.
- Two kinds of magnitude offsets are then applied: offsets by night/instrument,
+\end_layout
+
+\begin_layout Standard
+Two kinds of magnitude offsets are then applied: offsets by night/instrument,
  if provided, and a normalizing offset which subtracts the weighted average
  magnitude of the set from the entire set.
- The latter offset is necessary in order to center the data points on the
- y-axis for fitting purposes, and may be used in this context because only
- differential magnitudes are needed.
+ The normalizing offset is necessary in order to center the data points
+ on the y-axis for fitting purposes, and may be used in this context because
+ only differential magnitudes are needed.
  This acts as a coarse adjustment for y-axis centering.
  A finer adjustment is made by a y-axis offset for the model, which is taken
  to be part of the least squares minimization.
@@ -711,7 +715,8 @@ reference "eq:biasCorrectedVar"
 
 \end_inset
 
-, below), where the model is based on the Fourier Series
+, below).
+ The model is based on the Fourier Series
 \end_layout
 
 \begin_layout Standard
@@ -814,7 +819,7 @@ where
  In the context of NEOs, the phase angle may very well change, particularly
  as targets pass very close to Earth.
  However, the majority of MANOS targets will be observed for a short enough
- period of time that 
+ period of time (on the order of a few hours) that 
 \begin_inset Formula $\alpha$
 \end_inset
 
@@ -880,7 +885,7 @@ By default, the program will run the fit from
  are expected to be double-peaked (except for some cases of unstable rotation
  or degenerate cases of near-spherical bodies), and the maximum of order
  six is used to prevent over-fitting.
- The curve is centered around zero magnitude by a weighed average of the
+ The curve is centered around zero magnitude by a weighted average of the
  data, but since there is often still a slight magnitude offset due to the
  nonuniform nature of the sampling, a magnitude offset parameter was added
  to allow for a better fit.
@@ -889,8 +894,8 @@ By default, the program will run the fit from
 \end_layout
 
 \begin_layout Standard
-Additionally, any models which produce amplitudes greater than 2 will be
- rejected.
+Precautions were taken to prevent overfitted or unsubstantiated models.
+ Any models which produce amplitudes greater than 2 are rejected.
  This is necessary to prevent the fit from assuming a model in which the
  data are a small portion of a much longer period with one or more large
  spikes where data is not present.
@@ -904,10 +909,9 @@ Fitting Results and Data Products
 \end_layout
 
 \begin_layout Standard
-By default, the software will automatically produce two figures and a text
- file report of the fit, which are then saved to the same folder as the
- data.
- Examples of these for plots for may be seen in Figures 
+By default, the software automatically produces two figures and a text file
+ report of the fit, which are then saved to the same folder as the data.
+ Examples of these for plots may be seen in Figures 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:fitPlot"
@@ -947,8 +951,12 @@ reference "fig:residualsPlot"
  fitting process, with the fit that provided the minimum RMS value representing
  the fit that was eventually accepted.
  These figures represent a set of data that was composed of 12 nights, split
- into two input text files, all of which was automatically merged and processed
+ into two input text files, all of which were automatically merged and processed
  by the program.
+ This kind of dataset is more complex than most typical MANOS datasets,
+ which will generally be data from a few hours on one instrument for a single
+ night, so multiple input files and automatic merging will largely be unnecessar
+y.
 \end_layout
 
 \begin_layout Standard
@@ -980,6 +988,9 @@ name "fig:fitPlot"
 
 One of the figures produced by manosCurveFit, showing the data points on
  top of the fitted model (top) along with the residuals of the fit (bottom).
+ The model automatically phase-folded the data to give the best fit, and
+ the residuals here show an example of what would occur for a good fit,
+ since there is no notable bias or structure in the residual plot.
 \end_layout
 
 \end_inset

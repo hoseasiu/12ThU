@@ -7,3 +7,4 @@ GUESS	range	0.01	3	0.05
 # hard minimum to not search below
 
 # hard maximum to not search above
+HARDMAXPERIOD 10
