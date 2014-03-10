@@ -315,11 +315,13 @@ def makeModelUncertainties(params, t):
     Uses Nyquist Criterion for the general non-uniform sampling case
     # TODO - an outlier in sampling time seems like it would throw this off- any correction?
     # TODO - maybe use a periodigram to figure out a better estimate for a max
+    ## UPDATE DOCUMENTATION
 '''
 def findRecoverablePeriod(time):
     timeRange = np.max(time)-np.min(time)
-    sampleRate = len(time)/timeRange            # samples per JD
-    period = sampleRate/2.2                     # 2.2 used as a buffer, per Harris and Lupishko (Asteroids II)
+#    sampleRate = len(time)/timeRange            # samples per JD
+#    period = sampleRate/2.2                     # 2.2 used as a buffer, per Harris and Lupishko (Asteroids II)
+    period = timeRange*5.0
     return period                               # in JD
 
 
@@ -569,6 +571,8 @@ def extractRunOptions(objectName):
                     fileNamesAndFormat[os.path.join(objectName,objectFiles[o])] = [['jd',0],['diffMag',1],['magErr',2]]
                 elif len(string.split(content[0])) == 4:
                     fileNamesAndFormat[os.path.join(objectName,objectFiles[o])] = [['jd',0],['diffMag',1],['magErr',2],['night',3]]
+                elif len(string.split(content[0])) == 8:    # this should be the actual MANOS format
+                    fileNamesAndFormat[os.path.join(objectName,objectFiles[o])] = [['jd',3],['diffMag',6],['magErr',7]]
         elif objectFiles[o] == objectName + '_fitInfo.txt':
             if fitInfoFound == False:
                 fitInfoFound = True
