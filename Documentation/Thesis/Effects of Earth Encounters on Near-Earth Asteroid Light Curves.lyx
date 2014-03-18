@@ -89,6 +89,26 @@ TODO
 fix citation numbering
 \end_layout
 
+\begin_layout Itemize
+change title from 
+\begin_inset Quotes eld
+\end_inset
+
+light curves
+\begin_inset Quotes erd
+\end_inset
+
+ to 
+\begin_inset Quotes eld
+\end_inset
+
+rotational period and shape
+\begin_inset Quotes erd
+\end_inset
+
+?
+\end_layout
+
 \begin_layout Part
 Introduction
 \end_layout
@@ -132,8 +152,9 @@ key "Takahashi2013AJ"
 \begin_layout Standard
 Rotational period and asteroid shape are properties which may be extracted
  from a photometric light curve after a period of observation.
- The brightness of individual asteroids varies due to changes in heliocentric
- and geocentric distance, rotation, and solar phase angle 
+ Furthermore, the brightness of individual asteroids varies due to changes
+ in heliocentric and geocentric distance, rotation, and solar phase angle
+ 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Harris1989AsteroidsII"
@@ -145,10 +166,14 @@ key "Harris1989AsteroidsII"
  by using a 'reduced magnitude' value, but the periodic changes in brightness
  due to rotation and phase angle yield important information regarding the
  dynamics of the asteroid.
- Along with other information, rotational periods, or spin rates, may tell
- us about the structure and collision history of an asteroid.
+\end_layout
+
+\begin_layout Standard
+Rotational periods, or spin rates, may tell us about the structure and collision
+ history of an asteroid, while light curve amplitudes may tell us about
+ the shapes of asteroids.
  Most larger asteroids (0.15 km < D < 10 km) are thought to be 'rubble piles'
- held together by self-gravity, since a rate barrier appears to exist, beyond
+ held together by self-gravity, since a rate barrier appears to exist, past
  which small asteroids are not found to exceed 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -157,14 +182,18 @@ key "Pravec2002AsteroidsIII"
 \end_inset
 
 .
- As spin states asymtotically approach rotation around the principal axis
+ As spin states asymptotically approach rotation around the principal axis
  of maximum moment of inertia, asteroid light curves are expected to be
  at least double-peaked, with the exception of near-spherical or other degenerat
 e cases.
+ Light curve amplitudes are indicative of asteroid shapes because elongated
+ asteroids may have greater variation between the least amount of light
+ that it reflects and the most that it reflects, depending on what its angle
+ is relative to the Sun and the Earth.
 \end_layout
 
 \begin_layout Standard
-This thesis extends on the work done on asteroidal Earth encounters described
+This thesis expands on the work done on asteroidal Earth encounters described
  above by examining the effects of Earth encounters on asteroid rotational
  periods and amplitudes.
  To approximate the probability of Earth encounters, the minimum orbit intersect
@@ -177,18 +206,23 @@ ion distance (MOID) parameter was used.
  the orbit itself.
  This lends greater value to using MOID for timescales on the order of centuries
  or more.
- It is important to note though, that MOID provides an estimate of the lower
- bound of the distance of an encounter, it does not guarentee that an encounter
- occurs, but simply suggests an increased likelihood with a lower value.
+ It is important to note, though, that MOID provides an estimate of the
+ lower bound of the distance of an encounter.
+ It does not guarentee that an encounter occurs, but simply suggests an
+ increased likelihood with a lower value.
  Instantaneous MOID may be determined from the present-day orbital parameters
- of an object, and was used as a first-pass look at the relationship between
- encounters and period/amplitude.
+ of an object, and was used here as a first-pass look at the relationship
+ between encounters and period/amplitude.
  A more in-depth look involved conducting a MOID calculation by integrating
  the orbit of a particular object back into the past to determine how gravitatio
 nal perturbations may have changed the MOID to its present-day value.
  This thesis uses photometric and astrometric data from an ongoing asteroid
- survey (MANOS, decribed later) to extract rotational periods, rotational
- amplitudes, and MOID for small (D < 1 km) NEOs.
+ survey (MANOS, decribed 
+\series bold
+IN SECTION XY.Z
+\series default
+) to extract rotational periods, rotational amplitudes, and MOID for small
+ (D < 1 km) NEOs.
 \end_layout
 
 \begin_layout Standard
@@ -215,9 +249,9 @@ reference "part:Light-Curve-Fitting"
 
 \end_inset
 
- details an automatic light curve fitting method developed for as part of
- this project, particularly tailored for the ongoing nature and specific
- targets of the new survey.
+ presents an automatic light curve fitting method developed for as part
+ of this project, particularly tailored for the ongoing nature and specific
+ targets of MANOS.
  Finally, Part 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -225,7 +259,7 @@ reference "part:MOID-and-Light"
 
 \end_inset
 
- describes the results obtained from the Earth encounter analysis of this
+ presents the results obtained from the Earth encounter analysis of this
  population of asteroids.
 \end_layout
 
@@ -277,7 +311,7 @@ The NEO Population
 
 \begin_layout Standard
 Objects that have orbits that take them near the orbit of Earth are known
- as near-Earth objects.
+ as near-Earth objects (NEOs).
  Typically, the NEOs of concern are Earth-crossing asteroids, which are
  divided into three major categories based on their orbital elements: the
  Aten, Apollo, and Amor groups, which are collectively known as the AAA
@@ -298,8 +332,9 @@ key "Shoemaker1979AsteroidsI"
 \end_inset
 
  (the perihelion distance of Earth).
- This means that Aten objects only sometimes cross the orbit of Earth.
- Apollos are defined to have a 
+ This classification means that Aten objects only sometimes cross the orbit
+ of Earth.
+ Apollos are defined to have an 
 \begin_inset Formula $a\geq1.0$
 \end_inset
 
@@ -308,22 +343,26 @@ key "Shoemaker1979AsteroidsI"
 \end_inset
 
  (the aphelion distance of Earth).
- Amors are defined just by their perhelion distance, such that 
+ Amors are defined solely by their perhelion distance, namely 
 \begin_inset Formula $1.1067\leq q\leq1.3$
 \end_inset
 
-, meaning they are currently actually near-Earth-crossers, but do not actually
- currently qualify as Earth-crossing asteroids.
+, meaning they are near-Earth-crossers but do not currently qualify as Earth-cro
+ssing asteroids.
+ An NEO is considered a potentially hazardous object (PHO) if its minimum
+ orbit intersection distance (MOID) is less than 0.05 AU and is of a size
+ that is large enough to cause significant damage if it were to impact the
+ Earth.
  Orbital perturbations may, naturally, change the classification of any
  particular NEO between these groups.
 \end_layout
 
 \begin_layout Standard
-The orbits of NEOs generally mean that they stay as NEOs for at most a few
- million years, eventually ending up crashing into the Sun, terrestrial
- planets, or being flung out of the solar system.
+The orbital characteristics of NEOs generally mean that they stay as NEOs
+ for at most a few million years, eventually crashing into the Sun or terrestria
+l planets, or being flung out of the solar system.
  The fact that the number of NEOs has remained steady over the last 3 billion
- years suggests that there is a source of resupply 
+ years suggests that there is a source of resupply for the population 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Bottke2002AsteroidsIII"
@@ -333,7 +372,7 @@ key "Bottke2002AsteroidsIII"
 .
  It is believed that main belt asteroids (MBAs) provide the bulk of NEO
  resupply, with Jupiter and Saturn resonances causing asteroids to move
- from the main belt to an NEO orbit.
+ from main belt to an NEO orbits.
  Smaller NEOs are likely collision fragments from MBAs, and exhibit younger
  (less-weathered) surfaces due to the difficulty of surviving further collisions
  or planetary ecounters 
@@ -347,18 +386,20 @@ key "Binzel2002AsteroidsIII"
 \end_layout
 
 \begin_layout Standard
-The NEO population is of special interest because of its proximity to Earth.
- NEOs with low-inclination and low-eccentricity in particular are some of
- the easiest solar system targets for space missions, due to the relatively
+The NEO population is of special interest planetary astronomers because
+ of its proximity to Earth.
+ NEOs with low inclination and low eccentricity in particular are some of
+ the best solar system targets for space missions due to the relatively
  low 
 \begin_inset Formula $\Delta V$
 \end_inset
 
  and short time frame required to reach them.
- Additionally, their inner solar system orbits and periodic proximity to
- Earth mean that thermal and power considerations for rendezvous and flyby
- missions can be significantly simplified, making them relatively low-cost
- and within the reach of early private-sector space missions 
+ Additionally, the inner solar system orbits and periodic proximity to Earth
+ of these NEOs mean that thermal and power considerations for rendezvous
+ and flyby missions can be significantly simplified compared to near-Sun
+ or outer solar system missions, making them relatively low-cost and within
+ the reach of early private-sector space missions 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Perozzi2001PSS"
@@ -383,13 +424,13 @@ Tidal forces encountered near the terrestrial planets cause a number of
  changes to asteroids.
  Distortion and disruption have been found to occur with Earth-crossing
  asteroids in numerical simulations, with results ranging from elongation
- and mass stripping, to the formation of fragment trains and binary systems
- , with low-inclination, low 
+ and mass stripping, to the formation of fragment trains and binary systems.
+ Low-inclination, low 
 \begin_inset Formula $V_{\infty}$
 \end_inset
 
-, and long-rotational-period asteroids experiencing the most severe effects
- 
+, and long-rotational-period asteroids experienced the most severe effects
+ in these simulations
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Richardson1998Icarus,Bottke1998PSS"
@@ -417,7 +458,7 @@ key "Chapman1978Asteriods"
  Fragment trains are generally formed from distortion processes that cause
  elongation, resulting in a pattern similar to what happened to Comet D/Shoemake
 r-Levy 9 during its 1992 Jupiter encounter.
- Binary systems, on the other hand, are often formed due to spin-up, which
+ Binary systems, on the other hand, are often formed from spin-up, which
  causes rubble pile asteroids to fling mass off their equators, resulting
  in an orbiting body.
  The fact that about half of the observed fast-rotating (
@@ -445,10 +486,11 @@ Planetary encounters have also been shown to cause 'freshening' of the surface
  (2010) showed that Mars- and Earth-crossing asteroids that have closer
  encounters with the terrestrial planets tend to appear less weathered.
  This investigation involved using the Minimum Orbit Intersection Distance
- parameter as a measure of the possibility of an Earth encounter, showing
- that for an integrated MOID, objects that likely had planetary encounters
- over the past 500,000 years showed less signs of weathering than objects
- that were kept away from a planetary encounter 
+ (MOID) parameter as a measure of the possibility of an Earth encounter,
+ showing that for an integrated MOID, objects that likely had planetary
+ encounters over the past 500,000 years showed less signs of weathering
+ than objects that were kept away from a planetary encounter (perhaps by
+ orbital resonance)
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Binzel2010Nature"
@@ -471,8 +513,8 @@ key "Scheeres2004NeoRotations"
 
 .
  Recently, radar imaging of 4179 Toutatis- an asteroid that makes periodic
- near-Earth flybys- gave a series observation that showed terrestrial tidal
- torques altering the rotational dynamics of the asteroid.
+ near-Earth flybys- gave a series of observations that showed terrestrial
+ tidal torques altering the rotational dynamics of the asteroid.
  These torques mostly caused changes in orientation as the asteroid passed
  close to the Earth, but a particularly close encounter in 2004 demonstrated
  a significant perturbation in the angular momentum of the asteroid that
@@ -486,12 +528,21 @@ key "Takahashi2013AJ"
 .
 \end_layout
 
+\begin_layout Standard
+
+\series bold
+TODO - add something here from the article on analysis of rotation dyanmics
+ changes
+\end_layout
+
 \begin_layout Section
 Asteroid Surveys
 \end_layout
 
 \begin_layout Standard
-Asteroid surveys in the past have been able to find and characterize thousands
+New technologies have shifted to observing focus from larger, multi-kilometer-si
+zed MBAs and NEOs to smaller sub-kilometer-sized NEOs.
+ Asteroid surveys in the past have been able to find and characterize thousands
  of main-belt and near-Earth asteroids.
  Many past surveys focused on discovery, with examples including LONEOS,
  LINEAR, Catalina, and Pan-STARRS.
@@ -499,7 +550,7 @@ Asteroid surveys in the past have been able to find and characterize thousands
  as the albedo characterization done by IRAS, WISE and Akari, and the spectral
  characterization done by SMASS.
  These surveys were able to extensively sample the population of asteroids
- that is larger than the rubble pile limit, however technological limitations
+ that is larger than the rubble pile limit; however technological limitations
  meant that they were biased towards being able to observe larger, brigher
  objects, rarely being able to resolve asteroids dimmer than 22nd absolute
  magnitude 
@@ -540,9 +591,9 @@ key "Binzel2002AsteroidsIII"
  The program aims to characterize approximately 100 NEOs per year, meaning
  that there will be a large throughput of data during the survey period,
  which is expected to last 3 to 5 years.
- This thesis draws its data primarily from the MANOS dataset, and a part
- of the work done for the thesis was automated data processing for the MANOS
- pipeline.
+ This thesis draws much of its data from the MANOS dataset, and a part of
+ the work done for the thesis was development of automated data processing
+ software for the MANOS pipeline.
 \end_layout
 
 \begin_layout Standard
@@ -588,9 +639,10 @@ setcounter{section}{0}
 \end_layout
 
 \begin_layout Standard
-As part of this project, a fitting routine was developed to automatically
- scan reduced MANOS photometry data and convert it into a light curve model
- which provides the period and amplitude.
+In order to automate part of the data processing done on incoming MANOS
+ data, a fitting routine, manosCurveFit, was developed by the author to
+ automatically scan reduced MANOS photometry data and convert them into
+ a light curve model which provides the period and amplitude.
  Before this work, curve fitting for MANOS was done using software built
  on MATLAB, which contained some components that were relatively poorly
  documented and required a proprietary platform.
@@ -1317,6 +1369,66 @@ status open
 
 \backslash
 setcounter{section}{0}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Data Analysis Method
+\end_layout
+
+\begin_layout Subsection
+Minor Planet Center Data
+\end_layout
+
+\begin_layout Itemize
+MPC data for Amor, Apollo and Aten NEOs downloaded (giving orbital parameters)
+\end_layout
+
+\begin_layout Itemize
+MPC light curve database downloaded (giving period)
+\end_layout
+
+\begin_layout Itemize
+the two were separate sets, so targets were matched from one to the other
+ by provisional designation or name
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename period_vs_moid.png
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Period vs.
+ minimum orbit intersection distance for Aten, Apollo, and Amor (AAA) NEOs.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
 \end_layout
 
 \end_inset
@@ -2472,8 +2584,8 @@ GUESS SINGLE 2
 
 \end_deeper
 \begin_layout Itemize
-None - if the GUESS line is excluded, Nyquist sampling will be used (see
- section on fitData)
+None - if the GUESS line is excluded, an interval from 15 minutes to 5 times
+ the observing window will be used (see section on fitData)
 \end_layout
 
 \begin_layout Subsection
@@ -2956,15 +3068,8 @@ when method is
 \family typewriter
 None
 \family default
-, a maximum recoverable period is calculated using the Nyquist Criterion
- for non-uniform samples
-\begin_inset CommandInset citation
-LatexCommand cite
-key "Harris1989Asteroids"
-
-\end_inset
-
- and periods are checked at 15 minute (0.25 hour) intervals; periodGuess
+, a maximum recoverable period is estimated for up to 5 times the observing
+ window; periods are checked at 15 minute (0.25 hour) intervals; periodGuess
  is ignored in this case
 \end_layout
 
