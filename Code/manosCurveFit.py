@@ -312,10 +312,7 @@ def makeModelUncertainties(params, t):
 
 
 ''' Find the maximum recoverable period given a particular data set
-    Uses Nyquist Criterion for the general non-uniform sampling case
-    # TODO - an outlier in sampling time seems like it would throw this off- any correction?
-    # TODO - maybe use a periodigram to figure out a better estimate for a max
-    ## UPDATE DOCUMENTATION
+    Use 5x the total observing window
 '''
 def findRecoverablePeriod(time):
     timeRange = np.max(time)-np.min(time)

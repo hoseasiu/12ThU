@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import math
+import csv
 
 def is_number(s):
     try:
@@ -130,11 +131,17 @@ for i in range(len(combinedList)):
 
 plt.close('all')
 plt.figure()
-plt.plot(emoid,period,'x')
+##plt.yscale('log')
+##plt.plot(emoid,period,'x')
+#plt.xscale('log')
+period = np.array(period)
+emoid = np.array(period)
+plt.loglog(emoid,period)
 plt.xlabel('MOID (AU)')
 plt.ylabel('Period (h)')
 plt.title('Period vs. MOID')
 plt.ylim([0, 75])
+plt.show()
 
 plt.figure()
 plt.hist(emoid, bins = 25)
@@ -154,7 +161,9 @@ for i in range(int(math.ceil(max(emoid))/0.05)):
     
 plt.figure()
 plt.plot(binnedEmoids,averagePeriods,'x')
-##np.savetxt('combinedData.txt', combinedList, delimiter = ',')
-##print 'text saved'
+
+out = csv.writer(open("combinedMPCdata.csv","w"), delimiter=',',quoting=csv.QUOTE_ALL)
+out.writerow(combinedList)
+print 'text saved'
 
 plt.show()
