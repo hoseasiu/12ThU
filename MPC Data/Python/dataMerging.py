@@ -15,10 +15,10 @@ def checkLists(lcList, orbList, combinedList):
         for j in range(len(orbList)):
             # check number and name
             if lcList[i][0] == orbList[j][0] and lcList[i][0] == orbList[j][0]:
-                combinedList.append(lcList[i]+orbList[j][4:5])
+                combinedList.append(lcList[i]+orbList[j][4:])
                 break
             elif lcList[i][2] == orbList[j][2] and lcList[i][3] == orbList[j][3]:
-                combinedList.append(lcList[i]+orbList[j][4:5])
+                combinedList.append(lcList[i]+orbList[j][4:])
                 break
     return combinedList
 
@@ -128,20 +128,17 @@ for i in range(len(combinedList)):
     if is_number(combinedList[i][4]) and is_number(combinedList[i][6]):
         period.append(float(combinedList[i][4]))
         emoid.append(float(combinedList[i][6]))
+print "lists combined"
 
 plt.close('all')
 plt.figure()
-##plt.yscale('log')
-##plt.plot(emoid,period,'x')
-#plt.xscale('log')
+plt.plot(emoid,period,'x')
 period = np.array(period)
 emoid = np.array(period)
-plt.loglog(emoid,period)
 plt.xlabel('MOID (AU)')
 plt.ylabel('Period (h)')
 plt.title('Period vs. MOID')
 plt.ylim([0, 75])
-plt.show()
 
 plt.figure()
 plt.hist(emoid, bins = 25)
@@ -162,8 +159,12 @@ for i in range(int(math.ceil(max(emoid))/0.05)):
 plt.figure()
 plt.plot(binnedEmoids,averagePeriods,'x')
 
-out = csv.writer(open("combinedMPCdata.csv","w"), delimiter=',',quoting=csv.QUOTE_ALL)
-out.writerow(combinedList)
+# write to CSV
+out = csv.writer(open("combinedMPCdata.csv","w"), delimiter=',',quoting=csv.QUOTE_ALL, lineterminator = '\n')
+
+out.writerow(['number', 'name', 'year', 'letters', 'period', 'variation', 'EMOID', 'H'])
+for i in range(len(combinedList)):
+    out.writerow(combinedList[i])
 print 'text saved'
 
-plt.show()
+##plt.show()
