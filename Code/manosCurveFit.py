@@ -6,12 +6,15 @@ from lmfit import minimize, Parameters, Parameter, report_fit, fit_report
 from operator import itemgetter
 from os import listdir
 import matplotlib.pyplot as plt, numpy as np, os.path, sys, string, cmd
+##from matplotlib import rc
 from time import clock
 from uncertainties import ufloat
 from uncertainties.umath import *
 
 basepath = os.path.abspath(os.path.dirname(sys.argv[0]))        # current directory path
 objectName = ''
+##rc('font', **{'family':'serif','serif':['Palatino']})
+##rc('text', usetex=True)
 
 class RunOptionsShell(cmd.Cmd):
     intro = 'Welcome to manosCurveFit. Type help or ? to list commands.\n'
@@ -510,6 +513,7 @@ def outputResults(fit, m, LightCurveData, outputOptions, periodErrors = None):
         plt.subplot(212)
         residuals = makeModel(fit.params, time, mag)
         plt.plot(time, residuals, 'rx')
+        plt.plot([0, max(time)], [0, 0], 'k--')      # plot a zero line
         plt.title('Residuals for ' + objectName + ' Fit')
         plt.ylabel('Residual Magnitude')
         plt.xlim(lightCurveAxis[0:2])
