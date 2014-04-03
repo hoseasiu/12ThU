@@ -10,6 +10,7 @@
 \renewcommand{\ps@plain}{\pagestyle{fancy}}
 \fancyhead{}% Clear all headers
 \date{}
+\usepackage{setspace}
 \end_preamble
 \use_default_options true
 \maintain_unincluded_children false
@@ -52,8 +53,8 @@
 \shortcut idx
 \color #008000
 \end_index
-\topmargin 0.8in
-\bottommargin 0.8in
+\topmargin 1in
+\bottommargin 1in
 \secnumdepth 3
 \tocdepth 3
 \paragraph_separation indent
@@ -107,6 +108,22 @@ rotational period and shape
 \end_inset
 
 ?
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+doublespacing
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Part
@@ -502,9 +519,10 @@ key "Binzel2010Nature"
 
 \begin_layout Standard
 Numerical simulations across a distribution of asteroid spin states showed
- that while planetary encounters may cause either spin-up or spin-down in
- individual asteroids, there is an overall trend towards spin-ups, one that
- is particularly prevalent for bodies with a slow initial rotation 
+ that while planetary encounters may cause either spin-up or spin-down or
+ tumbling in individual asteroids, there is an overall trend towards spin-ups,
+ one that is particularly prevalent for bodies with a slow initial rotation
+ 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Scheeres2004NeoRotations"
@@ -512,7 +530,20 @@ key "Scheeres2004NeoRotations"
 \end_inset
 
 .
- Recently, radar imaging of 4179 Toutatis- an asteroid that makes periodic
+ Tumbling cases may be created only if the flyby occurs out of the asteroid's
+ equitorial plane, as gravitational forces along the plane would at most
+ cause a spin-up or spin-down 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Scheeres2000SpinStates"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Recently, radar imaging of 4179 Toutatis- an asteroid that makes periodic
  near-Earth flybys- gave a series of observations that showed terrestrial
  tidal torques altering the rotational dynamics of the asteroid.
  These torques mostly caused changes in orientation as the asteroid passed
@@ -1381,7 +1412,22 @@ Data Analysis Method
 \end_layout
 
 \begin_layout Subsection
-Minor Planet Center Data
+Minor Planet Center Data Description
+\end_layout
+
+\begin_layout Standard
+Data from the Minor Planet Center's (MPC) light curve and NEO databases
+ were used for a large-population analysis of asteroid properties with respect
+ to MOID values.
+ The MPC's NEO datasets contained information for 827 Aten, 5306 Apollo,
+ and 4500 Amor objects when it was polled for this project in March of 2014,
+ while the light curve database contained 2326 objects.
+ The light curve database had the amplitude and period information for each
+ object, but lacked MOID data, which was contained in the NEO dataset.
+ As such, it was necessary to merge the two sets, cross-referencing objects
+ contained in both to obtain a complete listing of light curve properties
+ and MOID.
+ The resulting set contained 828 objects.
 \end_layout
 
 \begin_layout Itemize
@@ -1395,6 +1441,77 @@ MPC light curve database downloaded (giving period)
 \begin_layout Itemize
 the two were separate sets, so targets were matched from one to the other
  by provisional designation or name
+\end_layout
+
+\begin_layout Subsection
+MANOS Data Description
+\end_layout
+
+\begin_layout Itemize
+explain how MANOS data is obtained
+\end_layout
+
+\begin_layout Subsection
+Data Processing
+\end_layout
+
+\begin_layout Standard
+The resulting dataset was processed to look for differences in the distribution
+ of light curves amplitude and period with respect to MOID.
+ Since MOID presents only a lower bound of the actual intersection distance,
+ a small MOID does not guarantee that an object actually passed near the
+ Earth, but rather only increases the likelihood that it did.
+ As such, objects were grouped by MOID values and then histograms of period
+ and amplitude were produced for each grouping.
+ A difference between the distribution of these histograms from group to
+ group would possibly be an indicator of an effect of a near-Earth encounter
+ on the property being plotted.
+\end_layout
+
+\begin_layout Standard
+The focus of the comparison is between objects with MOID values greater
+ than 0.002 AU and those less than 0.002 AU.
+ This value represent the rough Earth-Moon distance, and gravitational effects
+ from an encounter would likely only be observed in objects closer than
+ a lunar distance.
+\end_layout
+
+\begin_layout Itemize
+cut out objects that are further away- reject all objects with MOID > 0.05
+ (PHA definition, ~ 19.5 Earth-Moon distances - might need to justify why
+ this limit is good)
+\end_layout
+
+\begin_layout Itemize
+arbitrary MOID value problem - redistribute the MOID artifacts?
+\end_layout
+
+\begin_layout Itemize
+rebin remaining asteroids by MOID
+\end_layout
+
+\begin_layout Itemize
+Amplitude bias correction was performed using the procedure described in
+ Binzel and Sauter, 1992
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Binzel1992Lightcurves"
+
+\end_inset
+
+.
+ This correction was done to correct for a bias introduced by possible undersamp
+ling of the light curves, which would generate a lower estimate of the amplitude.
+ The correction procedure attempts to bring the amplitude estimate as close
+ as possible to what it would be if the object was observed at a 
+\begin_inset Formula $60^{\circ}$
+\end_inset
+
+ phase angle.
+\end_layout
+
+\begin_layout Itemize
+plot histogram of period and amplitude for each MOID bin
 \end_layout
 
 \begin_layout Standard
@@ -1427,20 +1544,9 @@ Period vs.
 
 \end_layout
 
-\begin_layout Plain Layout
-
-\end_layout
-
 \end_inset
 
 
-\end_layout
-
-\begin_layout Standard
-
-\series bold
-FIGURE: scatterplot of AAA asteroids with MOID values (figure out appropriate
- axes for these- maybe a vs MOID with different colors?)
 \end_layout
 
 \begin_layout Standard
@@ -1462,9 +1568,60 @@ FIGURE: MOID vs amplitude
 \end_layout
 
 \begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename aplitude_histogram.png
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Histogram of objects of different light curve amplitudes, ranging from MOID
+ = 0 to MOID = 0.008.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 
 \series bold
 FIGURE: MOID vs period
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+singlespacing
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Bibliography
@@ -1841,6 +1998,34 @@ Scheeres, Daniel J., F.
  Rossi.
  "Evolution of NEO rotation rates due to close encounters with Earth and
  Venus." Icarus 170.2 (2004): 312-323.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "17"
+key "Scheeres2000SpinStates"
+
+\end_inset
+
+Scheeres, D.
+ J., et al.
+ "Effects of gravitational interactions on asteroid spin states." Icarus
+ 147.1 (2000): 106-118.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "18"
+key "Binzel1992Lightcurves"
+
+\end_inset
+
+Binzel, Richard P., and Linda M.
+ Sauter.
+ "Trojan, Hilda, and Cybele asteroids: New lightcurve observations and analysis."
+ Icarus 95.2 (1992): 222-238.
 \end_layout
 
 \begin_layout Standard
