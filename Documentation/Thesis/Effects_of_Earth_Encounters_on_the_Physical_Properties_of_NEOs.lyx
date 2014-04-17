@@ -5,11 +5,13 @@
 \textclass article
 \begin_preamble
 \usepackage{fancyhdr}% http://ctan.org/pkg/fancyhdr
-\lfoot{\small{Hosea Siu}}
+%\lfoot{\small{Hosea Siu}}
 \renewcommand{\ps@plain}{\pagestyle{fancy}}
+\renewcommand{\headrulewidth}{0pt}
 \fancyhead{}% Clear all headers
 \bibpunct{(}{)}{,}{a}{,}{,}
 \usepackage{setspace}
+\date{}
 \end_preamble
 \use_default_options true
 \maintain_unincluded_children false
@@ -33,7 +35,7 @@
 \bibtex_command default
 \index_command default
 \float_placement H
-\paperfontsize default
+\paperfontsize 12
 \spacing single
 \use_hyperref false
 \papersize default
@@ -55,7 +57,7 @@
 \topmargin 0.8in
 \bottommargin 0.8in
 \secnumdepth 3
-\tocdepth 3
+\tocdepth 1
 \paragraph_separation indent
 \paragraph_indentation default
 \quotes_language english
@@ -75,26 +77,231 @@
 Effects of Earth Encounters on the Physical Properties of Near-Earth Objects
 \end_layout
 
-\begin_layout Abstract
+\begin_layout Standard
+\begin_inset ERT
+status open
 
-\series bold
-ABSTRACT GOES HERE
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{-15mm}
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
-TODO:
+\align center
+by
 \end_layout
 
-\begin_layout Itemize
-abstract
+\begin_layout Standard
+\align center
+
+\size larger
+Ho Chit Siu
+\size default
+
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
-\begin_layout Itemize
-future work section
+\begin_layout Standard
+\align center
+
+\size larger
+Submitted to the Department of Earth, Atmospheric, and Planetary Sciences
+\size default
+
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
-\begin_layout Itemize
-importance of asteroid research
+\begin_layout Standard
+\align center
+in Partial Fulfillment of the Requirement for the Degree of
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+
+\size larger
+Bachelor of Science
+\end_layout
+
+\begin_layout Standard
+\align center
+at the
+\end_layout
+
+\begin_layout Standard
+\align center
+
+\size larger
+Massachusetts Institute of Technology
+\size default
+
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+June 2014
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{10mm}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+copyright
+\end_layout
+
+\end_inset
+
+ 2014 Ho Chit Siu
+\end_layout
+
+\begin_layout Standard
+\align center
+All rights reserved
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+The author hereby grants to M.I.T.
+ permission to reproduce and distribute publicly paper and electronic copies
+ of this thesis document in whole or in part in any medium now known or
+ hereafter created.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{10mm}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align block
+Author ___________________________________________
+\end_layout
+
+\begin_layout Standard
+\align right
+Ho Chit Siu
+\end_layout
+
+\begin_layout Standard
+\align right
+Department of Aeronautics and Astronautics
+\end_layout
+
+\begin_layout Standard
+\align right
+May 9, 2014
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align block
+Certified by ________________________________________
+\end_layout
+
+\begin_layout Standard
+\align right
+Professor Richard P.
+ Binzel
+\end_layout
+
+\begin_layout Standard
+\align right
+Thesis Supervisor
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align block
+Certified by ________________________________________
+\end_layout
+
+\begin_layout Standard
+\align right
+Dr.
+ Nicholas A.
+ Moskovitz
+\end_layout
+
+\begin_layout Standard
+\align right
+Thesis Supervisor
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align block
+Accepted by ________________________________________
+\end_layout
+
+\begin_layout Standard
+\align right
+Professor Richard P.
+ Binzel
+\end_layout
+
+\begin_layout Standard
+\align right
+Chairman, Undergraduate Thesis Committee
 \end_layout
 
 \begin_layout Standard
@@ -105,7 +312,151 @@ status open
 
 
 \backslash
+thispagestyle{empty}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+newpage
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+thispagestyle{empty}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+newpage
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+addcontentsline{toc}{part}{Abstract}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+thispagestyle{empty}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Abstract
+The effects of Earth encounters on the physical properties of near-Earth
+ objects (NEOs) have been shown to be significant factors in their evolution.
+ Previous studies have examined the effects of these encounters on reflectance
+ spectra based on observational measurements, and effects such as spin state
+ and shape changes have been studied in specific asteroids and in simulation.
+ In this project, an automated light curve fitting routine was developed
+ to support data reduction in an ongoing NEO survey.
+ Additionally, data from previous NEO surveys were used to support simulation
+ results by showing with a significant and highly differences between encounter
+ and non-encounter populations' rotational frequency distributions, demonstratin
+g that Earth encounters do have an effect on asteroid rotational frequencies
+ by increasing the overall frequency as well as causing a wider distribution
+ of frequencies when compared to non-encounter populations.
+ These data were, however, unable to show any effect on asteroid shape brought
+ on by planetary encounters.
+\end_layout
+
+\begin_layout Standard
+TODO:
+\end_layout
+
+\begin_layout Itemize
+acknowledgments
+\end_layout
+
+\begin_layout Itemize
+justify throwing out the outliers
+\end_layout
+
+\begin_layout Itemize
+MBA-equivalent comparison
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+newpage
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+thispagestyle{empty}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Title
+Acknowledgments
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+newpage
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
 doublespacing
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+setcounter{page}{1}
 \end_layout
 
 \end_inset
@@ -114,12 +465,45 @@ doublespacing
 \end_layout
 
 \begin_layout Part
+\begin_inset CommandInset label
+LatexCommand label
+name "part:Introduction"
+
+\end_inset
+
 Introduction
 \end_layout
 
 \begin_layout Standard
-Earth encounters are known to affect the properties of near-Earth objects
- (NEOs) through tidal effects.
+The study of the physical properties of asteroids is a key part of how we
+ can understand the properties of the early solar system and how it formed.
+ Asteroids represent a remnant of material left over from the early history
+ of solar system formation that is largely unaffected by the various surface
+ and internal processes that have altered the material that makes up the
+ planets.
+ However, that is not to say that the properties of asteroids have remained
+ completely unchanged.
+ Various gravitational and solar interactions experienced by asteroids have
+ shaped the development of their properties over time 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "bottke2002overview"
+
+\end_inset
+
+.
+ The diversity of asteroid properties and orbits and how they have changed
+ make it so that an understanding of the asteroid population serves as a
+ proxy for us to study the formation and evolution of the solar system.
+\end_layout
+
+\begin_layout Standard
+Near-Earth objects (NEOs) are a particularly interesting subset of the asteroid
+ population.
+ Earth encounters in particular can be a major contributor to the development
+ of these objects if their orbits allow them to have such encounters.
+ These encounters are known to affect the properties of NEOs through tidal
+ effects.
  
 \begin_inset CommandInset citation
 LatexCommand citet
@@ -127,7 +511,7 @@ key "binzel2010earth"
 
 \end_inset
 
- showed that weathered surfaces of asteroids are 'refreshed' upon an Earth
+ showed that weathered surfaces of asteroids are `refreshed' upon an Earth
  encounter, causing less reddening to be observed than would otherwise be
  expected.
  
@@ -139,25 +523,26 @@ key "richardson1998tidal"
 
  conducted numerical simulations which showed that the tidal forces encountered
  by Earth-crossing asteroids may cause mass shifting and removal during
- a flyby, resulting in changes such as distortions, fragment trains, and
- orbiting ejecta.
- Rotation in particular was studied by 
+ flybys, resulting in changes such as distortions, and formation of fragment
+ trains and orbiting ejecta.
+ Rotation on the asteroid Toutatis was studied by 
 \begin_inset CommandInset citation
 LatexCommand citet
 key "takahashi2013spin"
 
 \end_inset
 
- on the asteroid Toutatis, who showed that there was a significant shift
- in rotational angular momentum during periodic flybys.
+, who showed that there was a significant shift in rotational angular momentum
+ during periodic Earth flybys.
 \end_layout
 
 \begin_layout Standard
-Rotational period and asteroid shape are properties which may be extracted
- from a photometric light curve after a period of observation.
- Furthermore, the brightness of individual asteroids varies due to changes
- in heliocentric and geocentric distance, rotation, and solar phase angle
- 
+To study asteroid properties such as rotation and shape, photometric light
+ curves are generated after a period of observation, from which these properties
+ may be extracted.
+ A light curve is simply a plot of object magnitude over time.
+ The magnitude seen in these light curves can vary due to changes in heliocentri
+c and geocentric distance, rotation, and solar phase angle 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "harris1989photometric"
@@ -166,25 +551,18 @@ key "harris1989photometric"
 
 .
  The changes due to distance are generally removed during data reduction
- by using a 'reduced magnitude' value, but the periodic changes in brightness
+ by using a `reduced magnitude' value, but the periodic changes in brightness
  due to rotation and phase angle yield important information regarding the
  physical properties of the asteroid.
 \end_layout
 
 \begin_layout Standard
-Rotational periods, or spin rates, may tell us about the structure and collision
- history of an asteroid, while light curve amplitudes may tell us about
- the shapes of asteroids.
- Most larger asteroids (0.15 km < D < 10 km) are thought to be 'rubble piles'
+Rotational periods may tell us about the structure and collision history
+ of an asteroid, while light curve amplitudes may tell us about the shapes
+ of asteroids.
+ Most larger asteroids (0.15 km < D < 10 km) are thought to be `rubble piles'
  held together by self-gravity, since a spin rate barrier appears to exist,
- as larger asteroids do not appear to spin faster than this 
-\begin_inset Quotes eld
-\end_inset
-
-barrier
-\begin_inset Quotes erd
-\end_inset
-
+ as larger asteroids are not observed to spin faster than this `barrier'
  rate 
 \begin_inset CommandInset citation
 LatexCommand citep
@@ -203,10 +581,23 @@ e cases.
 \end_layout
 
 \begin_layout Standard
-This thesis expands on the work done on asteroid-Earth encounters by examining
- the effects of Earth encounters on asteroid rotational periods and amplitudes.
- To approximate the probability of Earth encounters, the minimum orbit intersect
-ion distance (MOID) parameter was used.
+This thesis expands on the studies done on asteroid-Earth encounters by
+ building a method for automatic light curve fitting from magnitude data
+ and by examining the effects of Earth encounters on asteroid rotational
+ periods and amplitudes- values that may be obtained from light curves.
+ An automatic light curve fitting routine was developed for the ongoing
+ Mission-Accessible Near-Earth Object Survey (MANOS), which began in the
+ latter half of 2013.
+ However, due to the timing of MANOS, there is not enough data produced
+ by the fitting routine to support a significant analysis of Earth encounter
+ effects.
+ As such, data from the Jet Propulsion Laboratory (JPL) and Minor Planet
+ Center (MPC) were used in the analysis.
+\end_layout
+
+\begin_layout Standard
+To approximate the probability of Earth encounters, the minimum orbit intersecti
+on distance (MOID) parameter was used.
  MOID is defined as the distance between the closest points of two bodies'
  osculating orbits.
  Here, MOID is a better parameter to use than the direct geometric distance
@@ -217,27 +608,11 @@ ion distance (MOID) parameter was used.
  or more.
  It is important to note, though, that MOID provides an estimate of the
  lower bound of the distance of an encounter.
- It does not guarentee that an encounter occurs, but simply suggests an
+ It does not guarantee that an encounter occurs, but simply suggests an
  increased likelihood with a lower value.
  Instantaneous MOID may be determined from the present-day orbital parameters
- of an object, and was used here as a first-pass look at the relationship
- between encounters and period/amplitude.
- A more in-depth look involved conducting a MOID calculation by integrating
- the orbit of a particular object back into the past to determine how gravitatio
-nal perturbations may have changed the MOID to its present-day value.
- This thesis uses photometric and astrometric data from an ongoing asteroid
- survey (MANOS, decribed 
-\series bold
-IN SECTION XY.Z
-\series default
-) to extract rotational periods, rotational amplitudes, and MOID for small
- (D < 1 km) NEOs.
-\end_layout
-
-\begin_layout Standard
-
-\series bold
-TODO - rewrite this paragraph as things change
+ of an object, and was used here to look at the relationship between encounters
+ and period/amplitude.
 \end_layout
 
 \begin_layout Standard
@@ -249,8 +624,7 @@ reference "part:Background"
 \end_inset
 
  presents the background of NEO populations, the effects of planetary encounters
- on NEO rotational dynamics, and describes the survey from which this thesis
- draws much of its data.
+ on NEO rotational dynamics, and describes past and current asteroid surveys.
  Part 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -258,18 +632,26 @@ reference "part:Light-Curve-Fitting"
 
 \end_inset
 
- presents an automatic light curve fitting method developed for as part
- of this project, particularly tailored for the ongoing nature and specific
+ presents the automatic light curve fitting software developed as part of
+ this project, particularly tailored for the ongoing nature and specific
  targets of MANOS.
- Finally, Part 
+ Part 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "part:MOID-and-Light"
+reference "part:Analysis-of-Physical"
 
 \end_inset
 
  presents the results obtained from the Earth encounter analysis of this
  population of asteroids.
+ Finally, Part 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "part:Future-Work"
+
+\end_inset
+
+ introduces future work that can be done to follow up on this project.
 \end_layout
 
 \begin_layout Standard
@@ -315,6 +697,12 @@ setcounter{section}{0}
 \end_layout
 
 \begin_layout Section
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:The-NEO-Population"
+
+\end_inset
+
 The NEO Population
 \end_layout
 
@@ -346,20 +734,20 @@ key "shoemaker1979earth"
 \begin_inset Formula $a\geq1.0$
 \end_inset
 
- and a perhelion distance 
+ and a perihelion distance 
 \begin_inset Formula $q\leq1.0167$
 \end_inset
 
  (the aphelion distance of Earth).
- Amors are defined solely by their perhelion distance, namely 
+ Amors are defined solely by their perihelion distance, namely 
 \begin_inset Formula $1.1067\leq q\leq1.3$
 \end_inset
 
 , meaning they are near-Earth-crossers but do not currently qualify as Earth-cro
 ssing asteroids.
  An NEO is considered a potentially hazardous object (PHO) if its minimum
- orbit intersection distance (MOID) is less than 0.05 AU and has an absolute
- magnitude of 22.0 or less 
+ orbit intersection distance (MOID) is less than 0.05 astronomical units
+ (AU) and has an absolute magnitude of 22.0 or less 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "jpl2014NEO"
@@ -374,7 +762,14 @@ key "jpl2014NEO"
 \begin_layout Standard
 The orbital characteristics of NEOs generally mean that they stay as NEOs
  for at most a few million years, eventually crashing into the Sun or terrestria
-l planets, or being flung out of the solar system.
+l planets, or being flung out of the solar system 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "binzel2002physical"
+
+\end_inset
+
+.
  The fact that the number of NEOs has remained steady over the last 3 billion
  years suggests that there is a source of resupply for the population 
 \begin_inset CommandInset citation
@@ -389,7 +784,7 @@ key "bottke2002overview"
  from main belt to NEO orbits.
  Smaller NEOs are likely collision fragments from MBAs, and exhibit younger
  (less-weathered) surfaces due to the difficulty of surviving further collisions
- or planetary ecounters 
+ or planetary encounters 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "binzel2002physical"
@@ -408,7 +803,8 @@ The NEO population is of special interest planetary astronomers because
 \begin_inset Formula $\Delta V$
 \end_inset
 
- and short time frame required to reach them.
+ (a measure of the amount of effort required to change trajectories) and
+ short time frame required to reach them.
  Additionally, the inner solar system orbits and periodic proximity to Earth
  of these NEOs mean that thermal and power considerations for rendezvous
  and flyby missions can be significantly simplified compared to near-Sun
@@ -423,19 +819,13 @@ key "perozzi2001basic"
 .
 \end_layout
 
-\begin_layout Standard
-
-\series bold
-TODO - define delta-V?
-\end_layout
-
-\begin_layout Standard
-
-\series bold
-TODO - something about the importance of asteroid investigations
-\end_layout
-
 \begin_layout Section
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Planetary-Encounters"
+
+\end_inset
+
 Planetary Encounters
 \end_layout
 
@@ -472,7 +862,7 @@ key "chapman1978asteroid"
 \end_inset
 
  suggests that larger NEOs are indeed such rubble piles and have minimal
- tesile strength, where any additional spin-up would cause disruption.
+ tensile strength, where any additional spin-up would cause disruption.
  Smaller NEOs, however, may remain monoliths due to the fact that they were
  spun off from these rubble piles.
  Fragment trains are generally formed from distortion processes that cause
@@ -504,13 +894,13 @@ key "pravec2000fast,pravec2002asteroid,walsh2006binary"
 \end_layout
 
 \begin_layout Standard
-Planetary encounters have also been shown to cause 'freshening' of the surface
+Planetary encounters have also been shown to cause `freshening' of the surface
  of asteroids.
  This process runs counter to the usual 'space weathering' process whereby
  asteroids become increasingly reddened.
  Binzel et al.
- (2010) showed that Mars- and Earth-crossing asteroids that have closer
- encounters with the terrestrial planets tend to appear less weathered.
+ (2010) showed that Mars and Earth-crossing asteroids that have closer encounter
+s with the terrestrial planets tend to appear less weathered.
  This investigation involved using the Minimum Orbit Intersection Distance
  (MOID) parameter as a measure of the possibility of an Earth encounter,
  showing that for an integrated MOID, objects that likely had planetary
@@ -540,7 +930,7 @@ key "scheeres2004evolution"
 
 .
  Tumbling cases may be created only if the flyby occurs out of the asteroid's
- equitorial plane, as gravitational forces along the plane would at most
+ equatorial plane, as gravitational forces along the plane would at most
  cause a spin-up or spin-down 
 \begin_inset CommandInset citation
 LatexCommand citep
@@ -569,12 +959,18 @@ key "takahashi2013spin"
 \end_layout
 
 \begin_layout Section
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Asteroid-Surveys"
+
+\end_inset
+
 Asteroid Surveys
 \end_layout
 
 \begin_layout Standard
-New technologies have shifted to observing focus from larger, multi-kilometer-si
-zed MBAs and NEOs to smaller sub-kilometer-sized NEOs.
+New technologies have shifted the observing focus from larger, multi-kilometer-s
+ized MBAs and NEOs to smaller sub-kilometer-sized NEOs.
  Asteroid surveys in the past have been able to find and characterize thousands
  of main-belt and near-Earth asteroids.
  Many past surveys focused on discovery, with examples including LONEOS,
@@ -584,12 +980,12 @@ zed MBAs and NEOs to smaller sub-kilometer-sized NEOs.
  characterization done by SMASS.
  These surveys were able to extensively sample the population of asteroids
  that is larger than the rubble pile limit; however technological limitations
- meant that they were biased towards being able to observe larger, brigher
+ meant that they were biased towards being able to observe larger, brighter
  objects, rarely being able to resolve asteroids dimmer than 22nd absolute
  magnitude 
 \begin_inset CommandInset citation
 LatexCommand citep
-key "binzel1989asteroid,jedicke2002observational"
+key "binzel1989asteroid,jedicke2002observational,stokes2002near"
 
 \end_inset
 
@@ -597,10 +993,11 @@ key "binzel1989asteroid,jedicke2002observational"
 \end_layout
 
 \begin_layout Standard
-The past decade has seen a rapid increase in the number of detected NEOs,
+The past decade has seen a rapid increase in the number of NEO detections,
  partly due to advances in observation and computing technologies, but also
- because of a mandate by the American government to characterize 90% of
- NEOs larger than 1 km that may present an impact hazard 
+ because of increased urgency started by a mandate by the American government
+ to characterize 90% of NEOs larger than 1 km that may present an impact
+ hazard to Earth 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "binzel2002physical"
@@ -612,10 +1009,11 @@ key "binzel2002physical"
  Accessible Near-Earth Object Survey (MANOS) seeks to leverage advances
  in observing capabilities to characterize asteroid targets that are more
  than an order of magnitude smaller than those covered by previous studies.
- It is specifically focusing on sub-kilometer-sized targets that would be
- accessible by space missions utilizing conventional chemical propulsion,
- providing rough characterization of targeted NEOs via astrometry, light
- curves, and spectra.
+ Using telescopes such as Gemini, SOAR, Kitt Peak 4m, and CTIO, MANOS is
+ specifically focusing on sub-kilometer-sized targets that would be accessible
+ by space missions utilizing conventional chemical propulsion, providing
+ rough characterization of targeted NEOs via astrometry, light curves, and
+ spectra.
  Mission-accessible is defined to be having a 
 \begin_inset Formula $\Delta V$
 \end_inset
@@ -627,6 +1025,12 @@ key "binzel2002physical"
  This thesis draws much of its data from the MANOS dataset, and a part of
  the work done for the thesis was development of automated data processing
  software for the MANOS pipeline.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+TODO - how to cite MANOS info
 \end_layout
 
 \begin_layout Standard
@@ -682,12 +1086,18 @@ In order to automate part of the data processing done on incoming MANOS
  Other common fitting methods, such as Canopus, were similarly based on
  proprietary software.
  manosCurveFit was developed from scratch specifically for the MANOS data
- pipeleine and represents one of very few pieces of light curve fitting
- software that is free and open source, and possibly the only such software
- that is tailored for asteroid fits.
+ pipeline and represents one of very few pieces of light curve fitting software
+ that is free and open source, and possibly the only such software that
+ is tailored for asteroid fits.
 \end_layout
 
 \begin_layout Section
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Software-Details"
+
+\end_inset
+
 Software Details
 \end_layout
 
@@ -767,6 +1177,12 @@ See the Appendix for further software documentation.
 \end_layout
 
 \begin_layout Section
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Fitting-Rationale"
+
+\end_inset
+
 Fitting Rationale
 \end_layout
 
@@ -778,7 +1194,7 @@ key "harris1989photometric"
 
 \end_inset
 
- (equations 
+ (corresponding to equations 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "eq:Fourier"
@@ -799,14 +1215,15 @@ reference "eq:biasCorrectedVar"
 
 \end_inset
 
-, below).
- The model is based on the Fourier Series
+, below), which describe the fitting model for a light curve, the residuals
+ of the model, and the bias-corrected variance, respectively.
+ The fitting model is described by the Fourier Series
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-H(\alpha,t)=\bar{H}(\alpha)+\sum_{L=1}^{m}A_{L}sin\frac{2\pi L}{P}(t-t_{0})+B_{L}cos\frac{2\pi L}{P}(t-t_{0}),\label{eq:Fourier}
+H(\alpha,t)=\bar{H}(\alpha)+\sum_{L=1}^{m}A_{L}sin\frac{2\pi L}{P}(t-t_{0})+B_{L}cos\frac{2\pi L}{P}(t-t_{0}).\label{eq:Fourier}
 \end{equation}
 
 \end_inset
@@ -815,7 +1232,22 @@ H(\alpha,t)=\bar{H}(\alpha)+\sum_{L=1}^{m}A_{L}sin\frac{2\pi L}{P}(t-t_{0})+B_{L
 \end_layout
 
 \begin_layout Standard
-where 
+\begin_inset Formula $\bar{H}$
+\end_inset
+
+ is a correction to get the absolute magnitude of the asteroid.
+ Absolute magnitude is defined to be the visual magnitude of an asteroid
+ if it were at zero phase angle and at 1 AU from both the Earth and the
+ Sun, which, in combination, is actually a set of unphysical conditions
+ 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "jpl2014absolute"
+
+\end_inset
+
+.
+ Here, 
 \begin_inset Formula $\bar{H}=0$
 \end_inset
 
@@ -902,13 +1334,16 @@ where
  is the error of the measurement.
  In the context of NEOs, the phase angle may very well change, particularly
  as targets pass very close to Earth.
- However, the majority of MANOS targets will be observed for a short enough
- period of time (on the order of a few hours) that 
+ However, the majority of MANOS targets will be observed for a short period
+ of time (on the order of a few hours) and characterization of these targets
+ will be done solely on the basis of a one-time observation.
+ Therefore, 
 \begin_inset Formula $\alpha$
 \end_inset
 
- will be assumed to be a constant.
- As such, manosCurveFit does not take phase angles into account.
+ will be assumed to be a constant due to the time scales involved in the
+ single observation, and as such, manosCurveFit does not take phase angles
+ into account.
  The least squares minimization is then performed on the bias-corrected
  variance, given by
 \end_layout
@@ -978,7 +1413,7 @@ By default, the program will run the fit from
 \end_layout
 
 \begin_layout Standard
-Precautions were taken to prevent overfitted or unsubstantiated models.
+Precautions were taken to prevent over fitted or unsubstantiated models.
  Any models which produce amplitudes greater than 2 are rejected.
  This is necessary to prevent the fit from assuming a model in which the
  data are a small portion of a much longer period with one or more large
@@ -989,6 +1424,12 @@ Precautions were taken to prevent overfitted or unsubstantiated models.
 \end_layout
 
 \begin_layout Section
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Fitting-Results-and"
+
+\end_inset
+
 Fitting Results and Data Products
 \end_layout
 
@@ -1075,6 +1516,8 @@ One of the figures produced by manosCurveFit, showing the data points on
  The model automatically phase-folded the data to give the best fit, and
  the residuals here show an example of what would occur for a good fit,
  since there is no notable bias or structure in the residual plot.
+ The residuals plot shows a line at zero magnitude to help in finding any
+ structure or bias.
 \end_layout
 
 \end_inset
@@ -1182,6 +1625,8 @@ Period comparisons between fit and accepted values.
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\series bold
 Object
 \end_layout
 
@@ -1191,6 +1636,8 @@ Object
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\series bold
 Fitted Period (h)
 \end_layout
 
@@ -1200,6 +1647,8 @@ Fitted Period (h)
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\series bold
 Accepted Period (h)
 \end_layout
 
@@ -1209,6 +1658,8 @@ Accepted Period (h)
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\series bold
 Error
 \end_layout
 
@@ -1385,11 +1836,11 @@ newpage
 \begin_layout Part
 \begin_inset CommandInset label
 LatexCommand label
-name "part:MOID-and-Light"
+name "part:Analysis-of-Physical"
 
 \end_inset
 
-MOID and Light Curve Comparisons
+Analysis of Physical Properties with Respect to Earth Encounters
 \end_layout
 
 \begin_layout Standard
@@ -1409,18 +1860,114 @@ setcounter{section}{0}
 \end_layout
 
 \begin_layout Section
-Data Analysis Method
-\end_layout
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Overview-and-Hypothesis"
 
-\begin_layout Subsection
-Minor Planet Center Data Description
+\end_inset
+
+Overview and Hypothesis
 \end_layout
 
 \begin_layout Standard
-Data from the Minor Planet Center's (MPC) light curve and NEO databases
- were used for a large-population analysis of asteroid properties with respect
- to MOID values.
- The MPC's NEO datasets contained information for 827 Aten, 5306 Apollo,
+NEO light curve frequencies, light curve amplitudes, and absolute magnitudes
+ were compared to their MOID values.
+ Data analysis sought to find differences in the distribution of these values
+ over selected subsets, leveraging the aggregated values of groups of NEOs
+ to look for trends in the overall data.
+ Since MOID presents only a lower bound of the actual intersection distance,
+ a small MOID does not guarantee that an object actually passed near the
+ Earth, but rather only increases the likelihood that it did.
+ A trend in the properties of the distribution within these groupings with
+ respect to MOID would be a possible indicator an Earth encounter effect.
+ The focus of the comparison is between objects that may have had an Earth
+ encounter, and those that have not.
+ A rough boundary for a MOID that is indicative of a possible Earth encounter
+ is a value of <0.0026 AU, or <1 lunar distance (LD).
+ Thus, this boundary was used to separate the asteroid population into two
+ groups: a < 1 LD group that may have had an Earth encounter, and a > 1
+ LD group that is extremely unlikely to have had an Earth encounter.
+ 
+\end_layout
+
+\begin_layout Standard
+Based on the literature review presented in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Planetary-Encounters"
+
+\end_inset
+
+- particularly the simulations of Earth encounters done in 
+\begin_inset CommandInset citation
+LatexCommand citealt
+key "scheeres2000effects"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset citation
+LatexCommand citealt
+key "scheeres2004evolution"
+
+\end_inset
+
+- it is hypothesized that a population of objects that have undergone a
+ planetary encounter will likely have greater variation in rotational period
+ and amplitude.
+ This variation is, however, unlikely to be very pronounced, as the limitations
+ of MOID mean populations with some, but not all, objects that have had
+ some Earth encounter is the best that can be selected.
+ Again noting the simulations done by 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "scheeres2004evolution"
+
+\end_inset
+
+, it is hypothesized that the analysis may show a slight spin-up in objects
+ that have had planetary encounters, but this again will likely prove difficult
+ to show (perhaps only showing possible statistical significance in some
+ cases, and no statistical significance) because the simulations showed
+ that spin-up is a prominent effect only in asteroids with initially slow
+ rotations, which cannot be distinguished in the data being used.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+TODO - MBA-equivalent comparison?
+\end_layout
+
+\begin_layout Section
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Description-of-NEO"
+
+\end_inset
+
+Description of NEO Data
+\end_layout
+
+\begin_layout Standard
+Two main sources of data were polled for the analysis done in this project.
+ The Jet Propulsion Laboratory's (JPL) Horizons database was polled for
+ MOID, magnitude, and rotational period (but did not contain light curve
+ amplitude information).
+ Two databases were taken from the Minor Planet Center (MPC)- one of light
+ curve and one of NEOs- and combined to obtain MOID, magnitude, rotational
+ period, and amplitude information.
+ The MOID values from both sources were instantaneous MOIDs calculated from
+ the present-day orbital elements.
+ The Horizons dataset contained 10938 objects, 10775 of which contained
+ both magnitude and MOID information, 685 of which contained both rotational
+ period and MOID information, and 680 of which contained all three.
+ The analysis done for rotational frequency was done using the Horizons
+ data.
+\end_layout
+
+\begin_layout Standard
+The MPC's NEO datasets contained information for 827 Aten, 5306 Apollo,
  and 4500 Amor objects when it was polled for this project in March of 2014,
  while the light curve database contained 2326 objects.
  The light curve database had the amplitude and period information for each
@@ -1428,91 +1975,127 @@ Data from the Minor Planet Center's (MPC) light curve and NEO databases
  As such, it was necessary to merge the two sets, cross-referencing objects
  contained in both to obtain a complete listing of light curve properties
  and MOID.
- The resulting set contained 828 objects.
-\end_layout
-
-\begin_layout Itemize
-MPC data for Amor, Apollo and Aten NEOs downloaded (giving orbital parameters)
-\end_layout
-
-\begin_layout Itemize
-MPC light curve database downloaded (giving period)
-\end_layout
-
-\begin_layout Itemize
-the two were separate sets, so targets were matched from one to the other
- by provisional designation or name
-\end_layout
-
-\begin_layout Subsection
-MANOS Data Description
-\end_layout
-
-\begin_layout Itemize
-explain how MANOS data is obtained
-\end_layout
-
-\begin_layout Subsection
-Data Processing
+ The resulting set contained 274 objects, of which 245 contained amplitude,
+ magnitude, and MOID information.
+ Since this dataset contained light curve amplitude values, it was used
+ for the amplitude analysis.
 \end_layout
 
 \begin_layout Standard
-The resulting dataset was processed to look for differences in the distribution
- of light curve amplitude and period with respect to MOID.
- Since MOID presents only a lower bound of the actual intersection distance,
- a small MOID does not guarantee that an object actually passed near the
- Earth, but rather only increases the likelihood that it did.
- As such, objects were grouped by MOID values and then histograms of period
- and amplitude were produced for each grouping.
- A difference between the distribution of these histograms from group to
- group would possibly be an indicator of an effect of a near-Earth encounter
- on the property being plotted.
+
+\series bold
+TODO - add MBA data description
+\end_layout
+
+\begin_layout Section
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Results"
+
+\end_inset
+
+Results
+\end_layout
+
+\begin_layout Subsection
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Magnitude"
+
+\end_inset
+
+Magnitude
 \end_layout
 
 \begin_layout Standard
-The focus of the comparison is between objects with MOID values greater
- than 0.002 AU and those less than 0.002 AU.
- This value represent the rough Earth-Moon distance, and gravitational effects
- from an encounter would likely only be observed in objects closer than
- a lunar distance.
-\end_layout
-
-\begin_layout Itemize
-cut out objects that are further away- reject all objects with MOID > 0.05
- (PHA definition, ~ 19.5 Earth-Moon distances - might need to justify why
- this limit is good)
-\end_layout
-
-\begin_layout Itemize
-arbitrary MOID value problem - redistribute the MOID artifacts?
-\end_layout
-
-\begin_layout Itemize
-rebin remaining asteroids by MOID
-\end_layout
-
-\begin_layout Itemize
-Amplitude bias correction was performed using the procedure described in
- 
-\begin_inset CommandInset citation
-LatexCommand citet
-key "binzel1992trojan"
+The absolute magnitude (H) was plotted against the MOID of the objects.
+ On the semi-log plot shown in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Semilog-scatterplot-of"
 
 \end_inset
 
-.
- This correction was done to correct for a bias introduced by possible undersamp
-ling of the light curves, which would generate a lower estimate of the amplitude.
- The correction procedure attempts to bring the amplitude estimate as close
- as possible to what it would be if the object was observed at a 
-\begin_inset Formula $60^{\circ}$
-\end_inset
-
- phase angle.
+, it can be seen that objects with higher H values tend to have lower MOIDs,
+ which fits with the observational bias of being more likely to see dimmer
+ objects if they pass closer to Earth.
 \end_layout
 
-\begin_layout Itemize
-plot histogram of period and amplitude for each MOID bin
+\begin_layout Standard
+
+\series bold
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+
+\series bold
+\begin_inset Graphics
+	filename magnitude_vs_moid.png
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\series bold
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Semilog-scatterplot-of"
+
+\end_inset
+
+Semi-log scatterplot of absolute magnitude against MOID value shows a correlatio
+n where dimmer (smaller) objects tend to have lower MOID values.
+ The red line represents 1 LD.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Rotation-Frequency"
+
+\end_inset
+
+Rotation Frequency
+\end_layout
+
+\begin_layout Standard
+As an initial examination of various possible effects on rotation frequency,
+ frequency was plotted against MOID (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Frequency-vs.-MOID"
+
+\end_inset
+
+) and absolute magnitude (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:magVsFreq"
+
+\end_inset
+
+).
 \end_layout
 
 \begin_layout Standard
@@ -1524,8 +2107,8 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename period_vs_moid.png
-	scale 60
+	filename frequency_vs_moid.png
+	scale 80
 
 \end_inset
 
@@ -1536,7 +2119,13 @@ status open
 \begin_inset Caption
 
 \begin_layout Plain Layout
-Period vs.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Frequency-vs.-MOID"
+
+\end_inset
+
+Frequency vs.
  minimum orbit intersection distance for Aten, Apollo, and Amor (AAA) NEOs.
 \end_layout
 
@@ -1548,6 +2137,1488 @@ Period vs.
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename mag_vs_frequency.png
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:magVsFreq"
+
+\end_inset
+
+Plot of absolute magnitude against rotational frequency.
+ Higher-magnitude (smaller) objects tend to have faster rotations.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A 30-window moving average plot was then used to examine the mean and standard
+ deviation of frequency as a function of MOID, as shown in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Moving-average-plot"
+
+\end_inset
+
+.
+ It should be noted that for moving average plots such as this, consecutive
+ mean and standard deviation values are not independent, and independence
+ of these values only occurs for points that are at least one window apart
+ (i.e.
+ points that have at least 30 other points between them).
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename moving_average_rot_freq.png
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\series bold
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Moving-average-plot"
+
+\end_inset
+
+Moving average plot of rotational frequency (without bias correction) with
+ a 1-LD reference line.
+ Each 'x' mark represents the mean MOID of one 30-object window, and the
+ shaded region represents one standard deviation of the mean above and below
+ the mean value.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+However, it may be seen from Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:magVsFreq"
+
+\end_inset
+
+ that objects that have higher magnitudes (likely to be smaller objects)
+ tend to display faster rotations, which is consistent with the asteroid
+ collision evolution model predicted by 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "chapman1978asteroid"
+
+\end_inset
+
+.
+ This makes the result given by Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Moving-average-plot"
+
+\end_inset
+
+ less reliable, since it is likely to be biased by the fact that dimmer
+ asteroids are more likely to be observed closer to Earth (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Semilog-scatterplot-of"
+
+\end_inset
+
+), and these dimmer asteroids are likely to be smaller and therefore have
+ higher rotational frequencies (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:magVsFreq"
+
+\end_inset
+
+).
+ In order to better examine the distribution of rotation frequencies as
+ a function of MOID, a correction must be made for this size/rotation bias.
+ Thus, when analyzing the frequency distributions, only objects within a
+ certain range of magnitudes were compared to each other.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:magVsFreq20to30"
+
+\end_inset
+
+ shows two selected populations based on absolute magnitude.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename mag_vs_frequency_20to30.png
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:magVsFreq20to30"
+
+\end_inset
+
+Plot of absolute magnitude against rotational frequency for objects of magnitude
+ 20 to 30.
+ These magnitude ranges were chosen due to the number of objects and the
+ range of rotational frequencies represented in them.
+ The general bias towards larger objects having lower frequencies should
+ largely be removed within independent examinations of each of these two
+ populations.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename frequency_vs_moid_comparison.png
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Comparison-of-the"
+
+\end_inset
+
+Comparison of the MOID vs rotational frequency distribution for objects
+ ranging from magnitude 20 to 25, and 25 to 30.
+ The sample size of objects in the 25 to 30 magnitude range becomes much
+ smaller past a few lunar distances.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename std_moving_average_rot_freq_20to30.png
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename std_moving_average_rot_freq_20to30_10LD_window.png
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:stdRotationMoid"
+
+\end_inset
+
+Plot of standard deviation of the mean of 30-object samples of objects in
+ the magnitude range from 20 to 25.
+ 1-LD line inserted for reference.
+ The plot on the bottom is a zoomed in (0 to 10 LD) version of the plot
+ on the top.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A two-sample one-tailed Student's t-test was conducted to see if there was
+ a statistically significant difference between the means of the rotational
+ frequencies of objects in the MOID range where planetary encounters are
+ possible and other MOID ranges, specifically if the frequencies in the
+ group that had smaller MOID values were greater than the frequencies of
+ the group with larger MOID values.
+ Similarly, a two-sample one-tailed f-test was conducted to see if there
+ was a statistically significant variance between the rotation frequencies
+ of different populations, specifically if the variance of the frequencies
+ in the group that had smaller MOID values was greater than the variance
+ seen in the group with larger MOID values.
+ The two samples for each test were binned according to a dividing MOID
+ value, for which one sample ranges from 0 to the dividing MOID, and the
+ other ranges from the dividing MOID to the maximum MOID value in the data
+ set (174 LD).
+ Dividing MOID values were chosen to range from 1 to 10 LD, since objects
+ crossing within 1 LD are likely to have experienced some encounter effect,
+ and the inverse square drop-off of gravity means that at 10 LD, the effect
+ of gravity is one one-hundredth of its effect at 1 LD, meaning all asteroids
+ with some planetary encounter effect should have been captured in the first
+ bin by the time the dividing MOID is at 10 LD.
+ The sizes of the groupings are shown in Tables 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Number-of-objects-20-25"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Number-of-objects-25-30"
+
+\end_inset
+
+ where 174 LD represents the MOID of the furthest object in the dataset.
+ The results of the t-tests and f-tests are shown in Figures 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:statsTestsRot20-25"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:statsTestsRot25-30"
+
+\end_inset
+
+, where p values lower than 0.1, 0.05, and 0.01 represent possibly significant,
+ significant, and highly significant differences between the two samples.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+TODO - is this binning explanation clear enough?
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Number-of-objects-20-25"
+
+\end_inset
+
+Number of objects in the closer (
+\begin_inset Formula $n_{1}$
+\end_inset
+
+) and further (
+\begin_inset Formula $n_{2}$
+\end_inset
+
+) MOID groups for objects of 20th to 25th magnitude used for frequency analysis..
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="11" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\begin_inset Formula $n_{1}$
+\end_inset
+
+range (LD)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\begin_inset Formula $n_{1}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $n_{2}$
+\end_inset
+
+ 
+\series bold
+range (LD)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $n_{2}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0 to 1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+22
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1 to 174
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+177
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0 to 2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+39
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2 to 174
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+160
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0 to 3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+53
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3 to 174
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+146
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0 to 4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+64
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4 to 174
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+135
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0 to 5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+72
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5 to 174
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+127
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0 to 6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+84
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6 to 174
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+115
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0 to 7
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+94
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+7 to 174
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+105
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0 to 8
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+99
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8 to 174
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0 to 9
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+104
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+9 to 174
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+95
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0 to 10
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+111
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+10 to 174
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+88
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Number-of-objects-25-30"
+
+\end_inset
+
+Number of objects in the closer (
+\begin_inset Formula $n_{1}$
+\end_inset
+
+) and further (
+\begin_inset Formula $n_{2}$
+\end_inset
+
+) MOID groups for objects of 25th to 30th magnitude used for frequency analysis.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="11" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\begin_inset Formula $n_{1}$
+\end_inset
+
+range (LD)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\begin_inset Formula $n_{1}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $n_{2}$
+\end_inset
+
+ 
+\series bold
+range (LD)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $n_{2}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0 to 1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+39
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1 to 174
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+37
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0 to 2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+54
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2 to 174
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+22
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0 to 3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+64
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3 to 174
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+12
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0 to 4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+65
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4 to 174
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+11
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0 to 5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+66
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5 to 174
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+10
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0 to 6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+66
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6 to 174
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+10
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0 to 7
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+67
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+7 to 174
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+9
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0 to 8
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+68
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8 to 174
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0 to 9
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+68
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+9 to 174
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0 to 10
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+68
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+10 to 174
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename statTest_20-25.png
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:statsTestsRot20-25"
+
+\end_inset
+
+Results of one-tailed Student's t-tests, and one-tailed f-tests conducted
+ for objects of 20th to 25th magnitude.
+ Dashed lines represent p values of 0.1, 0.05, and 0.01, respectively.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename statTest_25-30.png
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:statsTestsRot25-30"
+
+\end_inset
+
+Results of one-tailed Student's t-tests, and one-tailed f-tests conducted
+ for rotation frequencies of objects of 25th to 30th magnitude.
+ Dashed lines represent p values of 0.1, 0.5, and 0.01, respectively.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Amplitude"
+
+\end_inset
+
+Amplitude
+\end_layout
+
+\begin_layout Standard
+Light curve amplitude was also examined as an asteroid property using a
+ procedure similar to the one done for rotational frequency.
+ When examining a light curve, the amplitude is the difference in magnitude
+ between the maximum observed brightness and the minimum observed brightness
+ in curve.
+ Amplitude is indicative of asteroid shape, since elongated shapes will
+ produce larger variations in brightness when spinning along a principal
+ axis of maximum moment of inertia.
+ In these cases, the objects will be brighter to an observer when their
+ elongated side is reflecting the most light towards Earth, and dimmest
+ when their shorter sides are reflecting the most light.
+ There may be, of course, cases of elongated asteroids spinning along their
+ long axes, but these cases are unlikely due to the tendency of spin states
+ to evolve towards axes of maximum moments of inertia due to their lower
+ energy states.
+\end_layout
+
+\begin_layout Standard
+Amplitude bias correction was performed using the procedure described in
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "binzel1992trojan"
+
+\end_inset
+
+.
+ This procedure was used to correct for a bias introduced by possible under
+ sampling of light curves, which would generate a lower estimate of the
+ amplitude.
+ The procedure attempts to bring the amplitude estimate as close as possible
+ to what it would be if the object was observed at a 
+\begin_inset Formula $60^{\circ}$
+\end_inset
+
+ phase angle.
 \end_layout
 
 \begin_layout Standard
@@ -1560,7 +3631,7 @@ status open
 \align center
 \begin_inset Graphics
 	filename amplitude_vs_moid.png
-	scale 60
+	scale 80
 
 \end_inset
 
@@ -1573,6 +3644,7 @@ status open
 \begin_layout Plain Layout
 Bias-corrected amplitude vs.
  minimum orbit intersection distance for Aten, Apollo, and Amor (AAA) NEOs.
+ The red line represents 1 LD.
 \end_layout
 
 \end_inset
@@ -1586,88 +3658,18 @@ Bias-corrected amplitude vs.
 \end_layout
 
 \begin_layout Standard
-
-\series bold
-FIGURE: scatterplot of previous NEOs with MOID vs instantaneous MOID
-\end_layout
-
-\begin_layout Standard
-
-\series bold
-FIGURE: change in MOID before and after evolution
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename C:/Users/Hosea/Desktop/moidPeriodStack.png
-	scale 50
+Again, the property being examined was plotted against the object magnitude
+ to check for correlation to see if the population needed to be subdivided
+ to eliminate a magnitude bias.
+ In this case, however, it may be seen in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Plot-of-absolute"
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-TODO - something like this should probably appear...
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-
-\series bold
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-
-\series bold
-\begin_inset Graphics
-	filename magMoid.png
-	scale 60
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-
-\series bold
-\begin_inset Caption
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
+ that such a correlation does not exist for amplitude, so the kind of de-biasing
+ used for rotational frequency is not needed.
 \end_layout
 
 \begin_layout Standard
@@ -1679,8 +3681,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename aplitude_histogram.png
-	scale 70
+	filename amplitude_vs_h.png
 
 \end_inset
 
@@ -1691,8 +3692,22 @@ status open
 \begin_inset Caption
 
 \begin_layout Plain Layout
-Histogram of objects of different light curve amplitudes, ranging from MOID
- = 0 to MOID = 0.008.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Plot-of-absolute"
+
+\end_inset
+
+Plot of absolute magnitude against the light curve amplitude.
+ In contrast to Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:magVsFreq"
+
+\end_inset
+
+, no noticeable correlation exists between absolute magnitude and light
+ curve amplitude.
 \end_layout
 
 \end_inset
@@ -1706,13 +3721,872 @@ Histogram of objects of different light curve amplitudes, ranging from MOID
 \end_layout
 
 \begin_layout Standard
+Next, a 30-object moving window average was applied to this sample, as shown
+ in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Moving-average-plot-amp"
+
+\end_inset
+
+.
+ The standard deviations produced by this moving window procedure are shown
+ in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:std-amp"
+
+\end_inset
+
+.
+ From these plots, it can be seen that the standard deviation is large compared
+ to the change in the mean amplitude, and the mean amplitude never moves
+ beyond the error bars.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename moving_average_amp.png
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Moving-average-plot-amp"
+
+\end_inset
+
+Moving average plot of light curve amplitude with a 1-LD reference line.
+ Each 'x' mark represents the mean MOID of one 30-object window, and the
+ shaded region represents one standard deviation of the mean above and below
+ the mean value.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename std_moving_average_amp.png
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:std-amp"
+
+\end_inset
+
+Plot of standard deviation of the mean of 30-object samples of objects in
+ the magnitude range from 20 to 25.
+ 1-LD line inserted for reference.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Finally, a two-sample one-tailed t and f-tests were conducted, using a MOID
+ value ranging from 1 to 10 LD as the dividing value between the two samples.
+ The sample ranging from 0 LD to the dividing MOID represent the population
+ that is more likely to have experienced an Earth encounter, and the sample
+ from the dividing value to 174 LD represents a population that is likely
+ to not have experienced such an encounter.
+ The p values produced by these tests may be seen in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:statTestAmp"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Number-of-objects-amp"
+
+\end_inset
+
+Number of objects in the closer (
+\begin_inset Formula $n_{1}$
+\end_inset
+
+) and further (
+\begin_inset Formula $n_{2}$
+\end_inset
+
+) MOID groups use for amplitude analysis.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="11" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
 
 \series bold
-FIGURE: MOID vs period
+\begin_inset Formula $n_{1}$
+\end_inset
+
+range (LD)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\begin_inset Formula $n_{1}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $n_{2}$
+\end_inset
+
+ 
+\series bold
+range (LD)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $n_{2}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0 to 1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+11
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1 to 174
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+235
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0 to 2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+27
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2 to 174
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+219
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0 to 3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+37
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3 to 174
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+209
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0 to 4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+43
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4 to 174
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+203
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0 to 5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+48
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5 to 174
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+198
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0 to 6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+57
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6 to 174
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+189
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0 to 7
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+62
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+7 to 174
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+184
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0 to 8
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+66
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8 to 174
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+180
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0 to 9
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+69
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+9 to 174
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+177
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0 to 10
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+79
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+10 to 174
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+167
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename statTest_amp.png
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:statTestAmp"
+
+\end_inset
+
+Results of one-tailed Student's t-tests, and one-tailed f-tests conducted
+ for light curve amplitudes.
+ Dashed lines represent p values of 0.1, 0.5, and 0.01, respectively.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+These statistical tests show that the data do support the idea that near-Earth
+ encounters significantly affect the shapes of NEOs.
+\end_layout
+
+\begin_layout Subsection
+Comparison to Main Belt Equivalents
+\end_layout
+
+\begin_layout Itemize
+divide MBAs into H-categories
+\end_layout
+
+\begin_layout Itemize
+compare rotational periods and amplitudes
+\end_layout
+
+\begin_layout Section
+Discussion
+\end_layout
+
+\begin_layout Subsection
+Rotational Frequency
+\end_layout
+
+\begin_layout Standard
+From Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:statsTestsRot20-25"
+
+\end_inset
+
+, it can be seen that from the sample of objects that range from 20th to
+ 25th magnitude, results of all the f-tests for pairs of samples divided
+ by MOID values ranging from 1 to 10 LD all show a highly statistically
+ significant difference in variance, indicating that populations of objects
+ that have had a planetary encounter have a higher variance in rotational
+ frequencies than those that did not.
+ Similarly, all of the t-tests return significant or highly significant
+ differences, indicating that the set of objects with lower MOID had higher
+ rotational frequencies than the set with lower MOID.
+\end_layout
+
+\begin_layout Standard
+In the sample of objects that range from 25th to 30th magnitude, the majority
+ of results from both t and f-tests return some statistical significance,
+ there is a noticeable jump in p values for both tests when the bin division
+ line is between 2 and 5 LD.
+ However, the quality of these results is rather low once the dividing point
+ is past 2 LD, since the number of objects in the further bin drops significantl
+y, as can be seen in Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Number-of-objects-25-30"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The larger sample size and range of MOIDs present in the 20-25th magnitude
+ group makes it a more reliable group for statistical testing.
+ With the brightness (size) to spin rate bias largely removed by restricting
+ the samples to a small magnitude range in both cases, these results confirm
+ the hypothesis that populations which experience near-Earth encounters
+ see both a increased variation in rotational frequency, as well as an overall
+ increase in the frequencies.
+ The statistical tests returned more significant results than were predicted
+ on both counts.
+\end_layout
+
+\begin_layout Subsection
+Light Curve Amplitude
+\end_layout
+
+\begin_layout Standard
+The data do not support the hypothesis that light curve amplitude is affected
+ by near-Earth encounters.
+ As noted in the hypothesis, this is a particularly difficult phenomenon
+ to show, since the effect only occurs with very close encounters and/or
+ larger rubble piles.
+ Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Number-of-objects-amp"
+
+\end_inset
+
+ shows that the number of objects in the 0 to 2 LD MOID range is actually
+ smaller than the typical minimum sample size of 30 for statistical analysis,
+ which means that there simply is not enough information on low-MOID objects
+ to conduct a proper analysis in the region where the amplitude effect is
+ expected to be most easily observable.
+ Supplementing the existing data with incoming MANOS data would likely improve
+ the situation, but is outside the scope of this project.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+newpage
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Part
+\begin_inset CommandInset label
+LatexCommand label
+name "part:Future-Work"
+
+\end_inset
+
 Future Work
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+setcounter{section}{0}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Light Curve Fitting
+\end_layout
+
+\begin_layout Standard
+A number of improvements have been identified for manosCurveFit, largely
+ to expand the kinds of inputs that the program can take, and partly to
+ improve the fitting routine directly.
+ Currently, the inputs for manosCurveFit can only be floats.
+ It would be useful to expand the inputs to include strings, as many data
+ files use strings to represent properties such as filter types and instruments,
+ which currently are not accounted for in the data that is read into the
+ program.
+ Another improvement involves cases when data from multiple nights or telescopes
+ are used.
+ In these cases, an offset must be provided to each night except for one
+ to bring all the magnitudes to the same baseline.
+ However, in some cases, it would be easier to leave the offsets as a free
+ parameter that can be optimized for in the same way as the other free parameter
+s, which eliminates the need to estimate the offsets.
+\end_layout
+
+\begin_layout Standard
+Finally, to account for cases when multiple nights' data are used in which
+ the nights are spread further apart (currently not the case with MANOS),
+ phase angle considerations may be added to the fitting routine.
+ To do this, orbital parameters must be known for the objects being analyzed.
+ Since the fitting code is primarily operated on computers at Lowell Observatory
+, it would make sense to have it poll Lowell's databases for orbital parameters
+ once the proper infrastructure is in place for such a system.
+\end_layout
+
+\begin_layout Section
+Data Analysis
+\end_layout
+
+\begin_layout Standard
+Additional analysis can be done to improve the work done in this project.
+ As previously mentioned, the dataset could be supplemented by MANOS, which
+ would fill in gaps in the data, particularly on high-magnitude, close-range
+ objects.
+ Integrated MOID would also likely prove to be a useful way to look at the
+ data.
+ Integrated MOID provides a more accurate picture of the likelihood of planetary
+ encounters by integrating the orbit of an object (along with a number of
+ virtual clones of the object offset by some distance) back in time, generally
+ providing lower MOID bounds than an instantaneous calculation from present-day
+ parameters would give.
+ This method was used by 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "binzel2010earth"
+
+\end_inset
+
+ to show the asteroid `freshening' effect of near-Earth encounters, and
+ would likely prove useful here as well.
+ Finally, as a comparison to a population of asteroids for which planetary
+ encounters are even less likely than high-MOID NEOs, populations that are
+ likely to have had encounters could be compared to main belt equivalent
+ asteroids.
+ In this case, NEOs could be grouped by absolute magnitude and compared
+ to main belt asteroids of similar magnitudes to see the difference when
+ compared to a more `pristine' sample.
 \end_layout
 
 \begin_layout Standard
@@ -1758,9 +4632,59 @@ options "plainnat"
 
 \end_layout
 
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+newpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Part*
 \start_of_appendix
 Appendix
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+addcontentsline{toc}{part}{Appendices}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+addtocontents{toc}{
+\backslash
+protect
+\backslash
+setcounter{tocdepth}{-1}}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+doublespacing
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
@@ -1836,6 +4760,8 @@ status open
 
 \begin_layout Plain Layout
 \align center
+
+\size scriptsize
 \begin_inset Tabular
 <lyxtabular version="3" rows="7" columns="3">
 <features tabularvalignment="middle">
@@ -1847,6 +4773,8 @@ status open
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size scriptsize
 Keyword
 \end_layout
 
@@ -1856,6 +4784,8 @@ Keyword
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size scriptsize
 Arguments
 \end_layout
 
@@ -1865,6 +4795,8 @@ Arguments
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size scriptsize
 Meaning
 \end_layout
 
@@ -1877,7 +4809,7 @@ Meaning
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 FILES
 \end_layout
 
@@ -1888,7 +4820,7 @@ FILES
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 integer
 \end_layout
 
@@ -1899,7 +4831,7 @@ integer
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 number of data files for this object (used as a check)
 \end_layout
 
@@ -1912,7 +4844,7 @@ number of data files for this object (used as a check)
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 GUESS
 \end_layout
 
@@ -1923,7 +4855,7 @@ GUESS
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 string, then 1 or 3 integers
 \end_layout
 
@@ -1934,7 +4866,7 @@ string, then 1 or 3 integers
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 see Guess Specifications section, below
 \end_layout
 
@@ -1947,7 +4879,7 @@ see Guess Specifications section, below
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 HARDMAXPERIOD
 \end_layout
 
@@ -1958,7 +4890,7 @@ HARDMAXPERIOD
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 float or int
 \end_layout
 
@@ -1969,7 +4901,7 @@ float or int
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 hard maximum period to not search above
 \end_layout
 
@@ -1982,7 +4914,7 @@ hard maximum period to not search above
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 HARDMINPERIOD
 \end_layout
 
@@ -1993,7 +4925,7 @@ HARDMINPERIOD
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 float or int
 \end_layout
 
@@ -2004,7 +4936,7 @@ float or int
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 hard minimum period to not search below
 \end_layout
 
@@ -2017,7 +4949,7 @@ hard minimum period to not search below
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 OFFSET
 \end_layout
 
@@ -2028,7 +4960,7 @@ OFFSET
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 string
 \end_layout
 
@@ -2053,7 +4985,7 @@ starts a series of night/offset pairs used by the string specifying the
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 ENDOFFSETS
 \end_layout
 
@@ -2064,7 +4996,7 @@ ENDOFFSETS
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 N/A
 \end_layout
 
@@ -2075,7 +5007,7 @@ N/A
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 ends the series of offsets (required if OFFSETS are used)
 \end_layout
 
@@ -2119,6 +5051,22 @@ special "none"
 height "1in"
 height_special "totalheight"
 status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+singlespacing
+\end_layout
+
+\end_inset
+
+
+\end_layout
 
 \begin_layout Plain Layout
 \begin_inset Tabular
@@ -2443,6 +5391,22 @@ ENDOFFSETS
 
 \end_layout
 
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+doublespacing
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \end_inset
 
 
@@ -2528,12 +5492,12 @@ fitAll
 \family default
  (no arguments, or 
 \family typewriter
-'redo'
+`redo'
 \family default
 ) - runs fits on all objects in the Data directory that do not have an existing
  light curve plot; if the 
 \family typewriter
-'redo'
+`redo'
 \family default
  argument is provided, all plots are fitted, regardless of any existing
  fits
@@ -2718,7 +5682,7 @@ objectName
 
 \begin_deeper
 \begin_layout Itemize
-Example: 'Spartacus20090130'
+Example: `Spartacus20090130'
 \end_layout
 
 \begin_layout Itemize
@@ -2744,17 +5708,17 @@ status open
 
 \begin_layout Plain Layout
 
-fileName = 'Spartacus20090130_MANOS.txt'
+fileName = `Spartacus20090130_MANOS.txt'
 \end_layout
 
 \begin_layout Plain Layout
 
-# list of lists specifying ['property',column] in the text file
+# list of lists specifying [`property',column] in the text file
 \end_layout
 
 \begin_layout Plain Layout
 
-formatSpec = [['night',0],['jd',3],['diffMag',6],['magErr',7]]
+formatSpec = [[`night',0],[`jd',3],[`diffMag',6],[`magErr',7]]
 \end_layout
 
 \begin_layout Plain Layout
@@ -2775,15 +5739,15 @@ Multiple key/value pairs may be used when multiple text files are to be
 \begin_layout Itemize
 
 \family typewriter
-'jd'
+`jd'
 \family default
  (Julian date), 
 \family typewriter
-'diffMag'
+`diffMag'
 \family default
  (differential magnitude), and 
 \family typewriter
-'magErr'
+`magErr'
 \family default
  (magnitude error) must be specified to run the program, additional properties
  may also be stored in the 
@@ -2845,7 +5809,7 @@ Keys may be repeated as long as they are in different dictionaries
 \begin_layout Itemize
 
 \family typewriter
-'night'
+`night'
 \family default
  property must be specified in the format to use offsetsList
 \end_layout
@@ -2952,11 +5916,11 @@ None
 \family default
 ,
 \family typewriter
- 'single' 
+ `single' 
 \family default
 or
 \family typewriter
- 'range
+ `range
 \family default
 '; supplied by the fitInfo file, when available
 \end_layout
@@ -3100,34 +6064,6 @@ periodErrors
 \series default
  (n by 2 list of lists) - when provided, a second figure will be plotted
  showing the mean RMS of the residuals as a function of period
-\end_layout
-
-\begin_layout Section
-manosCurveFit Future Improvements
-\end_layout
-
-\begin_layout Itemize
-add phase angle considerations, pending improvements to the Lowell Observatory
- orbital parameters database
-\end_layout
-
-\begin_layout Itemize
-polling from the Lowell ephemeris database to specify changes due to orbit
-\end_layout
-
-\begin_layout Itemize
-implement a method to limit the Nyquist maximum recoverable period result,
- possibly using a periodogram, since it currently may be unreasonably large
- due to uneven sampling
-\end_layout
-
-\begin_layout Itemize
-generalize the inputs for
-\family typewriter
- lightCurveData.getData()
-\family default
-, which  currently can only take in floats, so things such as filters (which
- may be characters) can't be read in
 \end_layout
 
 \end_body
