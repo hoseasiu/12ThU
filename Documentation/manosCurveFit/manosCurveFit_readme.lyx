@@ -1212,8 +1212,8 @@ GUESS SINGLE 2
 
 \end_deeper
 \begin_layout Itemize
-None - if the GUESS line is excluded, Nyquist sampling will be used (see
- section on fitData)
+None - if the GUESS line is excluded, an interval from 15 minutes to 5 times
+ the observing window will be used (see section on fitData)
 \end_layout
 
 \begin_layout Subsection
@@ -1700,15 +1700,8 @@ when method is
 \family typewriter
 None
 \family default
-, a maximum recoverable period is calculated using the Nyquist Criterion
- for non-uniform samples
-\begin_inset CommandInset citation
-LatexCommand cite
-key "Harris1989Asteroids"
-
-\end_inset
-
- and periods are checked at 15 minute (0.25 hour) intervals; periodGuess
+, a maximum recoverable period is estimated for up to 5 times the observing
+ window; periods are checked at 15 minute (0.25 hour) intervals; periodGuess
  is ignored in this case
 \end_layout
 
