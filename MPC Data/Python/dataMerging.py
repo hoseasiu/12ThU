@@ -14,12 +14,14 @@ def checkLists(lcList, orbList, combinedList):
     for i in range(len(lcList)):
         for j in range(len(orbList)):
             # check number and name
-            if lcList[i][0] == orbList[j][0] and lcList[i][0] == orbList[j][0]:
-                combinedList.append(lcList[i]+orbList[j][4:])
-                break
-            elif lcList[i][2] == orbList[j][2] and lcList[i][3] == orbList[j][3]:
-                combinedList.append(lcList[i]+orbList[j][4:])
-                break
+            if lcList[i][0] != '':
+                if lcList[i][0] == orbList[j][0] and lcList[i][0] == orbList[j][0]:
+                    combinedList.append(lcList[i]+orbList[j][4:])
+                    break
+            elif lcList[i][2] != '':
+                if lcList[i][2] == orbList[j][2] and lcList[i][3] == orbList[j][3]:
+                    combinedList.append(lcList[i]+orbList[j][4:])
+                    break
     return combinedList
 
 LCparams = np.loadtxt('mpcLightcurveParameters.csv', dtype='str', delimiter=',')
@@ -160,11 +162,12 @@ plt.figure()
 plt.plot(binnedEmoids,averagePeriods,'x')
 
 # write to CSV
-out = csv.writer(open("combinedMPCdata.csv","w"), delimiter=',',quoting=csv.QUOTE_ALL, lineterminator = '\n')
+##out = csv.writer(open("combinedMPCdata.csv","w"), delimiter=',',quoting=csv.QUOTE_ALL, lineterminator = '\n')
+##
+##out.writerow(['number', 'name', 'year', 'letters', 'period', 'variation', 'EMOID', 'H'])
+##for i in range(len(combinedList)):
+##    out.writerow(combinedList[i])
+##
+##print 'text saved'
 
-out.writerow(['number', 'name', 'year', 'letters', 'period', 'variation', 'EMOID', 'H'])
-for i in range(len(combinedList)):
-    out.writerow(combinedList[i])
-print 'text saved'
-
-##plt.show()
+plt.show()
