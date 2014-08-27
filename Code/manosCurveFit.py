@@ -112,7 +112,8 @@ class LightCurveData:
     def getData(self, fileName, formatSpec, offsetsList, passNumber):
         global basepath
         # TODO - have to change this for the MANOS file structure
-        filepath = os.path.abspath(os.path.join(basepath, "..", 'Data', fileName))
+#        filepath = os.path.abspath(os.path.join(basepath, "..", 'Data', fileName))
+        filepath = os.path.abspath(os.path.join('/Users/manos/catalog', fileName))
         textFile = np.loadtxt(filepath,'a12')          # extract data from text file
             
         # separate data into appropriately-named arrays - assumes that everything is a float (generalize?)
@@ -228,10 +229,12 @@ class LightCurveData:
 def lookInFolder(type, name = None):
     global basepath
     # TODO - have to change for MANOS file structure
-    dirpath = os.path.abspath(os.path.join(basepath, "..", 'Data'))
+    #dirpath = os.path.abspath(os.path.join(basepath, "..", 'Data'))
+    dirpath = '/Users/manos/catalog'
     if type == 'file':
-        if name in listdir(dirpath):            
-            filepath = os.path.abspath(os.path.join(basepath, "..", 'Data', name))
+        if name in listdir(dirpath):
+#            filepath = os.path.abspath(os.path.join(basepath, "..", 'Data', name))
+            filepath = os.path.abspath(os.path.join('/Users/manos/catalog', name))
             return filepath, [ f for f in listdir(filepath) if os.path.isfile(os.path.join(filepath,f)) ]
         else:
             print name + ' does not exist in the directory'
@@ -456,7 +459,8 @@ def outputResults(fit, m, LightCurveData, outputOptions, periodErrors = None):
     # used for saving figures
     global basepath, objectName
     # TODO - have to change this for the MANOS file structure
-    filepath = os.path.abspath(os.path.join(basepath, "..", 'Data', LightCurveData.name))
+#    filepath = os.path.abspath(os.path.join(basepath, "..", 'Data', LightCurveData.name))
+    filepath = os.path.abspath(os.path.join('/Users/manos/catalog', LightCurveData.name))
         
     time = LightCurveData.data['jd']-LightCurveData.data['jd'][0]    
     mag = LightCurveData.data['diffMag']
@@ -520,6 +524,7 @@ def outputResults(fit, m, LightCurveData, outputOptions, periodErrors = None):
             plt.xlabel('JD + ' + str(int(min(LightCurveData.data['jd']))))
 
     plt.subplots_adjust(hspace = 0.5)
+
     plt.savefig(os.path.join(filepath,(LightCurveData.name + 'LightCurve')))               # save the light curve plot
     print 'RMS of residuals = ' + str(np.sqrt(sum(residuals**2)/float(len(residuals))))
 
@@ -562,7 +567,7 @@ def extractRunOptions(objectName):
     readingOffsets = None
     
     for o in range(len(objectFiles)):
-        if 'standard' in objectFiles[o]:        # all standardized data files will have 'standard' in their names
+        if 'lc.txt' in objectFiles[o]:        # all standardized data files will have 'standard' in their names
             with open(os.path.join(filePath,objectFiles[o])) as f:      # check if we're looking at a 3-col or 4-col file
                 content = f.readlines()
                 if len(string.split(content[0])) == 3:
